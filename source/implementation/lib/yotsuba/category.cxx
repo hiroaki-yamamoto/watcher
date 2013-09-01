@@ -14,6 +14,7 @@
 #include "category.h"
 #include "board.h"
 #include "error.h"
+#include "trace.h"
 namespace yotsuba{
     category::category(std::mt19937 *mt,QObject *parent):plugin::category(parent){
         if(mt==nullptr){
@@ -34,6 +35,7 @@ namespace yotsuba{
     }
     //This slot is called when downloading board list has been finished.
     void category::getDataFinished(QNetworkReply *reply){
+        traceReply(*reply);
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_boards_failed(reply->error(),reply->errorString());
             reply->close();

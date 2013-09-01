@@ -9,7 +9,8 @@ HEADERS+=board.h \
         error.h \
         attribute.h \
         enum_convert.h \
-        api_urls.h
+        api_urls.h \
+        trace.h
 
 SOURCES+=board.cxx \
         category.cxx \
@@ -19,7 +20,8 @@ SOURCES+=board.cxx \
         error.cxx \
         attribute.cxx \
         enum_convert.cxx \
-        api_urls.cxx
+        api_urls.cxx \
+        trace.cxx
 
 OTHER_FILES+=CMakeLists.txt \
             root.json

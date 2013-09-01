@@ -14,6 +14,7 @@
 #include "topic.h"
 #include "error.h"
 #include "enum_convert.h"
+#include "trace.h"
 namespace yotsuba{
     board::board(std::mt19937 *mt,QObject *parent):plugin::board(parent){
         if(mt==nullptr){
@@ -34,6 +35,7 @@ namespace yotsuba{
         manager->get(create_request(topic_list_url(this->_dir)));
     }
     void board::getDataFinished(QNetworkReply *reply){
+        traceReply(*reply);
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_topics_failed(reply->error(),reply->errorString());
             return;
@@ -99,7 +101,8 @@ namespace yotsuba{
                 if(name.isEmpty()) name="Anonymouse";
                 topic->setTitle(subject);
                 topic->setAuthor(name);
-                topic->setDescription(topic_obj["com"].toString());
+                if(topic_obj.contains("com")&&topic_obj["com"].isString())
+                    topic->setDescription(topic_obj["com"].toString());
                 topics<<topic;
             }
         }

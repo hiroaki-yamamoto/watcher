@@ -12,6 +12,8 @@ namespace ui{
         this->_board=board;
         connect(this->_board,SIGNAL(get_topics_finished(QVector<plugin::topic*>)),
                 SLOT(get_topics_finished(QVector<plugin::topic*>)));
+        connect(this->_board,SIGNAL(get_topics_failed(QNetworkReply::NetworkError,QString)),
+                SLOT(get_topics_failed(QNetworkReply::NetworkError,QString)));
         this->_board->get_topics();
     }
     void BoardTabContents::get_topics_finished(const QVector<plugin::topic *> &topics){

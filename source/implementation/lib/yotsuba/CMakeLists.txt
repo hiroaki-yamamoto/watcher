@@ -10,6 +10,7 @@ add_library(yotsuba SHARED
     "response.cxx"
     "root.cxx"
     "topic.cxx"
+    "trace.cxx"
 )
 set_property(TARGET yotsuba PROPERTY COMPILE_FLAGS "${OpenMP_CXX_FLAGS}")
 target_link_libraries(yotsuba loader gomp)

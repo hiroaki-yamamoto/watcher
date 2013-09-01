@@ -9,7 +9,6 @@ namespace yotsuba{
             QPair<QString,QJsonValue::Type>("resto",QJsonValue::Double),
             QPair<QString,QJsonValue::Type>("now",QJsonValue::String),
             QPair<QString,QJsonValue::Type>("time",QJsonValue::Double),
-            QPair<QString,QJsonValue::Type>("com",QJsonValue::String),
         };
     const QRegExp supported_image_extension=QRegExp("bmp|gif|jpg|jpe|jfif|jfi|jif|pbm|pgm|ppm|xbm|xpm");
     const QRegExp supported_url_protocol=QRegExp("ftp|http");
