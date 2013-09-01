@@ -11,6 +11,7 @@ namespace test{
             topic(std::mt19937 *mt,const QString &title,const QString &author,const QUuid &id,const QUrl &topicURL,QObject *parent=nullptr);
             void get_responses();
             bool readonly() const;
+            void post(const plugin::response &response);
             const QUrl &topic_url() const;
         private:
             std::mt19937 *_mt;

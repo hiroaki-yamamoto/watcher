@@ -15,17 +15,16 @@ namespace yotsuba{
             const QUrl &topic_url() const;
             bool readonly() const;
             void get_responses();
+            void post(const plugin::response &res);
             qulonglong topicID() const;
         public slots:
             void setTopicID(const qulonglong &topicID);
             void setTopicURL(const QUrl &url);
-            void setReadOnly(const bool &readonly);
         private slots:
             void getDataFinished(QNetworkReply *reply);
         private:
             quint64 _topicID;
             QString _name;
             QUrl _url;
-            bool _readonly;
     };
 }

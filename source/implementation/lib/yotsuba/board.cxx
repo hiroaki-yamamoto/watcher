@@ -92,7 +92,6 @@ namespace yotsuba{
                     }
                 }
                 yotsuba::topic *topic=new yotsuba::topic(this);
-                topic->setReadOnly(true);
                 topic->setTopicID(topic_obj["no"].toDouble());
                 topic->setTopicURL(this->board_url().resolved("res/"+QString::number(topic->topicID())));
                 topic->setIdentifier(QUuid::createUuidV5(this->identifier(),QString::number(topic->topicID())));
