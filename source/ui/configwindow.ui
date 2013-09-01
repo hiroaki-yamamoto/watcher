@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigDialog_template</class>
+ <widget class="QDialog" name="ConfigDialog_template">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Configuration</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="menuLayout" stretch="1,4">
+     <item>
+      <widget class="QListWidget" name="configMenu">
+       <property name="maximumSize">
+        <size>
+         <width>123</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="movement">
+        <enum>QListView::Static</enum>
+       </property>
+       <property name="sortingEnabled">
+        <bool>false</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>General</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resource.qrc">
+          <normaloff>:/config_icons/general</normaloff>:/config_icons/general</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Contents</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resource.qrc">
+          <normaloff>:/config_icons/contents</normaloff>:/config_icons/contents</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Themes</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resource.qrc">
+          <normaloff>:/config_icons/themes</normaloff>:/config_icons/themes</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Plugins</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resource.qrc">
+          <normaloff>:/config_icons/plugins</normaloff>:/config_icons/plugins</iconset>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QStackedWidget" name="configPages">
+       <widget class="QWidget" name="generalConfig">
+        <widget class="QLabel" name="_generalLabel">
+         <property name="geometry">
+          <rect>
+           <x>9</x>
+           <y>9</y>
+           <width>52</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>General</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="_pathLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>31</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Path</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="_pluginPathLabel">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>120</y>
+           <width>99</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Plugin Directory</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="_themePathLabel">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>140</y>
+           <width>103</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Theme Directory</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="contentsConfig">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="contentsLabel">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Contents</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="displayThumbnailCheckbox">
+           <property name="text">
+            <string>Display picture thumbnails</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="anchorCheckbox">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/config_icons/info&quot;/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Notice&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The anchor string is plugin-specific. For example, the anchor string is &amp;quot;&amp;gt;&amp;gt;&amp;quot; on 2ch_read plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Show replies when &quot;anchor&quot; is used</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="contentsSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>362</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="themeConfig">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QLabel" name="themesLabel">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Themes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="ui::ThemeScrollArea" name="_theme_list">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>98</width>
+              <height>28</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pluginConfig">
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLabel" name="pluginsLabel">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Plugins</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="ui::MultipleScrollArea" name="_plugin_list">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>98</width>
+              <height>28</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="ConfirmButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ui::ThemeScrollArea</class>
+   <extends>QScrollArea</extends>
+   <header>theme_scroll_area.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ui::MultipleScrollArea</class>
+   <extends>QScrollArea</extends>
+   <header>multiple_scroll_area.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>configMenu</tabstop>
+  <tabstop>ConfirmButtonBox</tabstop>
+  <tabstop>displayThumbnailCheckbox</tabstop>
+  <tabstop>anchorCheckbox</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>ConfirmButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConfigDialog_template</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>635</x>
+     <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ConfirmButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ConfigDialog_template</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>635</x>
+     <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

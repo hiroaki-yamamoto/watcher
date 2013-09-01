@@ -1,0 +1,15 @@
+#/bin/zsh
+rm -rf *.xbb *.aux *.dvi *.log *.bbl *.blg *.toc main.pdf **/*.xbb **/*.aux **/*.dvi **/*.log **/*.bbl **/*.blg **/*.toc
+
+if [ "${1}" = "bib" ];then
+platex main&&bibtex main&&platex main&&platex main
+else
+platex main&&platex main
+fi
+
+if [ "${2}" = "mincho" -o "${1}" = "mincho" ];then
+    dvipdfmx -f ptex-ipa main
+else
+    dvipdfmx main
+fi
+[ -r main.pdf ]&&okular main.pdf

@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/config_icons">
+        <file alias="contents">resource/config_icons/contents.png</file>
+        <file alias="general">resource/config_icons/general.png</file>
+        <file alias="plugins">resource/config_icons/plugins.png</file>
+        <file alias="themes">resource/config_icons/themes.png</file>
+        <file alias="warn32">resource/config_icons/warn_32.png</file>
+        <file alias="option">resource/config_icons/option.png</file>
+    </qresource>
+    <qresource prefix="/themes/failsafe/icons">
+        <file alias="info">resource/failsafe_icons/info.png</file>
+        <file alias="exit">resource/failsafe_icons/exit.png</file>
+        <file alias="config">resource/failsafe_icons/configure.png</file>
+    </qresource>
+    <qresource prefix="/themes/failsafe">
+        <file alias="RootWindow.qml">failsafe/RootWindow.qml</file>
+        <file alias="VersionWindow.qml">failsafe/VersionWindow.qml</file>
+        <file alias="Button.qml">failsafe/Button.qml</file>
+        <file alias="ScrollBar.qml">failsafe/ScrollBar.qml</file>
+        <file alias="ToolTip.qml">failsafe/ToolTip.qml</file>
+    </qresource>
+</RCC>

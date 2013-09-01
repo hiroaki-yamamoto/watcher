@@ -1,0 +1,20 @@
+#!/bin/sh
+dir="$(dirname ${0})"
+if ! [ -r ${dir}/.git ];then
+    echo "Git repository is broken down!"
+    exit 1
+fi
+git_commit="$(git rev-parse --verify HEAD)"
+cat>${1} <<EOF
+#pragma once
+#include<QString>
+const QString &&version="${git_commit}";
+EOF
+
+if [ ${?} -eq 0 ];then
+    echo "Succeeded."
+    exit 0
+else
+    echo "Failed."
+    exit 1
+fi

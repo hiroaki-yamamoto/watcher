@@ -1,0 +1,34 @@
+How to Build
+============
+Requirement:
+*) GNU/Linux or BSD.
+*) coreutils
+*) gcc-4.8
+*) cmake
+*) make
+*) Qt5 or later. I recommend to install all features. I'll implement new feature in the feature.
+
+Optional:
+*) Lua (This hasn't been used currently. But, there is a replacement plan from C++ Based Plugin Loader to Lua)
+
+Instruction:
+1) Open your fevorite terminal.
+2) $> cd path/to/watcher
+3) $> mkdir build&&cd build
+4) $> cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/path/to/install" ..
+    Note: additional cmake option is written at CMakeLists.txt on root source directory.
+5) $> make
+    Note: To reduce building time, use -jN (N=number of processors.)
+6) $> make install
+    Note: If you want to install the software into a specific directory, use DESTDIR="/path/to/install"
+7) $> cp -r plugins ~/watcher
+8) $> cp -r themes  ~/watcher
+9) All done. you can run watcher.
+
+If you found instruction issues, post a ticket.
+
+======================
+Hiroaki Yamamoto
+admin@hysoftware.net
+http://hysoftware.net
+======================

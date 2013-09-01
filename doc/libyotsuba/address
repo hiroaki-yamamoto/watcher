@@ -1,0 +1,5 @@
+List of responses:https://api.4chan.org/[board]/res/[threadnumber].json
+List of topics: https://api.4chan.org/[board]/catalog.json
+List of boards: https://api.4chan.org/boards.json
+
+Sample files are from /w/.

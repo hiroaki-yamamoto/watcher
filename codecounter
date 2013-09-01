@@ -1,0 +1,14 @@
+#!/bin/bash
+files=()
+for f in $(find . \
+            -path './build' -prune \
+            -o -path './doc' -prune \
+            -o -path './.git' -prune \
+            -o -name '\.gitignore' -prune \
+            -o -name '*\.pro\.*' -prune  \
+            -o -type 'f' -print);do
+    if [ "$(file -b --mime-encoding ${f})" != "binary" ];then
+        files+=("${f}")
+    fi
+done
+wc -l ${files[@]}
