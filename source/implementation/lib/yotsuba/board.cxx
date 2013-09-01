@@ -99,6 +99,7 @@ namespace yotsuba{
                 if(name.isEmpty()) name="Anonymouse";
                 topic->setTitle(subject);
                 topic->setAuthor(name);
+                topic->setDescription(topic_obj["com"].toString());
                 topics<<topic;
             }
         }

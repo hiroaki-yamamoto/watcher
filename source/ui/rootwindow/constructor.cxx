@@ -7,6 +7,7 @@
 #include "rootwindow.h"
 #include "configwindow.h"
 #include "versionwindow.h"
+#include "boardwindow.h"
 namespace ui{
     RootWindow::RootWindow(const QString &title, 
                                const QIcon &icon, 
@@ -17,6 +18,7 @@ namespace ui{
         this->_property=&property;
         this->_config_dialog=new ConfigDialog(this->_property,this->_loader,this);
         this->_version=new VersionWindow("About",this->icon(),this);
+        this->_boardwindow=new BoardWindow("TopicView",this->icon(),this->_loader->instances(),this->_property,this);
         this->_loadQMLFile("RootWindow.qml");
         this->_createRelationBetweenSignalsAndSlots();
         this->_plugin_loaded();

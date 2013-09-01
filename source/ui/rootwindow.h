@@ -19,6 +19,7 @@ namespace plugin{
 
 namespace ui{
     class ConfigDialog;
+    class BoardWindow;
     class VersionWindow;
     class RootTabContents;
     class RootWindow:public QMLWindowBase{
@@ -53,6 +54,7 @@ namespace ui{
             RootTabContents *_getCurrentTabContent();
             ConfigDialog *_config_dialog;
             VersionWindow *_version;
+            BoardWindow *_boardwindow;
             loader::plugin_loader *_loader;
             QHash<QPair<QString,QUuid>,RootTabContents *> _tabcontents;
             storage::property_storage *_property;

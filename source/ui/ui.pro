@@ -12,6 +12,7 @@ HEADERS +=      rootwindow.h \
                 qml_window_base.h \
                 license.h \
                 roottabcontents.h \
+                boardtabcontents.h \
                 topicwindow.h
 
 SOURCES +=      versionwindow.cxx \
@@ -37,7 +38,8 @@ SOURCES +=      versionwindow.cxx \
                 filechooser.cxx \
                 qml_window_base.cxx \
                 license.cxx \
-                roottabcontents.cxx
+                roottabcontents.cxx \
+                boardtabcontents.cxx
 
 OTHER_FILES+=   default/Button.qml \
                 default/RootWindow.qml \
@@ -49,10 +51,17 @@ OTHER_FILES+=   default/Button.qml \
                 default/info.json \
                 default/RootTabContent.qml \
                 default/BoardWindow.qml \
+                default/BoardTabContent.qml\
+                default/TopicView.qml\
+                default/ResponseWindow.qml\
+                default/ResponseTabContent.qml\
+                default/ResponseView.qml\
+                default/ResponsePanel.qml\
                 failsafe/RootWindow.qml \
                 failsafe/VersionWindow.qml \
                 failsafe/ToolTip.qml \
                 failsafe/ScrollBar.qml \
+                failsafe/BoardWindow.qml \
                 CMakeLists.txt
 
 FORMS+=         configwindow.ui \

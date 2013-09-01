@@ -17,6 +17,7 @@
 #include "rootwindow.h"
 #include "versionwindow.h"
 #include "configwindow.h"
+#include "boardwindow.h"
 #include "roottabcontents.h"
 
 namespace ui{
@@ -156,6 +157,7 @@ namespace ui{
 
     void RootWindow::_topicMode(plugin::board *board){
         qDebug()<<"Topic Mode";
+        this->_boardwindow->addTabContents(board);
         /*
         for(plugin::topic *topic:board){
             qDebug()<<"("<<this->objectName()<<"): Topic Title :"<<topic->title();

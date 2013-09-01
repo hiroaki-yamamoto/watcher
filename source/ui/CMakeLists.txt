@@ -31,6 +31,8 @@ set(src
     "filechooser.cxx"
     "license.cxx"
     "roottabcontents.cxx"
+    "boardtabcontents.cxx"
+
     "configwindow/constructor.cxx"
     "configwindow/properties.cxx"
     "configwindow/signals_slots.cxx"
@@ -38,18 +40,21 @@ set(src
     "configwindow/listing.cxx"
     "configwindow/events.cxx"
     "configwindow/functions.cxx"
+    
     "rootwindow/constructor.cxx"
     "rootwindow/properties.cxx"
     "rootwindow/signals_slots.cxx"
     "rootwindow/functions.cxx"
+
     "boardwindow/constructor.cxx"
-    "boardwindow/functions.cxx"
     "boardwindow/properties.cxx"
     "boardwindow/signals_slots.cxx"
+    "boardwindow/functions.cxx"
 )
 qt5_wrap_cpp(moc_src
     "configwindow.h"
     "rootwindow.h"
+    "boardwindow.h"
 )
 
 
