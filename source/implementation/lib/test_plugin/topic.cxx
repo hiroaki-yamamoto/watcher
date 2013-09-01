@@ -1,4 +1,5 @@
 #include <QtDebug>
+#include <loader/response.h>
 
 #include "topic.h"
 namespace test{
@@ -12,10 +13,13 @@ namespace test{
         this->setIdentifier(id);
         this->_topicURL=topicURL;
     }
-    bool topic::readonly() const{return false;}
+    bool topic::readonly() const{return true;}
 
     const QUrl &topic::topic_url() const{return this->_topicURL;}
     void topic::get_responses(){
+        
+    }
+    void topic::post(const plugin::response &response){
         
     }
 }

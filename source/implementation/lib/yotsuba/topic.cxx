@@ -26,14 +26,15 @@
 using namespace std;
 
 namespace yotsuba{
-    topic::topic(QObject *parent):plugin::topic(parent){this->_readonly=true;}
+    topic::topic(QObject *parent):plugin::topic(parent){
+        
+    }
     const QUrl &topic::topic_url() const{return this->_url;}
     qulonglong topic::topicID() const{return this->_topicID;}
-    bool topic::readonly() const{return this->_readonly;}
+    bool topic::readonly() const{return true;}
     void topic::setTopicURL(const QUrl &url){this->_url=url;}
-    void topic::setReadOnly(const bool &readonly){this->_readonly=readonly;}
     void topic::setTopicID(const qulonglong &topicID){this->_topicID=topicID;}
-    
+    void topic::post(const plugin::response &res){}
     void topic::get_responses(){
         QNetworkAccessManager *manager=new QNetworkAccessManager(this);
         connect(manager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
