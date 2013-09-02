@@ -21,14 +21,17 @@
 #include <QFileInfo>
 #include <QRegExp>
 
+#include <QtDebug>
+
 #include <string>
 #include <sstream>
 
 using namespace std;
 
 namespace yotsuba{
-    topic::topic(QObject *parent):plugin::topic(parent){
-        
+    topic::topic(QHash<QUrl,QDateTime> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::topic(parent){
+        this->_last_modified=last_modified;
+        this->_accessmanager=accessManager;
     }
     const QUrl &topic::topic_url() const{return this->_url;}
     qulonglong topic::topicID() const{return this->_topicID;}
@@ -37,10 +40,9 @@ namespace yotsuba{
     void topic::setTopicID(const qulonglong &topicID){this->_topicID=topicID;}
     void topic::post(const plugin::response &res){}
     void topic::get_responses(){
-        QNetworkAccessManager *manager=new QNetworkAccessManager(this);
-        connect(manager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
+        connect(this->_accessmanager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
         board *parent=qobject_cast<board *>(this->parent());
-        manager->get(create_request(response_list_url(parent->board_dir(),this->_topicID)));
+        this->_accessmanager->get(create_request(response_list_url(parent->board_dir(),this->_topicID)));
     }
     void topic::getDataFinished(QNetworkReply *reply){
         traceReply(*reply);
@@ -49,24 +51,23 @@ namespace yotsuba{
             reply->close();
             return;
         }
+        this->_last_modified->insert(reply->url(),reply->header(QNetworkRequest::LastModifiedHeader).toDateTime());
+        qDebug()<<"Last Modified:"<<this->_last_modified->value(reply->url());
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&doc=QJsonDocument::fromJson(raw_data);
         if(doc.isNull()){
             emit this->get_responses_failed(QNetworkReply::UnknownContentError,generate_invalid_document(reply->url(),raw_data));
-            reply->close();
             return;
         }
         QJsonObject &&root=doc.object();
         if(!root.contains("posts")){
             emit this->get_responses_failed(QNetworkReply::UnknownContentError,generate_key_not_found("posts"));
-            reply->close();
             return;
         }
         QJsonValue &&posts=root["posts"];
         if(!posts.isArray()){
             emit this->get_responses_failed(QNetworkReply::UnknownContentError,generate_invalid_type("posts","Array"));
-            reply->close();
             return;
         }
         QJsonArray &&posts_array=posts.toArray();
@@ -74,7 +75,6 @@ namespace yotsuba{
         for(const QJsonValue &&post:posts_array){
             if(!post.isObject()){
                 emit this->get_responses_failed(QNetworkReply::UnknownContentError,generate_invalid_type("The element in posts","Object"));
-                reply->close();
                 return;
             }
             QJsonObject &&post_object=post.toObject();
@@ -82,14 +82,12 @@ namespace yotsuba{
             for(const QPair<QString,QJsonValue::Type> &required_attribute:required_attributes){
                 if(!post_object.contains(required_attribute.first)){
                     emit this->get_responses_failed(QNetworkReply::UnknownContentError,generate_key_not_found(required_attribute.first));
-                    reply->close();
                     return;
                 }
                 if(post_object[required_attribute.first].type()!=required_attribute.second){
                     emit this->get_responses_failed(QNetworkReply::UnknownContentError,
                                                     generate_invalid_type(required_attribute.first,
                                                                           convert_qjsonvalue_type_to_qstring(required_attribute.second)));
-                    reply->close();
                     return;
                 }
             }
@@ -156,6 +154,7 @@ namespace yotsuba{
                 if(img_reply->error()!=QNetworkReply::NoError)
                     emit this->get_response_warning(img_reply->error(),img_reply->url(),img_reply->errorString());
                 QImage &&img=QImage::fromData(img_reply->readAll());
+                img_reply->close();
                 imgs[url]=img;
             }
             res->setImages(imgs);
@@ -163,7 +162,6 @@ namespace yotsuba{
             responses<<res;
         }
         emit this->get_responses_finished(responses);
-        reply->close();
-        this->sender()->deleteLater();
+        this->_accessmanager->disconnect();
     }    
 }

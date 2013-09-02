@@ -8,6 +8,7 @@
 #include <QVector>
 #include <QPair>
 #include <QtDebug>
+#include <QHash>
 #include "api_urls.h"
 #include "attribute.h"
 #include "board.h"
@@ -16,12 +17,14 @@
 #include "enum_convert.h"
 #include "trace.h"
 namespace yotsuba{
-    board::board(std::mt19937 *mt,QObject *parent):plugin::board(parent){
+    board::board(std::mt19937 *mt,QHash<QUrl,QDateTime> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::board(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be null.";
             this->deleteLater();
             return;
         }
+        this->_last_modified=last_modified;
+        this->_accessmanager=accessManager;
         this->_mt=mt;
     }
 
@@ -30,16 +33,18 @@ namespace yotsuba{
     void board::setBoardURL(const QUrl &url){this->_board_url=url;}
     void board::setBoardDirName(const QString &dir){this->_dir=dir;}
     void board::get_topics(){
-        QNetworkAccessManager *manager=new QNetworkAccessManager(this);
-        connect(manager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
-        manager->get(create_request(topic_list_url(this->_dir)));
+        connect(this->_accessmanager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
+        this->_accessmanager->get(create_request(topic_list_url(this->_dir)));
     }
     void board::getDataFinished(QNetworkReply *reply){
         traceReply(*reply);
         if(reply->error()!=QNetworkReply::NoError){
+            reply->close();
             emit this->get_topics_failed(reply->error(),reply->errorString());
             return;
         }
+        this->_last_modified->insert(reply->url(),reply->header(QNetworkRequest::LastModifiedHeader).toDateTime());
+        qDebug()<<"Last Modified:"<<this->_last_modified->value(reply->url());
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&document=QJsonDocument::fromJson(raw_data);
@@ -91,7 +96,7 @@ namespace yotsuba{
                         return;
                     }
                 }
-                yotsuba::topic *topic=new yotsuba::topic(this);
+                yotsuba::topic *topic=new yotsuba::topic(this->_last_modified,this->_accessmanager,this);
                 topic->setTopicID(topic_obj["no"].toDouble());
                 topic->setTopicURL(this->board_url().resolved("res/"+QString::number(topic->topicID())));
                 topic->setIdentifier(QUuid::createUuidV5(this->identifier(),QString::number(topic->topicID())));
@@ -106,6 +111,6 @@ namespace yotsuba{
             }
         }
         emit this->get_topics_finished(topics);
-        this->sender()->deleteLater();
+        this->_accessmanager->disconnect();
     }
 }

@@ -2,6 +2,8 @@
 #include <QVector>
 #include <QIcon>
 
+#include <QtNetwork/QNetworkAccessManager>
+
 #include <array>
 
 //The version is the same version of watcher
@@ -21,6 +23,7 @@ namespace yotsuba{
         this->setAuthor("Hiroaki Yamamoto");
         this->setTitle(tr("Yotsuba"));
         this->setIdentifier("a4522fb3-d22d-4fe0-8d1e-8d072410a64b");
+        this->_accessManager=new QNetworkAccessManager(this);
     }
     root::~root(){delete this->_mt;}
 
@@ -31,7 +34,8 @@ namespace yotsuba{
     void root::get_categories(){
         QVector<plugin::category *> category_list;
         int random_number;
-        yotsuba::category *ws_board=new yotsuba::category(this->_mt,this),*wus_board=new yotsuba::category(this->_mt,this);
+        yotsuba::category *ws_board=new yotsuba::category(this->_mt,this->_accessManager,&this->_last_modified,this),
+                         *wus_board=new yotsuba::category(this->_mt,this->_accessManager,&this->_last_modified,this);
         random_number=this->random_number();
         ws_board->setTitle(tr("Safe Boards for Work"));
         ws_board->setDescription(tr("They are safe boards when you watch them at working time."));
