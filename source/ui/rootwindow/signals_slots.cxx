@@ -157,6 +157,7 @@ namespace ui{
 
     void RootWindow::_topicMode(plugin::board *board){
         qDebug()<<"Topic Mode";
+        if(!this->_boardwindow->isVisible()) this->_boardwindow->show();
         this->_boardwindow->addTabContents(board);
         /*
         for(plugin::topic *topic:board){
