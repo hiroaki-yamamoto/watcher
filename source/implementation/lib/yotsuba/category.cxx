@@ -3,6 +3,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QAbstractNetworkCache>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -16,14 +17,13 @@
 #include "error.h"
 #include "trace.h"
 namespace yotsuba{
-    category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QHash<QUrl,QByteArray> *last_modified,QObject *parent):plugin::category(parent){
+    category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QObject *parent):plugin::category(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be nulltpr.";
             this->deleteLater();
             return;
         }
         this->_accessmanager=manager;
-        this->_last_modified=last_modified;
         this->_ws=false;
         this->_mt=mt;
     }
@@ -37,13 +37,16 @@ namespace yotsuba{
     //This slot is called when downloading board list has been finished.
     void category::getDataFinished(QNetworkReply *reply){
         traceReply(*reply);
+        if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
+            qWarning()<<"Yotsuba.Category:Signal disconnection failed.";
+        }
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_boards_failed(reply->error(),reply->errorString());
             reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
-        QByteArray raw_data=reply->readAll();
+        QByteArray raw_data;
+        raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&data=QJsonDocument::fromJson(raw_data);
         if(data.isNull()){
@@ -97,7 +100,7 @@ namespace yotsuba{
             }
             if((int)this->_ws==(int)ws_board.toDouble()){
             unsigned int random_number=(*this->_mt)();
-                yotsuba::board *yotsuba_board=new yotsuba::board(this->_mt,this->_last_modified,this->_accessmanager,this);
+                yotsuba::board *yotsuba_board=new yotsuba::board(this->_mt,this->_accessmanager,this);
                 yotsuba_board->setBoardURL(QUrl(QString("http://boards.4chan.org/%1/").arg(board_dir.toString())));
                 yotsuba_board->setTitle(board_title.toString());
                 yotsuba_board->setBoardDirName(board_dir.toString());

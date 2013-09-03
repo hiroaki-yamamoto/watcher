@@ -1,6 +1,8 @@
 #include <QUrl>
+#include <QByteArray>
 #include <QtNetwork/QNetworkRequest>
 #include <QtDebug>
+#include <QHash>
 #include "api_urls.h"
 #include "trace.h"
 namespace yotsuba{
@@ -12,7 +14,7 @@ namespace yotsuba{
     }
     
     QUrl api_domain(){
-        QUrl domain_url("https://api.4chan.org/");
+        QUrl domain_url("http://api.4chan.org/");
         qDebug()<<"4chan API domain URL:"<<domain_url;
         return domain_url;
     }
@@ -32,6 +34,6 @@ namespace yotsuba{
         return result;
     }
     QUrl image_url(const QString &board_dir, const qulonglong &tim, const QString &ext){
-        return QUrl(QString("https://images.4chan.org/%1/src/%2.%3").arg(board_dir,QString::number(tim),ext));
+        return QUrl(QString("http://images.4chan.org/%1/src/%2.%3").arg(board_dir,QString::number(tim),ext));
     }
 }

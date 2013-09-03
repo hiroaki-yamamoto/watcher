@@ -1,7 +1,6 @@
 #pragma once
 #include <loader/response.h>
 #include <QUrl>
-#include <QByteArray>
 #include <QImage>
 #include <QtNetwork/QNetworkReply>
 class QString;
@@ -17,7 +16,7 @@ namespace yotsuba{
             Q_OBJECT
             friend class topic;
         public:
-            response(QHash<QUrl,QByteArray> *lastModified,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
+            response(QNetworkAccessManager *accessManager,QObject *parent=nullptr);
             ~response();
             const QString &email() const;
             const QString &body() const;
@@ -41,7 +40,6 @@ namespace yotsuba{
         private slots:
             void _fetching_image_finished(QNetworkReply *reply);
         private:
-            QHash<QUrl,QByteArray> *_last_modified;
             QNetworkAccessManager *_accessManager;
             QString *_body,*_email;
             QDateTime *_creation_date;

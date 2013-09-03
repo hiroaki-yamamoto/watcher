@@ -1,6 +1,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QAbstractNetworkCache>
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonObject>
@@ -17,13 +18,12 @@
 #include "enum_convert.h"
 #include "trace.h"
 namespace yotsuba{
-    board::board(std::mt19937 *mt,QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::board(parent){
+    board::board(std::mt19937 *mt, QNetworkAccessManager *accessManager, QObject *parent):plugin::board(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be null.";
             this->deleteLater();
             return;
         }
-        this->_last_modified=last_modified;
         this->_accessmanager=accessManager;
         this->_mt=mt;
     }
@@ -38,12 +38,14 @@ namespace yotsuba{
     }
     void board::getDataFinished(QNetworkReply *reply){
         traceReply(*reply);
+        if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
+            qWarning()<<"Yotsuba.Board:Signal disconnection failed.";
+        }
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_topics_failed(reply->error(),reply->errorString());
             reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&document=QJsonDocument::fromJson(raw_data);
@@ -95,7 +97,7 @@ namespace yotsuba{
                         return;
                     }
                 }
-                yotsuba::topic *topic=new yotsuba::topic(this->_last_modified,this->_accessmanager,this);
+                yotsuba::topic *topic=new yotsuba::topic(this->_accessmanager,this);
                 topic->setTopicID(topic_obj["no"].toDouble());
                 topic->setTopicURL(this->board_url().resolved("res/"+QString::number(topic->topicID())));
                 topic->setIdentifier(QUuid::createUuidV5(this->identifier(),QString::number(topic->topicID())));
