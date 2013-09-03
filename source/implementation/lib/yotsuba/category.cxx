@@ -16,7 +16,7 @@
 #include "error.h"
 #include "trace.h"
 namespace yotsuba{
-    category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QHash<QUrl,QDateTime> *last_modified,QObject *parent):plugin::category(parent){
+    category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QHash<QUrl,QByteArray> *last_modified,QObject *parent):plugin::category(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be nulltpr.";
             this->deleteLater();
@@ -38,12 +38,11 @@ namespace yotsuba{
     void category::getDataFinished(QNetworkReply *reply){
         traceReply(*reply);
         if(reply->error()!=QNetworkReply::NoError){
-            reply->close();
             emit this->get_boards_failed(reply->error(),reply->errorString());
+            reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->header(QNetworkRequest::LastModifiedHeader).toDateTime());
-        qDebug()<<"Last Modified:"<<this->_last_modified->value(reply->url());
+        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&data=QJsonDocument::fromJson(raw_data);
@@ -109,6 +108,5 @@ namespace yotsuba{
             }
         }
         emit this->get_boards_finished(board_list);
-        this->_accessmanager->disconnect();
     }
 }

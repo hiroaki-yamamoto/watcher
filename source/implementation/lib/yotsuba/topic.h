@@ -1,6 +1,6 @@
 #pragma once
 #include <QUrl>
-#include <QDateTime>
+#include <QByteArray>
 #include <loader/topic.h>
 #include <QString>
 namespace plugin{
@@ -13,7 +13,7 @@ namespace yotsuba{
             Q_OBJECT
             friend class board;
         public:
-            topic(QHash<QUrl,QDateTime> *last_modified,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
+            topic(QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
             const QUrl &topic_url() const;
             bool readonly() const;
             void get_responses();
@@ -28,7 +28,7 @@ namespace yotsuba{
             quint64 _topicID;
             QString _name;
             QUrl _url;
-            QHash<QUrl,QDateTime> *_last_modified;
+            QHash<QUrl,QByteArray> *_last_modified;
             QNetworkAccessManager *_accessmanager;
     };
 }

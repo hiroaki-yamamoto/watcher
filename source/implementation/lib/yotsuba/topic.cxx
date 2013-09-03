@@ -29,7 +29,7 @@
 using namespace std;
 
 namespace yotsuba{
-    topic::topic(QHash<QUrl,QDateTime> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::topic(parent){
+    topic::topic(QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::topic(parent){
         this->_last_modified=last_modified;
         this->_accessmanager=accessManager;
     }
@@ -51,8 +51,7 @@ namespace yotsuba{
             reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->header(QNetworkRequest::LastModifiedHeader).toDateTime());
-        qDebug()<<"Last Modified:"<<this->_last_modified->value(reply->url());
+        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&doc=QJsonDocument::fromJson(raw_data);
@@ -93,11 +92,12 @@ namespace yotsuba{
             }
             
             yotsuba::board *parent=qobject_cast<yotsuba::board *>(this->parent());
-            yotsuba::response *res=new yotsuba::response(this);
+            yotsuba::response *res=new yotsuba::response(this->_last_modified,this->_accessmanager,this);
             res->setResID(post_object["no"].toDouble());
             res->setResponseUrl(QUrl(response_list_url(parent->board_dir(),this->topicID())));
             res->setCreationDate(QDateTime::fromTime_t(post_object["time"].toDouble()));
-            QHash<QUrl,QImage> imgs;
+            connect(res,SIGNAL(fetchingImageFailed(QNetworkReply::NetworkError,QUrl,QString)),
+                    SIGNAL(get_response_warning(QNetworkReply::NetworkError,QUrl,QString)));
             if(post_object["name"].isString())  res->setAuthor(post_object["name"].toString());
             if(post_object["email"].isString()) res->setAuthor(post_object["email"].toString());
             if(post_object["sub"].isString())   res->setTitle(post_object["sub"].toString());
@@ -117,25 +117,11 @@ namespace yotsuba{
                         body=body.replace(url.toString(),QString("<a href=\"%1\">%1</a>").arg(url.toString()));
                     }
                 }
-    #pragma omp parallel for
-                for(int index=0;index<image_urls.size();index++){
-                    const QUrl &url=image_urls.at(index);
-                    QNetworkAccessManager accessmanager(this);
-                    QNetworkReply *img_reply=accessmanager.get(QNetworkRequest(url));
-                    while(!img_reply->isFinished()) qApp->processEvents(QEventLoop::AllEvents,1);
-                    if(img_reply->error()!=QNetworkReply::NoError)
-                        emit this->get_response_warning(img_reply->error(),img_reply->url(),img_reply->errorString());
-                    QImage &&img=QImage::fromData(img_reply->readAll());
-    #pragma omp critical
-                    {
-                        imgs[url]=img;
-                    }
-                }
+                for(const QUrl &image_url:image_urls) res->fetchImage(image_url);
                 res->setBody(QString("<div id=p%1>%2</div>").arg(QString::number(res->resID()),body));
             }
             if(post_object["filename"].isString()&&post_object["ext"].isString()&&
                     post_object["filedeleted"].toDouble()==0.0f){
-                QNetworkAccessManager img_request(this);
                 if(!post_object.contains("tim")){
                     emit this->get_responses_failed(QNetworkReply::UnknownContentError,
                                                     generate_key_not_found("tim"));
@@ -147,21 +133,11 @@ namespace yotsuba{
                     return;
                 }
                 qulonglong tim=(qulonglong)post_object["tim"].toDouble();
-                QUrl url=image_url(parent->board_dir(),tim,post_object["ext"].toString());
-                QNetworkReply *img_reply=img_request.get(QNetworkRequest(url));
-                while(!reply->isFinished())
-                    qApp->processEvents(QEventLoop::AllEvents,1);
-                if(img_reply->error()!=QNetworkReply::NoError)
-                    emit this->get_response_warning(img_reply->error(),img_reply->url(),img_reply->errorString());
-                QImage &&img=QImage::fromData(img_reply->readAll());
-                img_reply->close();
-                imgs[url]=img;
+                res->fetchImage(image_url(parent->board_dir(),tim,post_object["ext"].toString()));
             }
-            res->setImages(imgs);
             res->setIdentifier(QUuid::createUuidV5(this->identifier(),QString::number(res->resID())));
             responses<<res;
         }
         emit this->get_responses_finished(responses);
-        this->_accessmanager->disconnect();
     }    
 }
