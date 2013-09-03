@@ -16,7 +16,7 @@
 #include "error.h"
 #include "enum_convert.h"
 namespace yotsuba{
-    board::board(std::mt19937 *mt,QHash<QUrl,QDateTime> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::board(parent){
+    board::board(std::mt19937 *mt,QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::board(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be null.";
             this->deleteLater();
@@ -36,13 +36,15 @@ namespace yotsuba{
         this->_accessmanager->get(create_request(topic_list_url(this->_dir)));
     }
     void board::getDataFinished(QNetworkReply *reply){
+        if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
+            qWarning()<<"Yotsuba.Board:Signal disconnection failed.";
+        }
         if(reply->error()!=QNetworkReply::NoError){
-            reply->close();
             emit this->get_topics_failed(reply->error(),reply->errorString());
+            reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->header(QNetworkRequest::LastModifiedHeader).toDateTime());
-        qDebug()<<"Last Modified:"<<this->_last_modified->value(reply->url());
+        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&document=QJsonDocument::fromJson(raw_data);
@@ -107,6 +109,5 @@ namespace yotsuba{
             }
         }
         emit this->get_topics_finished(topics);
-        this->_accessmanager->disconnect();
     }
 }

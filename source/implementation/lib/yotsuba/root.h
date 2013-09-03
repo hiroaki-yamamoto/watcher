@@ -2,7 +2,7 @@
 #include <loader/root.h>
 #include <QHash>
 #include <QUrl>
-#include <QDateTime>
+#include <QByteArray>
 #include <QString>
 #include <QUuid>
 #include <QIcon>
@@ -28,7 +28,7 @@ namespace yotsuba{
             std::mt19937 *_mt;
             QString _ver;
             const QIcon _icon=QIcon::fromTheme("application-x-executable");
-            QHash<QUrl,QDateTime> _last_modified;
+            QHash<QUrl,QByteArray> _last_modified;
             QNetworkAccessManager *_accessManager;
     };
 }

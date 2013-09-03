@@ -1,6 +1,6 @@
 #pragma once
 #include <QUrl>
-#include <QDateTime>
+#include <QByteArray>
 #include <loader/board.h>
 #include <QObject>
 #include <QString>
@@ -17,7 +17,7 @@ namespace yotsuba{
             Q_OBJECT
             friend class category;
         public:
-            board(std::mt19937 *mt,QHash<QUrl,QDateTime> *last_modified,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
+            board(std::mt19937 *mt,QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
             const QString &board_dir() const;
             const QUrl &board_url() const;
             void get_topics();
@@ -30,7 +30,7 @@ namespace yotsuba{
             std::mt19937 *_mt;
             QString _dir;
             QUrl _board_url;
-            QHash<QUrl,QDateTime> *_last_modified;
+            QHash<QUrl,QByteArray> *_last_modified;
             QNetworkAccessManager *_accessmanager;
     };
 }
