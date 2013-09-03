@@ -1,10 +1,12 @@
 #pragma once
-#include <QUrl>
 #include <loader/board.h>
+#include <QUrl>
 #include <QObject>
 #include <QString>
 #include <random>
+
 class QNetworkReply;
+class QNetworkAccessManager;
 namespace plugin{
     class topic;
 }
@@ -13,7 +15,7 @@ namespace yotsuba{
             Q_OBJECT
             friend class category;
         public:
-            board(std::mt19937 *mt,QObject *parent=nullptr);
+            board(std::mt19937 *mt,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
             const QString &board_dir() const;
             const QUrl &board_url() const;
             void get_topics();
@@ -26,5 +28,6 @@ namespace yotsuba{
             std::mt19937 *_mt;
             QString _dir;
             QUrl _board_url;
+            QNetworkAccessManager *_accessmanager;
     };
 }

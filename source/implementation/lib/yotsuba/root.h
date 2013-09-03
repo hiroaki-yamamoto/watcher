@@ -1,5 +1,8 @@
 #pragma once
 #include <loader/root.h>
+#include <QHash>
+#include <QUrl>
+#include <QByteArray>
 #include <QString>
 #include <QUuid>
 #include <QIcon>
@@ -7,6 +10,8 @@
 namespace plugin{
     class category;
 }
+class QNetworkAccessManager;
+class QNetworkDiskCache;
 namespace yotsuba{
     class root:public plugin::root{
         Q_OBJECT
@@ -24,5 +29,7 @@ namespace yotsuba{
             std::mt19937 *_mt;
             QString _ver;
             const QIcon _icon=QIcon::fromTheme("application-x-executable");
+            QNetworkAccessManager *_accessManager;
+            QNetworkDiskCache *_cache;
     };
 }

@@ -5,13 +5,14 @@
 namespace plugin{
     class topic;
 }
+class QNetworkAccessManager;
 class QNetworkReply;
 namespace yotsuba{
     class category:public plugin::category{
             Q_OBJECT
             friend class root;
         public:
-            category(std::mt19937 *_mt,QObject *parent=nullptr);
+            category(std::mt19937 *mt, QNetworkAccessManager *manager, QObject *parent=nullptr);
             void get_boards();
         public slots:
             void setWorkSafe(const bool ws);
@@ -20,5 +21,6 @@ namespace yotsuba{
         private:
             bool _ws;
             std::mt19937 *_mt;
+            QNetworkAccessManager *_accessmanager;
     };
 }

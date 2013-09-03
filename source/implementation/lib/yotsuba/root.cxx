@@ -2,6 +2,9 @@
 #include <QVector>
 #include <QIcon>
 
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkDiskCache>
+
 #include <array>
 
 //The version is the same version of watcher
@@ -21,6 +24,11 @@ namespace yotsuba{
         this->setAuthor("Hiroaki Yamamoto");
         this->setTitle(tr("Yotsuba"));
         this->setIdentifier("a4522fb3-d22d-4fe0-8d1e-8d072410a64b");
+        this->_accessManager=new QNetworkAccessManager(this);
+        //TODO: The file path must be specified by user.
+        this->_cache=new QNetworkDiskCache(this);
+        this->_cache->setCacheDirectory("/tmp/watcher/yotsuba/cache");
+        this->_accessManager->setCache(this->_cache);
     }
     root::~root(){delete this->_mt;}
 
@@ -31,7 +39,8 @@ namespace yotsuba{
     void root::get_categories(){
         QVector<plugin::category *> category_list;
         int random_number;
-        yotsuba::category *ws_board=new yotsuba::category(this->_mt,this),*wus_board=new yotsuba::category(this->_mt,this);
+        yotsuba::category *ws_board=new yotsuba::category(this->_mt,this->_accessManager,this),
+                         *wus_board=new yotsuba::category(this->_mt,this->_accessManager,this);
         random_number=this->random_number();
         ws_board->setTitle(tr("Safe Boards for Work"));
         ws_board->setDescription(tr("They are safe boards when you watch them at working time."));

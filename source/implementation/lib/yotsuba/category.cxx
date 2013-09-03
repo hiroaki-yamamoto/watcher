@@ -1,8 +1,9 @@
-#include <QDebug>
+#include <QtDebug>
 #include <QUrl>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QAbstractNetworkCache>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -15,12 +16,13 @@
 #include "board.h"
 #include "error.h"
 namespace yotsuba{
-    category::category(std::mt19937 *mt,QObject *parent):plugin::category(parent){
+    category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QObject *parent):plugin::category(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be nulltpr.";
             this->deleteLater();
             return;
         }
+        this->_accessmanager=manager;
         this->_ws=false;
         this->_mt=mt;
     }
@@ -28,18 +30,21 @@ namespace yotsuba{
     void category::setWorkSafe(const bool ws){this->_ws=ws;}
     void category::get_boards(){
         //Download Board List.
-        QNetworkAccessManager *manager=new QNetworkAccessManager(this);
-        connect(manager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
-        manager->get(create_request(board_list_url()));
+        connect(this->_accessmanager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
+        this->_accessmanager->get(create_request(board_list_url()));
     }
     //This slot is called when downloading board list has been finished.
     void category::getDataFinished(QNetworkReply *reply){
+        if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
+            qWarning()<<"Yotsuba.Category:Signal disconnection failed.";
+        }
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_boards_failed(reply->error(),reply->errorString());
             reply->close();
             return;
         }
-        QByteArray raw_data=reply->readAll();
+        QByteArray raw_data;
+        raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&data=QJsonDocument::fromJson(raw_data);
         if(data.isNull()){
@@ -93,7 +98,7 @@ namespace yotsuba{
             }
             if((int)this->_ws==(int)ws_board.toDouble()){
             unsigned int random_number=(*this->_mt)();
-                yotsuba::board *yotsuba_board=new yotsuba::board(this->_mt,this);
+                yotsuba::board *yotsuba_board=new yotsuba::board(this->_mt,this->_accessmanager,this);
                 yotsuba_board->setBoardURL(QUrl(QString("http://boards.4chan.org/%1/").arg(board_dir.toString())));
                 yotsuba_board->setTitle(board_title.toString());
                 yotsuba_board->setBoardDirName(board_dir.toString());
@@ -104,6 +109,5 @@ namespace yotsuba{
             }
         }
         emit this->get_boards_finished(board_list);
-        this->sender()->deleteLater();
     }
 }

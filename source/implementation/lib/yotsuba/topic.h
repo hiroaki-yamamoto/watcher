@@ -1,17 +1,17 @@
 #pragma once
 #include <QUrl>
-#include <QHash>
 #include <loader/topic.h>
 #include <QString>
 namespace plugin{
     class response;
 }
+class QNetworkAccessManager;
 namespace yotsuba{
     class topic:public plugin::topic{
             Q_OBJECT
             friend class board;
         public:
-            topic(QObject *parent=nullptr);
+            topic(QNetworkAccessManager *accessManager,QObject *parent=nullptr);
             const QUrl &topic_url() const;
             bool readonly() const;
             void get_responses();
@@ -26,5 +26,6 @@ namespace yotsuba{
             quint64 _topicID;
             QString _name;
             QUrl _url;
+            QNetworkAccessManager *_accessmanager;
     };
 }
