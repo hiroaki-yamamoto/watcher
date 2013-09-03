@@ -12,6 +12,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QAbstractNetworkCache>
 #include <QtNetwork/QNetworkReply>
 #include <QImage>
 #include <QDateTime>
@@ -28,8 +29,7 @@
 using namespace std;
 
 namespace yotsuba{
-    topic::topic(QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::topic(parent){
-        this->_last_modified=last_modified;
+    topic::topic(QNetworkAccessManager *accessManager, QObject *parent):plugin::topic(parent){
         this->_accessmanager=accessManager;
     }
     const QUrl &topic::topic_url() const{return this->_url;}
@@ -52,7 +52,6 @@ namespace yotsuba{
             reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&doc=QJsonDocument::fromJson(raw_data);
@@ -93,7 +92,7 @@ namespace yotsuba{
             }
             
             yotsuba::board *parent=qobject_cast<yotsuba::board *>(this->parent());
-            yotsuba::response *res=new yotsuba::response(this->_last_modified,this->_accessmanager,this);
+            yotsuba::response *res=new yotsuba::response(this->_accessmanager,this);
             res->setResID(post_object["no"].toDouble());
             res->setResponseUrl(QUrl(response_list_url(parent->board_dir(),this->topicID())));
             res->setCreationDate(QDateTime::fromTime_t(post_object["time"].toDouble()));

@@ -6,11 +6,11 @@
 #include <QDateTime>
 #include <QHash>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QAbstractNetworkCache>
 #include <QtNetwork/QNetworkReply>
 namespace yotsuba{
-    response::response(QHash<QUrl,QByteArray> *lastModified,QNetworkAccessManager *accessManager,QObject *parent):plugin::response(parent){
+    response::response(QNetworkAccessManager *accessManager, QObject *parent):plugin::response(parent){
         this->_accessManager=accessManager;
-        this->_last_modified=lastModified;
         this->_body=new QString();
         this->_creation_date=new QDateTime();
         this->_images=new QHash<QUrl,QImage>();

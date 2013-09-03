@@ -1,6 +1,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QAbstractNetworkCache>
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonObject>
@@ -16,13 +17,12 @@
 #include "error.h"
 #include "enum_convert.h"
 namespace yotsuba{
-    board::board(std::mt19937 *mt,QHash<QUrl,QByteArray> *last_modified,QNetworkAccessManager *accessManager,QObject *parent):plugin::board(parent){
+    board::board(std::mt19937 *mt, QNetworkAccessManager *accessManager, QObject *parent):plugin::board(parent){
         if(mt==nullptr){
             qWarning()<<"mt must not be null.";
             this->deleteLater();
             return;
         }
-        this->_last_modified=last_modified;
         this->_accessmanager=accessManager;
         this->_mt=mt;
     }
@@ -44,7 +44,6 @@ namespace yotsuba{
             reply->close();
             return;
         }
-        this->_last_modified->insert(reply->url(),reply->rawHeader("Last-Modified"));
         QByteArray raw_data=reply->readAll();
         reply->close();
         QJsonDocument &&document=QJsonDocument::fromJson(raw_data);
@@ -96,7 +95,7 @@ namespace yotsuba{
                         return;
                     }
                 }
-                yotsuba::topic *topic=new yotsuba::topic(this->_last_modified,this->_accessmanager,this);
+                yotsuba::topic *topic=new yotsuba::topic(this->_accessmanager,this);
                 topic->setTopicID(topic_obj["no"].toDouble());
                 topic->setTopicURL(this->board_url().resolved("res/"+QString::number(topic->topicID())));
                 topic->setIdentifier(QUuid::createUuidV5(this->identifier(),QString::number(topic->topicID())));

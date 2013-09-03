@@ -11,5 +11,5 @@ add_library(yotsuba SHARED
     "topic.cxx"
 )
 set_property(TARGET yotsuba PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins")
-qt5_use_modules(yotsuba Core Network)
+qt5_use_modules(yotsuba Core Network Widgets)
 install(TARGETS yotsuba LIBRARY DESTINATION "share/watcher/plugins")
