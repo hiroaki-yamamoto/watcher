@@ -25,6 +25,33 @@ Rectangle{
         Row{
             id:menuLayout
             anchors.fill: menu
+            spacing: 2
+            Button{
+                id:reload
+                objectName: "reload"
+                style:reload.style_mode.icon
+                icon: "icons/reload.png"
+                show_tooltip: true
+                tooltip_title: qsTr("Reload")
+                tooltip_body: qsTr("Reload board list.")
+                radius:2
+                anchors.verticalCenter: menuLayout.verticalCenter
+            }
+            Spacer{
+                toFit: menuLayout
+                color:"lightgray"
+            }
+            Button{
+                id:close
+                objectName: "close"
+                style:reload.style_mode.icon
+                icon: "icons/dialog-close-22.png"
+                show_tooltip: true
+                tooltip_title: qsTr("Close")
+                tooltip_body: qsTr("Close "+window.title+".")
+                radius:2
+                anchors.verticalCenter: menuLayout.verticalCenter
+            }
         }
     }
 }

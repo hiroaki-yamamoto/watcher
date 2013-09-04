@@ -333,7 +333,7 @@ Rectangle {
             StateChangeScript{
                 name:"EnterScript"
                 script:{
-                    if(show_tooltip) hint_timer.restart()
+                    if((!selectable||!focus)&&show_tooltip) hint_timer.restart()
                     entered();
                 }
             }
