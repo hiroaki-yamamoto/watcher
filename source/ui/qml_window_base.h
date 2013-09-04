@@ -20,6 +20,7 @@ namespace plugin{
 namespace ui{
     class QMLWindowBase:public QQuickView{
             Q_OBJECT
+            Q_PROPERTY(QMLWindowBase *parent READ parent WRITE setParent)
         public:
             QMLWindowBase(const QString &title,
                           const QIcon &icon,
@@ -31,6 +32,7 @@ namespace ui{
             void setSource(const QUrl &new_source);
             void exitApplication();
             void restartApplication();
+            void setParent(QMLWindowBase *parent);
         protected:
             virtual QFileInfo _getQMLFileFromSelectedThemes(const QString &file);
             /*
@@ -44,7 +46,7 @@ namespace ui{
             virtual void _loadQMLFile(const QString &file);
             virtual void _reloadQMLFile();
         private slots:
-            void _parentVisibleChanged(const bool visuble);
+            void _parentVisibleChanged(const bool visible);
         private:
             QString _filename;
             QMLWindowBase *_parent;

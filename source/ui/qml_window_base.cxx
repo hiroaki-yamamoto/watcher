@@ -92,4 +92,9 @@ namespace ui{
     void QMLWindowBase::_parentVisibleChanged(const bool visible){
         if(!visible) this->setVisible(false);
     }
+    void QMLWindowBase::setParent(QMLWindowBase *parent){
+        if(this->_parent!=nullptr) this->_parent->disconnect(SIGNAL(visibleChanged(bool)),this,SLOT(_parentVisibleChanged(bool)));
+        this->_parent=parent;
+        if(this->_parent!=nullptr) connect(this->_parent,SIGNAL(visibleChanged(bool)),SLOT(_parentVisibleChanged(bool)));
+    }
 }
