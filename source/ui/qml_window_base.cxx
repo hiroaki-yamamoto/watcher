@@ -19,10 +19,13 @@
 #include "setting_default.h"
 
 namespace ui{
-    QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QWindow *parent):QQuickView(parent){
+    QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QMLWindowBase *parent):QQuickView(nullptr){
         this->setTitle(title);
         this->setIcon(icon);
+        this->_parent=parent;
+        if(this->_parent!=nullptr) connect(this->_parent,SIGNAL(visibleChanged(bool)),SLOT(_parentVisibleChanged(bool)));
     }
+    QMLWindowBase *QMLWindowBase::parent() const{return this->_parent;}
     QFileInfo QMLWindowBase::_getQMLFileFromSelectedThemes(const QString &file){
         QFileInfo info=QFileInfo();
         const QString &&selected_theme=default_value::setting_default::name_theme_selected_dir();
@@ -85,5 +88,8 @@ namespace ui{
     void QMLWindowBase::restartApplication(){
         this->exitApplication();
         QProcess::startDetached(qApp->arguments()[0],qApp->arguments());
+    }
+    void QMLWindowBase::_parentVisibleChanged(const bool visible){
+        if(!visible) this->setVisible(false);
     }
 }

@@ -20,7 +20,7 @@ namespace ui{
                         const QIcon &icon,
                         QList<plugin::root *> *plugins,
                         storage::property_storage *property,
-                        QWindow *parent=nullptr);
+                        QMLWindowBase *parent=nullptr);
             QList<plugin::root *> *plugins() const;
             storage::property_storage *property() const;
         public slots:

@@ -14,8 +14,7 @@
 #include "setting_default.h"
 namespace ui{
     VersionWindow::VersionWindow(const QString &title, const QIcon &icon,QMLWindowBase *parent):
-        QMLWindowBase(title,icon){
-        this->_parent=parent;
+        QMLWindowBase(title,icon,parent){
         this->rootContext()->setContextProperty("copyright",short_license());
         this->rootContext()->setContextProperty("applicationName",qApp->applicationName());
         this->_loadQMLFile("VersionWindow.qml");
@@ -44,6 +43,6 @@ namespace ui{
     }
     
     void VersionWindow::_linkActivated(const QString &link){QDesktopServices::openUrl(QUrl(link));}
-    QList<plugin::root *> *VersionWindow::plugins() const{return (this->_parent!=nullptr)?this->_parent->plugins():nullptr;}
-    storage::property_storage *VersionWindow::property() const{return (this->_parent!=nullptr)?this->_parent->property():nullptr;}
+    QList<plugin::root *> *VersionWindow::plugins() const{return (this->parent()!=nullptr)?this->parent()->plugins():nullptr;}
+    storage::property_storage *VersionWindow::property() const{return (this->parent()!=nullptr)?this->parent()->property():nullptr;}
 }

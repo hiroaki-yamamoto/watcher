@@ -23,9 +23,10 @@ namespace ui{
         public:
             QMLWindowBase(const QString &title,
                           const QIcon &icon,
-                          QWindow *parent=nullptr);
+                          QMLWindowBase *parent=nullptr);
             virtual QList<plugin::root *> *plugins() const=0;
             virtual storage::property_storage *property() const=0;
+            QMLWindowBase *parent() const;
         public slots:
             void setSource(const QUrl &new_source);
             void exitApplication();
@@ -42,8 +43,11 @@ namespace ui{
             virtual void _loadQMLFile(const QFileInfo &info);
             virtual void _loadQMLFile(const QString &file);
             virtual void _reloadQMLFile();
+        private slots:
+            void _parentVisibleChanged(const bool visuble);
         private:
             QString _filename;
+            QMLWindowBase *_parent;
             void _collectChildren();
     };
 }

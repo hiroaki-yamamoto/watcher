@@ -12,7 +12,5 @@ namespace ui{
             void _linkActivated(const QString &link);
             void _propertyChanged(const QString &name,const QVariant &prev,const QVariant &now);
             void _closeButtonClicked();
-        private:
-            QMLWindowBase *_parent;
     };
 }

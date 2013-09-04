@@ -30,7 +30,7 @@ namespace ui{
                        const QIcon &icon,
                        loader::plugin_loader &loader,
                        storage::property_storage &property,
-                       QWindow *parent=nullptr
+                       QMLWindowBase *parent=nullptr
                     );
             QList<plugin::root *> *plugins() const;
             storage::property_storage *property() const;
