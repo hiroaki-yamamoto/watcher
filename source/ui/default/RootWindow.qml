@@ -26,11 +26,8 @@ Rectangle {
         }
         color:"gray"
         Row{
-            anchors{
-                margins:5
-                verticalCenter: parent.verticalCenter
-                left:parent.left
-            }
+            id:menu_row
+            anchors.fill: menu_background
             spacing:2
             Button{
                 id:back
@@ -40,6 +37,8 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Go back")
                 tooltip_body: qsTr("Go back to previous view.")
+                radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             
             Button{
@@ -50,6 +49,8 @@ Rectangle {
                 icon:"icons/go-next.png"
                 tooltip_title:qsTr("Go forward")
                 tooltip_body:qsTr("Go forward.")
+                radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
 
             Button{
@@ -61,12 +62,14 @@ Rectangle {
                 tooltip_title: qsTr("Reload")
                 tooltip_body: qsTr("Reload category list.")
                 radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
-            Rectangle{
-                width:1
-                height:parent.height
+            Spacer{
+                toFit: menu_row
                 color:"lightgray"
+                anchors.verticalCenter: menu_row.verticalCenter
             }
+
             Button{
                 id:bookmark
                 objectName:"bookmark"
@@ -76,12 +79,13 @@ Rectangle {
                 tooltip_title: qsTr("Bookmark")
                 tooltip_body: qsTr("Open Bookmark Manager")
                 radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             
-            Rectangle{
-                width:1
-                height:parent.height
+            Spacer{
+                toFit: menu_row
                 color:"lightgray"
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:config
@@ -92,6 +96,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Settings")
                 tooltip_body:qsTr("Configure settings.")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:save
@@ -102,6 +107,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Export")
                 tooltip_body:qsTr("Export settings and Bookmarks.")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:open
@@ -112,12 +118,13 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Import")
                 tooltip_body:qsTr("Import settings and Bookmarks.")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
 
-            Rectangle{
-                width:1
-                height:parent.height
+            Spacer{
+                toFit: menu_row
                 color:"lightgray"
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:info
@@ -128,6 +135,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title:qsTr("About")
                 tooltip_body:qsTr("About this software")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:exit
@@ -138,6 +146,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: "Exit"
                 tooltip_body: qsTr("Quit this application")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
         }
     }
