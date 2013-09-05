@@ -8,5 +8,6 @@ namespace ui{
         this->_plugins=plugins;
         this->_property=property;
         QMLWindowBase::_loadQMLFile("BoardWindow.qml");
+        this->_createRelationBetweenSignalsAndSlots();
     }
 }

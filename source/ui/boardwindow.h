@@ -26,7 +26,11 @@ namespace ui{
         public slots:
             void addTabContents(plugin::board *board);
             void removeTopics(plugin::board *board);
-            void responseMode(plugin::topic *topic);
+        private slots:
+            void _responseMode(plugin::topic *topic);
+            void _createRelationBetweenSignalsAndSlots();
+            void _reload();
+            void _close();
         private:
             QHash<QPair<QString,QUuid>,BoardTabContents *> _tabContents;
             QList<plugin::root *> *_plugins;

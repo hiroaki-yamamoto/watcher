@@ -15,8 +15,8 @@ namespace ui{
         signals:
             void responseMode(plugin::topic *topic);
         private slots:
-            void get_topics_finished(const QVector<plugin::topic *> &topics);
-            void get_topics_failed(const QNetworkReply::NetworkError err,const QString &err_str);
+            void _get_topics_finished(const QVector<plugin::topic *> &topics);
+            void _get_topics_failed(const QNetworkReply::NetworkError err,const QString &err_str);
         private:
             plugin::board *_board;
     };

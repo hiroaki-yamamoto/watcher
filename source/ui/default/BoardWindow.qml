@@ -49,8 +49,8 @@ Rectangle{
                 show_tooltip: true
                 tooltip_title: qsTr("Close")
                 tooltip_body: qsTr("Close "+window.title+".")
-                radius:2
                 anchors.verticalCenter: menuLayout.verticalCenter
+                radius:2
             }
         }
     }
