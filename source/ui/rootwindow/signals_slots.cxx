@@ -116,9 +116,7 @@ namespace ui{
         }
     }
     void RootWindow::_plugin_loaded(){
-        for(auto i=this->_tabcontents.begin();i!=this->_tabcontents.end();i++){
-            (*i)->deleteLater();
-        }
+        for(auto i=this->_tabcontents.begin();i!=this->_tabcontents.end();i++) (*i)->deleteLater();
         this->_tabcontents.clear();
         for(plugin::root *&plugin_root:*this->plugins()){
             if(!this->_property->get(default_value::setting_default::name_disabled_plugins_uuid()).toList().contains(QVariant(plugin_root->identifier()))){
@@ -157,15 +155,7 @@ namespace ui{
 
     void RootWindow::_topicMode(plugin::board *board){
         qDebug()<<"Topic Mode";
-        if(!this->_boardwindow->isVisible()) this->_boardwindow->show();
+        this->_boardwindow->show();
         this->_boardwindow->addTabContents(board);
-        /*
-        for(plugin::topic *topic:board){
-            qDebug()<<"("<<this->objectName()<<"): Topic Title :"<<topic->title();
-            qDebug()<<"("<<this->objectName()<<"):       URI   :"<<topic->topic_url();
-            qDebug()<<"("<<this->objectName()<<"):       Author:"<<topic->author();
-            qDebug()<<"("<<this->objectName()<<"):       UUID  :"<<topic->identifier().toString();
-        }
-        */
     }
 }

@@ -4,12 +4,12 @@ Item{
     anchors.fill: parent
     clip: true
 
-    property string title:"No Name"
+    property string title:"Untitled"
     property string uuid: "00000000-0000-0000-0000-000000000000"
     property alias model:category.list_model
     property var buttonClickedEvent:function(sender_button){}
     property bool hasAnimation:true
-    property bool debug:false
+    readonly property bool debug:false
     
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
@@ -68,4 +68,9 @@ Item{
     function clearButtons(){category.list_model.clear()}
     function hide(){category.hide()}
     function show(){category.show()}
+    Component.onCompleted:{
+        for(var i=10;i<100;i++){
+            addButton(tabContentRoot.title+"::Test "+i,"","00000000-0000-0000-0000-0000000000"+i)
+        }
+    }
 }

@@ -1,6 +1,11 @@
 import QtQuick 2.0
 Rectangle{
     id:root
+    readonly property bool debug:true
+    
+    signal currentTabChanged(var previous,var current)
+    signal closeButtonClicked(var text,var uuid)
+    
     width:  900
     height: 300
     gradient: Gradient{
@@ -52,6 +57,42 @@ Rectangle{
                 anchors.verticalCenter: menuLayout.verticalCenter
                 radius:2
             }
+        }
+    }
+    Tab{
+        id:boardTab
+        anchors{
+            margins:5
+            top:menu.bottom
+            bottom:root.bottom
+            left:root.left
+            right:root.right
+        }
+        useClosebutton: true
+        contentBorder.width: 0
+        onCurrentTabChanged: root.currentTabChanged(previous,current)
+        onCloseButtonClicked: root.closeButtonClicked(text,uuid)
+        function addTab(tabText,uuid){
+            var createdComponent=Qt.createComponent("BoardTabContent.qml")
+            if(createdComponent.status===Component.Ready){
+                var createdContent=createdComponent.createObject()
+                createdContent.title=tabText
+                createdContent.uuid=uuid
+                createdContent.parent=boardTab.tabPanel
+                return createdContent
+            }
+        }
+    }
+    function addTab(text,uuid){
+        var createdTab=boardTab.addTab(text,uuid);
+        if(createdTab===undefined){
+            console.log("TabContent("+text+":"+uuid+") couldn't be created.");
+        }else return createdTab;
+    }
+    Component.onCompleted: {
+        if(root.debug){
+            var testTab1=boardTab.addTab("test1","00000000-0000-0000-0000-000000000000")
+            var testTab2=boardTab.addTab("test2","00000000-0000-0000-0000-000000000001")
         }
     }
 }

@@ -5,7 +5,7 @@ Rectangle {
     objectName: "viewRoot"
     width:600
     height:640
-    property bool debug:false
+    readonly property bool debug:false
     property alias currentSelectedTabContent:tab.currentPanel
     signal currentTabChanged(var previous,var current)
     Rectangle{
@@ -179,18 +179,21 @@ Rectangle {
             }
         }
     }
-    function addTab(tabText,uuid){return tab.addTab(tabText,uuid)}
+    function addTab(tabText,uuid){
+        var createdTab=tab.addTab(tabText,uuid)
+        if(createdTab===undefined) console.log("TabContent("+text+":"+uuid+") couldn't be created.");
+        else return createdTab;
+    }
+    
 
     Component.onCompleted: {
         if(debug){
-            var createdContent1=addTab("CategoryView1")
+            var createdContent1=addTab("CategoryView1","00000000-0000-0000-0000-000000000000")
             createdContent1.buttonClickedEvent=function(sender_button){
                 console.log("Clicked");
             }
     
-            var createdContent2=addTab("CategoryView2")
-            for(var i=0;i<256;i++) addButton(createdContent1,"test "+i)
-            for(var i=0;i<100;i++) addButton(createdContent2,"test2 "+i)
+            var createdContent2=addTab("CategoryView2","00000000-0000-0000-0000-000000000001")
         }
     }
 }

@@ -10,7 +10,7 @@ Item{
     property int            orientation     :Qt.Horizontal
     property alias          titleBorder     :view_rect.border
     property alias          contentBorder   :panel.border
-    signal closeButtonClicked(var uuid)
+    signal closeButtonClicked(var text,var uuid)
     signal currentTabChanged(var previous,var current)
        
     clip: true
@@ -53,7 +53,7 @@ Item{
                     panel.select(index)
                 }
                 onDeselected: if(buttons_model.selected===button) button.select()
-                onCloseButtonClicked: root.closeButtonClicked(button.uuid)
+                onCloseButtonClicked: root.closeButtonClicked(button.text,button.uuid)
             }
         }
         ListView{
