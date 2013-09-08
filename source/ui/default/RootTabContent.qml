@@ -5,8 +5,7 @@ Item{
     clip: true
 
     property string title:"Untitled"
-    property string uuid: "00000000-0000-0000-0000-000000000000"
-    property alias model:category.list_model
+    property string uuid:"00000000-0000-0000-0000-000000000000"
     property var buttonClickedEvent:function(sender_button){}
     property bool hasAnimation:true
     readonly property bool debug:false
@@ -31,23 +30,16 @@ Item{
         }
     }
     function addButton(button_text,detail_text,uuid){
-        category.list_model.append(
-                    {
-                        "txt"           :button_text,
-                        "detail_txt"    :detail_text,
-                        "id"            :uuid,
-                        "has_tooltip"   :false,
-                        "title_tooltip" :"",
-                        "body_tooltip"  :""
-                    }
-                    )
+        category.addButton(button_text,detail_text,uuid,false,"","")
     }
-    function clearButtons(){category.list_model.clear()}
+    function clearButtons(){category.clearButtons();}
     function hide(){category.hide()}
     function show(){category.show()}
     Component.onCompleted:{
-        for(var i=10;i<100;i++){
-            addButton(tabContentRoot.title+"::Test "+i,"","00000000-0000-0000-0000-0000000000"+i)
+        if(debug){
+            for(var i=10;i<100;i++){
+                addButton(tabContentRoot.title+"::Test "+i,"","00000000-0000-0000-0000-0000000000"+i)
+            }
         }
     }
 }

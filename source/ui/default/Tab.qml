@@ -2,8 +2,7 @@ import QtQuick 2.0
 
 Item{
     id:root
-
-    default property alias  children        :panel.children
+    
     property Item           tabPanel        :panel
     property alias          currentPanel    :panel.current
     property bool           useClosebutton  :false
@@ -78,7 +77,7 @@ Item{
         property Item previous:null
         onChildrenChanged: {
             titleModel.clear()
-            for(var index=0;index<children.length;index++){
+            for(var index in children){
                 titleModel.append({"title":children[index].title,"idex":index,"identifier":children[index].uuid})
                 if(index>0)children[index].visible=false
             }

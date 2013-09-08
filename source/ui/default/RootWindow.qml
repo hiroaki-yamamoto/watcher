@@ -173,7 +173,7 @@ Rectangle {
                     var createdContent=createdComponent.createObject()
                     createdContent.title=tabText
                     createdContent.uuid=uuid
-                    createdContent.parent=tab.tabPanel
+                    createdContent.parent=tab
                     return createdContent
                 }
             }

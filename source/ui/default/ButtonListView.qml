@@ -1,7 +1,7 @@
 import QtQuick 2.0
 Item{
     id:root
-    property alias list_model:category_model.model
+    property string title:"Untitled"
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
     signal showAnimationCompleted()
@@ -115,4 +115,17 @@ Item{
     function show(){
         buttonListView.state="buttonsExposed"
     }
+    function addButton(button_text,detail_text,uuid,has_tooltip,title_tooltip,body_tooltip){
+        category_list.append(
+                    {
+                        "txt"           :button_text,
+                        "detail_txt"    :detail_text,
+                        "id"            :uuid,
+                        "has_tooltip"   :has_tooltip,
+                        "title_tooltip" :title_tooltip,
+                        "body_tooltip"  :body_tooltip
+                    }
+                    )
+    }
+    function clearButtons(){category_list.clear()}
 }
