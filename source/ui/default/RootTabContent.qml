@@ -14,32 +14,9 @@ Item{
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
     signal showAnimationCompleted()
-    
-    ScrollBar{
-        id:category_scroll
-        orientation:Qt.Vertical
-        anchors{
-            right:parent.right
-            top:parent.top
-            bottom: parent.bottom
-        }
-        pagewidth:category.contentWidth
-        pageheight:category.contentHeight
-    
-        onPositionChanged:{
-            if(!category.flicking&&!category.moving) category.contentY=category.contentHeight*position
-        }
-    }
     ButtonListView{
         id:category
-        anchors{
-            top:parent.top
-            bottom:parent.bottom
-            left:parent.left
-            right:category_scroll.left
-        }
-
-        onContentYChanged: category_scroll.position=contentY/contentHeight
+        anchors.fill: tabContentRoot
         onButtonClicked:{
             parent.buttonClicked(sender_button)
             parent.buttonClickedEvent(sender_button)
