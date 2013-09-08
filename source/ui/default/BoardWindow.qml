@@ -75,10 +75,7 @@ Rectangle{
         function addTab(tabText,uuid){
             var createdComponent=Qt.createComponent("BoardTabContent.qml")
             if(createdComponent.status===Component.Ready){
-                var createdContent=createdComponent.createObject()
-                createdContent.title=tabText
-                createdContent.uuid=uuid
-                createdContent.parent=boardTab.tabPanel
+                var createdContent=createdComponent.createObject(boardTab.tabPanel,{"title":tabText,"uuid":uuid})
                 return createdContent
             }
         }

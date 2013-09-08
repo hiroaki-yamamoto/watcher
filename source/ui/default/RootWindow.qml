@@ -8,6 +8,7 @@ Rectangle {
     readonly property bool debug:false
     property alias currentSelectedTabContent:tab.currentPanel
     signal currentTabChanged(var previous,var current)
+    signal tabCreated(var createdTab)
     Rectangle{
         id:menu_background
         anchors{
@@ -170,10 +171,7 @@ Rectangle {
             function addTab(tabText,uuid){
                 var createdComponent=Qt.createComponent("RootTabContent.qml")
                 if(createdComponent.status===Component.Ready){
-                    var createdContent=createdComponent.createObject()
-                    createdContent.title=tabText
-                    createdContent.uuid=uuid
-                    createdContent.parent=tab
+                    var createdContent=createdComponent.createObject(tab.tabPanel,{"title":tabText,"uuid":uuid})
                     return createdContent
                 }
             }

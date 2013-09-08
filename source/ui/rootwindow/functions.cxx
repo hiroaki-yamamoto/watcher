@@ -8,6 +8,10 @@
 namespace ui{
     RootTabContents *RootWindow::_getCurrentTabContent(){
         QQuickItem *currentTab=this->rootObject()->property("currentSelectedTabContent").value<QQuickItem *>();
+        if(currentTab==nullptr){
+            qDebug()<<"("<<this->objectName()<<": currentSelectedTabContent is null.";
+            return nullptr;
+        }
         QUuid tab_uuid=QUuid(currentTab->property("uuid").toString());
         QString tab_title=currentTab->property("title").toString();
         QPair<QString,QUuid> tab_key=qMakePair(tab_title,tab_uuid);

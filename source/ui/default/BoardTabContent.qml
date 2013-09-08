@@ -19,10 +19,7 @@ Item{
         function addTab(tabText,uuid){
             var createdComponent=Qt.createComponent("TopicView.qml")
             if(createdComponent.status===Component.Ready){
-                var createdContent=createdComponent.createObject()
-                createdContent.title=tabText
-                createdContent.uuid=uuid
-                createdContent.parent=tab.tabPanel
+                var createdContent=createdComponent.createObject(tab.tabPanel,{"title":tabText,"uuid":uuid})
                 return createdContent
             }
         }

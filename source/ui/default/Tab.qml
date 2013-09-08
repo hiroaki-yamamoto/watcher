@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.0
 
 Item{
     id:root
@@ -41,7 +42,6 @@ Item{
                 text:title
                 selectable:true
                 Component.onCompleted:{
-                    console.log("Width:"+width+" Height:"+height)
                     if(index==0) select()
                 }
                 onSelected: {
@@ -79,6 +79,8 @@ Item{
             titleModel.clear()
             for(var index in children){
                 titleModel.append({"title":children[index].title,"idex":index,"identifier":children[index].uuid})
+                children[index].titleChanged.connect(reloadTitleBar)
+                children[index].uuidChanged.connect(reloadTitleBar)
                 if(index>0)children[index].visible=false
             }
         }
@@ -89,7 +91,16 @@ Item{
             if(current!==null)current.visible=true
             currentTabChanged(previous,current)
             previous=current
+            console.log("current.title:"+current.title)
         }
+        function reloadTitleBar(){
+            titleModel.clear()
+            for(var index in children){
+                titleModel.append({"title":children[index].title,"idex":index,"identifier":children[index].uuid})
+                if(index>0)children[index].visible=false
+            }
+        }
+
         function select(i){
             current=children[i]
         }
