@@ -60,7 +60,7 @@ Item{
             id:button_view
             model:buttons_model
             clip: false
-            orientation:ListView.Horizontal
+            z:0
         }
 
         color:"transparent"
@@ -111,6 +111,11 @@ Item{
                 }
             }
             PropertyChanges{
+                target: button_view
+                orientation:ListView.Horizontal
+                anchors.fill: view_rect
+            }
+            PropertyChanges{
                 target:panel
                 anchors{
                     margins:5
@@ -119,11 +124,6 @@ Item{
                     left:parent.left
                     right:parent.right
                 }
-            }
-            PropertyChanges{
-                target: button_view
-                orientation:ListView.Horizontal
-                anchors.fill: view_rect
             }
             
         },
@@ -141,6 +141,17 @@ Item{
                 }
             }
             PropertyChanges{
+                target: button_view
+                width:view_rect.height
+                height:view_rect.width
+                orientation:ListView.Horizontal
+                transformOrigin:Item.TopLeft
+                layoutDirection:ListView.RightToLeft
+                rotation:-90
+                x:0
+                y:view_rect.height
+            }
+            PropertyChanges{
                 target:panel
                 anchors{
                     margins:5
@@ -149,17 +160,6 @@ Item{
                     left:view_rect.right
                     right:parent.right
                 }
-            }
-            PropertyChanges{
-                target: button_view
-                
-                width:view_rect.height
-                height:view_rect.width
-                transformOrigin:Item.TopLeft
-                layoutDirection:ListView.RightToLeft
-                rotation:-90
-                x:0
-                y:view_rect.height
             }
         }
     ]

@@ -181,7 +181,7 @@ Rectangle {
     }
     function addTab(tabText,uuid){
         var createdTab=tab.addTab(tabText,uuid)
-        if(createdTab===undefined) console.log("TabContent("+text+":"+uuid+") couldn't be created.");
+        if(createdTab===undefined) console.log("TabContent("+tabText+":"+uuid+") couldn't be created.");
         else return createdTab;
     }
     
