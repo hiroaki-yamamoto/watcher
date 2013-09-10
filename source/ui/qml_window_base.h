@@ -21,6 +21,8 @@ namespace ui{
     class QMLWindowBase:public QQuickView{
             Q_OBJECT
             Q_PROPERTY(QMLWindowBase *parent READ parent WRITE setParent)
+            Q_PROPERTY(QList<plugin::root *>* plugins READ plugins)
+            Q_PROPERTY(storage::property_storage* property READ property)
         public:
             QMLWindowBase(const QString &title,
                           const QIcon &icon,
