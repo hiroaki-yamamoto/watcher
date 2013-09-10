@@ -13,7 +13,7 @@ namespace ui{
                                const QIcon &icon, 
                                loader::plugin_loader &loader, 
                                storage::property_storage &property, 
-                               QMLWindowBase *parent):QMLWindowBase(title,icon,parent){
+                               QMLWindowBase *parent):TabWindowBase(title,icon,parent){
         this->_loader=&loader;
         this->_property=&property;
         this->_config_dialog=new ConfigDialog(this->_property,this->_loader,this);

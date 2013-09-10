@@ -6,6 +6,8 @@
 #include <QUuid>
 #include <QString>
 #include <QtNetwork/QNetworkReply>
+
+#include "tabcontents_base.h"
 namespace plugin{
     class root;
     class category;
@@ -16,7 +18,7 @@ namespace plugin{
 class QQuickItem;
 namespace ui{
     class RootWindow;
-    class RootTabContents:public QObject{
+    class RootTabContents:public TabContentsBase{
             Q_OBJECT
             Q_PROPERTY(QString TabName READ TabName WRITE setTabName)
             Q_PROPERTY(ViewState State READ state NOTIFY stateChanged)
@@ -33,7 +35,6 @@ namespace ui{
             void back();
             void forward();
             void reload();
-            void deleteLater();
         signals:
             void topicMode(plugin::board *board);
             void stateChanged();
@@ -59,8 +60,6 @@ namespace ui{
             QHash<QPair<QUuid,QString>,plugin::category *> _category_hash;
             QHash<QPair<QUuid,QString>,plugin::board *> _board_hash;
             plugin::root *_root;
-            RootWindow *_parent;
-            QQuickItem *_tabcontent;
             QHash<ui::RootTabContents::ViewState,QPair<QUuid,QString>> _contentsName;
             ViewState _state;
     };

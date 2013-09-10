@@ -43,19 +43,19 @@ namespace ui{
     void RootWindow::_show_version_window(){this->_version->show();}
     void RootWindow::_config(){this->_config_dialog->exec();}
     void RootWindow::_go_back(){
-        RootTabContents *current=this->_getCurrentTabContent();
+        RootTabContents *current=qobject_cast<RootTabContents *>(this->_getCurrentTabContents());
         if(current!=nullptr) current->back();
         else qWarning()<<"("<<this->objectName()<<",_go_back):current is null.";
     }
     
     void RootWindow::_go_forward(){
-        RootTabContents *current=this->_getCurrentTabContent();
+        RootTabContents *current=qobject_cast<RootTabContents *>(this->_getCurrentTabContents());
         if(current!=nullptr)current->forward();
         else qWarning()<<"("<<this->objectName()<<",_go_forward):current is null.";
     }
     
     void RootWindow::_reloadView(){
-        RootTabContents *current=this->_getCurrentTabContent();
+        RootTabContents *current=qobject_cast<RootTabContents*>(this->_getCurrentTabContents());
         if(current!=nullptr) current->reload();
         else qWarning()<<"("<<this->objectName()<<",_reloadView):current is null.";
     }
@@ -118,21 +118,27 @@ namespace ui{
     void RootWindow::_plugin_loaded(){
         for(auto i=this->_tabcontents.begin();i!=this->_tabcontents.end();i++) (*i)->deleteLater();
         this->_tabcontents.clear();
+        bool anything_not_loaded=true;
         for(plugin::root *&plugin_root:*this->plugins()){
             if(!this->_property->get(default_value::setting_default::name_disabled_plugins_uuid()).toList().contains(QVariant(plugin_root->identifier()))){
                 QPair<QString,QUuid> key=qMakePair(plugin_root->title(),plugin_root->identifier());
                 this->_tabcontents[key]=new RootTabContents(plugin_root,this);
+                anything_not_loaded=false;
                 connect(this->_tabcontents[key],SIGNAL(topicMode(plugin::board*)),
                         SLOT(_topicMode(plugin::board*)));
                 connect(this->_tabcontents[key],SIGNAL(stateChanged()),SLOT(_tabContentStateChanged()));
             }
+        }
+        if(anything_not_loaded){
+            this->_children["back"]->setProperty("enabled",false);
+            this->_children["next"]->setProperty("enabled",false);
         }
     }
     void RootWindow::_tabContentStateChanged(){this->_tabContentStateChanged(QVariant(),QVariant());}
     void RootWindow::_tabContentStateChanged(const QVariant &previous, const QVariant &current){
         Q_UNUSED(previous)
         Q_UNUSED(current)
-        RootTabContents *cur=this->_getCurrentTabContent();
+        RootTabContents *cur=qobject_cast<RootTabContents *>(this->_getCurrentTabContents());
         if(cur==nullptr){
             qWarning()<<"("<<this->objectName()<<")"<<"Current TabContent is nullptr";
             return;

@@ -32,6 +32,8 @@ set(src
     "license.cxx"
     "roottabcontents.cxx"
     "boardtabcontents.cxx"
+    "tabcontents_base.cxx"
+    "tabwindow_base.cxx"
 
     "configwindow/constructor.cxx"
     "configwindow/properties.cxx"

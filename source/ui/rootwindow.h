@@ -5,7 +5,7 @@
 #include <QPair>
 #include <QtQuick/QQuickView>
 
-#include "qml_window_base.h"
+#include "tabwindow_base.h"
 #include "plugin_loader.h"
 
 template <class T> class QList;
@@ -22,7 +22,7 @@ namespace ui{
     class BoardWindow;
     class VersionWindow;
     class RootTabContents;
-    class RootWindow:public QMLWindowBase{
+    class RootWindow:public TabWindowBase{
         Q_OBJECT
         Q_PROPERTY(bool active READ isActive)
         public:
@@ -51,12 +51,10 @@ namespace ui{
             void _tabContentStateChanged(const QVariant &previous,const QVariant &current);
             void _tabContentStateChanged();
         private:
-            RootTabContents *_getCurrentTabContent();
             ConfigDialog *_config_dialog;
             VersionWindow *_version;
             BoardWindow *_boardwindow;
             loader::plugin_loader *_loader;
-            QHash<QPair<QString,QUuid>,RootTabContents *> _tabcontents;
             storage::property_storage *_property;
     };
 }
