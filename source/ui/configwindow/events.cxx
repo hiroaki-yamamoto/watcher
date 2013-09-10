@@ -1,9 +1,9 @@
 #include <QCloseEvent>
 #include <QtDebug>
 #include <QtWidgets/QMessageBox>
+#include <property_storage/property_storage.h>
+#include <setting_default.h>
 
-#include "property_storage.h"
-#include "setting_default.h"
 #include "configwindow.h"
 #include "qml_window_base.h"
 
@@ -23,10 +23,12 @@ namespace ui{
             this->_clear_selected_theme=false;
         }
         for(const QString &name:this->_modified_setting.uniqueKeys()){
+            if(this->_property->get(name)!=this->_modified_setting[name]){
     #ifndef EXPERIMENT
-            if(name==default_value::setting_default::name_theme_selected_dir()) require_reboot=true;
+                if(name==default_value::setting_default::name_theme_selected_dir()) require_reboot=true;
     #endif
-            this->_property->set(name,this->_modified_setting[name]);
+                this->_property->set(name,this->_modified_setting[name]);
+            }
         }
         this->_modified_setting.clear();
         event->accept();

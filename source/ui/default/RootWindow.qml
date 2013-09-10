@@ -6,7 +6,7 @@ Rectangle {
     width:600
     height:640
     readonly property bool debug:false
-    property alias currentSelectedTabContent:tab.currentPanel
+    readonly property alias currentSelectedTabContent:tab.currentPanel
     signal currentTabChanged(var previous,var current)
     signal tabCreated(var createdTab)
     Rectangle{

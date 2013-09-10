@@ -1,7 +1,8 @@
 import QtQuick 2.0
 Rectangle{
     id:root
-    readonly property bool debug:true
+    readonly property bool debug:false
+    readonly property alias currentSelectedTabContent:boardTab.currentPanel
     
     signal currentTabChanged(var previous,var current)
     signal closeButtonClicked(var text,var uuid)

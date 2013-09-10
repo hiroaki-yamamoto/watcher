@@ -1,9 +1,10 @@
 import QtQuick 2.0
 Item{
     id: root
-    readonly property bool debug:true
+    readonly property bool debug:false
     property string title       :"Untitled"
     property string uuid        :"00000000-0000-0000-0000-000000000000"
+    readonly property alias currentSelectedTabContent:tab.currentPanel
     
     signal currentTabChanged(var previous,var current)
     signal closeButtonClicked(var text,var uuid)

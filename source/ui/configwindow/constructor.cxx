@@ -1,5 +1,4 @@
 #include <QList>
-#include <property_storage/property_storage.h>
 
 #include "configwindow.h"
 #include "qml_window_base.h"
