@@ -3,7 +3,7 @@
 #include <QPair>
 #include <QUuid>
 #include <QString>
-#include "qml_window_base.h"
+#include "tabwindow_base.h"
 namespace plugin{
     class root;
     class board;
@@ -11,7 +11,7 @@ namespace plugin{
 }
 namespace ui{
     class BoardTabContents;
-    class BoardWindow:public QMLWindowBase{
+    class BoardWindow:public TabWindowBase{
             Q_OBJECT
             Q_PROPERTY(QList<plugin::root *> *plugins READ plugins)
             Q_PROPERTY(storage::property_storage *property READ property)
@@ -32,7 +32,6 @@ namespace ui{
             void _reload();
             void _close();
         private:
-            QHash<QPair<QString,QUuid>,BoardTabContents *> _tabContents;
             QList<plugin::root *> *_plugins;
             storage::property_storage *_property;
     };

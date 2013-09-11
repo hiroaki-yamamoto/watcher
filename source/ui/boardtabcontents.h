@@ -1,23 +1,24 @@
 #pragma once
 #include <QObject>
 #include <QtNetwork/QNetworkReply>
+#include "tabcontents_base.h"
+#include "tabwindow_base.h"
 namespace plugin{
     class board;
     class topic;
 }
-template <class T> class QVector;
+class QQuickItem;
+class QString;
+class QUuid;
 
 namespace ui{
-    class BoardTabContents:public QObject{
+    class BoardTabContents:public TabContentsBase{
             Q_OBJECT
         public:
-            BoardTabContents(plugin::board *board,QObject *parent=nullptr);
+            BoardTabContents(const QString &root_title,const QUuid &root_uuid,TabWindowBase *parent=nullptr);
         signals:
             void responseMode(plugin::topic *topic);
-        private slots:
-            void _get_topics_finished(const QVector<plugin::topic *> &topics);
-            void _get_topics_failed(const QNetworkReply::NetworkError err,const QString &err_str);
-        private:
-            plugin::board *_board;
+        public slots:
+            QQuickItem *addTab(const QString &title, const QUuid &uuid);
     };
 }

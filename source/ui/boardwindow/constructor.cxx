@@ -4,10 +4,10 @@ namespace ui{
                              const QIcon &icon,
                              QList<plugin::root *> *plugins,
                              storage::property_storage *property,
-                             QMLWindowBase *parent):QMLWindowBase(title,icon,parent){
+                             QMLWindowBase *parent):TabWindowBase(title,icon,parent){
         this->_plugins=plugins;
         this->_property=property;
-        QMLWindowBase::_loadQMLFile("BoardWindow.qml");
+        this->_loadQMLFile("BoardWindow.qml");
         this->_createRelationBetweenSignalsAndSlots();
     }
 }

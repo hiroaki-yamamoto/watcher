@@ -1,3 +1,5 @@
+#include <loader/root.h>
+#include <loader/category.h>
 #include <loader/board.h>
 #include <QtDebug>
 #include "boardwindow.h"
@@ -9,10 +11,30 @@ namespace ui{
             else if(childName=="close") connect(this->_children.value(childName),SIGNAL(clicked()),SLOT(_close()));
         }
     }
+
     void BoardWindow::addTabContents(plugin::board *board){
-        auto &&key=qMakePair(board->title(),board->identifier());
-        qDebug()<<"Key:"<<key;
-        this->_tabContents.insert(key,new BoardTabContents(board,this));
+        /*
+        plugin::category *category;
+        if((category=qobject_cast<plugin::category *>(board->parent()))==nullptr){
+            qWarning()<<"("<<this->objectName()<<")"<<"Couldn't get parent of board. Adding board to "+this->objectName()+"failed";
+            return;
+        }
+        qDebug()<<"("<<this->objectName()<<"): Category:"<<"{title:"<<category->title()<<", UUID:"<<category->identifier().toString()<<"}";
+        
+        plugin::root *root;
+        if((root=qobject_cast<plugin::root *>(category->parent()))==nullptr){
+            qWarning()<<"("<<this->objectName()<<")"<<"Couldn't get root of. Adding board to "+this->objectName()+"failed";
+            return;
+        }
+        qDebug()<<"("<<this->objectName()<<"): Root:"<<"{title:"<<root->title()<<", UUID:"<<root->identifier().toString()<<"}";
+        auto &&key=qMakePair(root->title(),root->identifier());
+        if(this->_tabcontents.contains(key)){
+            
+        }else{
+            qDebug()<<"Adding:"<<key;
+            this->_tabcontents.insert(key,new BoardTabContents(root->title(),root->identifier(),board,this));
+        }
+        */
     }
 
     void BoardWindow::removeTopics(plugin::board *board){

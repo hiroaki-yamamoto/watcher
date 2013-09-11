@@ -20,6 +20,7 @@
 
 namespace ui{
     QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QMLWindowBase *parent):QQuickView(nullptr){
+        this->setObjectName(title);
         this->setTitle(title);
         this->setIcon(icon);
         this->_parent=parent;
