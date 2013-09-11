@@ -1,31 +1,52 @@
 #include "tabcontents_base.h"
-#include "qml_window_base.h"
+#include "tabwindow_base.h"
+#include "multitabcontents_base.h"
 #include<QtDebug>
 #include<QtQuick/QQuickItem>
 #include<QUuid>
 namespace ui{
-    TabContentsBase::TabContentsBase(const QString &title, const QUuid &uuid, QMLWindowBase *parent):QObject(parent){
+    TabContentsBase::TabContentsBase(const QString &title, const QUuid &uuid, TabWindowBase *parent):QObject(parent){
         this->setObjectName(uuid.toString());
         if(parent==nullptr){
             qWarning()<<"Tab{Title:"<<title<<", uuid:"<<uuid.toString()<<"}: parent=null is not allowed.";
             this->deleteLater();
             return;
         }
-        this->_parent=parent;
-        QVariant tabcontent;
+        this->_parentWindow=parent;
+        this->_parentTab=nullptr;
         //If adding tab is failed, RootTabContents should be deleted.
-        if(!QMetaObject::invokeMethod(this->_parent->rootObject(),"addTab",Q_RETURN_ARG(QVariant,tabcontent),
-                                  Q_ARG(QVariant,QVariant(title)),
-                                  Q_ARG(QVariant,QVariant(uuid.toString())))){
+        if((this->_tabcontents=this->_parentWindow->addTab(title,uuid))==nullptr){
             qWarning()<<"("<<this->objectName()<<"): Adding tab failed.";
             this->deleteLater();
             return;
         }
-        this->_tabcontents=tabcontent.value<QQuickItem *>();
         this->_tabcontents->setObjectName(uuid.toString());
     }
+    TabContentsBase::TabContentsBase(const QString &title, const QUuid &uuid,TabContentsBase *parent):QObject(parent){
+        this->setObjectName(uuid.toString());
+        if(parent==nullptr){
+            qWarning()<<"Tab{Title:"<<title<<", uuid:"<<uuid.toString()<<"}: parent=null is not allowed.";
+            this->deleteLater();
+            return;
+        }
+        this->_parentTab=parent;
+        this->_parentWindow=nullptr;
+        //If adding tab is failed, RootTabContents should be deleted.
+        if((this->_tabcontents=this->_parentTab->addTab(title,uuid))==nullptr){
+            qWarning()<<"("<<this->objectName()<<"): Adding tab failed.";
+            this->deleteLater();
+            return;
+        }
+        this->_tabcontents->setObjectName(uuid.toString());
+    }
+    
     QString TabContentsBase::title() const{return this->_tabcontents->property("title").toString();}
     QUuid TabContentsBase::UUID() const{return this->_tabcontents->property("uuid").toString();}
+    QQuickItem *TabContentsBase::addTab(const QString &title,const QUuid &uuid){
+        Q_UNUSED(title)
+        Q_UNUSED(uuid)
+        return nullptr;
+    }
     void TabContentsBase::setTitle(const QString &title){
         QString &&previous=this->title();
         this->_tabcontents->setProperty("title",title);

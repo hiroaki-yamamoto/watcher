@@ -1,3 +1,4 @@
+#include <QVariant>
 #include <QtQuick/QQuickItem>
 #include <QtDebug>
 #include "tabwindow_base.h"
@@ -15,5 +16,12 @@ namespace ui{
             qDebug()<<"("<<this->objectName()<<": TabContent Named:"<<tab_title<<" couldn't be found.";
             return nullptr;
         }else return this->_tabcontents[tab_key];
+    }
+    QQuickItem *TabWindowBase::addTab(const QString &title, const QUuid &uuid){
+        QVariant variant;
+        if(!QMetaObject::invokeMethod(this->rootObject(),"addTab",Q_RETURN_ARG(QVariant,variant),
+                Q_ARG(QVariant,QVariant(title)),Q_ARG(QVariant,QVariant(uuid.toString())))){
+            return nullptr;
+        }else return variant.value<QQuickItem *>();
     }
 }
