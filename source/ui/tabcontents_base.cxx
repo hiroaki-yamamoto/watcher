@@ -1,6 +1,5 @@
 #include "tabcontents_base.h"
 #include "tabwindow_base.h"
-#include "multitabcontents_base.h"
 #include<QtDebug>
 #include<QtQuick/QQuickItem>
 #include<QUuid>
@@ -56,6 +55,21 @@ namespace ui{
         QUuid &&previous=this->UUID();
         this->_tabcontents->setProperty("uuid",uuid.toString());
         if(uuid!=previous) emit this->uuidChanged();
+    }
+    
+    TabContentsBase *TabContentsBase::_getCurrentTabContents(){
+        QQuickItem *currentTab=this->_tabcontents->property("currentSelectedTabContent").value<QQuickItem *>();
+        if(currentTab==nullptr){
+            qDebug()<<"("<<this->objectName()<<": currentSelectedTabContent is null.";
+            return nullptr;
+        }
+        QUuid tab_uuid=QUuid(currentTab->property("uuid").toString());
+        QString tab_title=currentTab->property("title").toString();
+        QPair<QString,QUuid> tab_key=qMakePair(tab_title,tab_uuid);
+        if(!this->_childrenTabs.contains(tab_key)){
+            qDebug()<<"("<<this->objectName()<<": TabContent Named:"<<tab_title<<" couldn't be found.";
+            return nullptr;
+        }else return this->_childrenTabs[tab_key];
     }
 
     void TabContentsBase::deleteLater(){

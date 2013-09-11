@@ -1,4 +1,6 @@
 #pragma once
+#include<QHash>
+#include<QPair>
 #include<QObject>
 #include<QString>
 #include<QUuid>
@@ -24,6 +26,8 @@ namespace ui{
             void setUUID(const QUuid &uuid);
             virtual void deleteLater();
         protected:
+            virtual TabContentsBase *_getCurrentTabContents();
+            QHash<QPair<QString,QUuid>,TabContentsBase *> _childrenTabs;
             TabWindowBase *_parentWindow;
             TabContentsBase *_parentTab;
             QQuickItem *_tabcontents;
