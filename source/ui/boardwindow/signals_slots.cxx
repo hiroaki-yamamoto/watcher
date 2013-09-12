@@ -13,28 +13,20 @@ namespace ui{
     }
 
     void BoardWindow::addTabContents(plugin::board *board){
-        /*
-        plugin::category *category;
-        if((category=qobject_cast<plugin::category *>(board->parent()))==nullptr){
-            qWarning()<<"("<<this->objectName()<<")"<<"Couldn't get parent of board. Adding board to "+this->objectName()+"failed";
-            return;
+        plugin::category *category=qobject_cast<decltype(category)>(board->parent());
+        if(category==nullptr){
+            qWarning()<<"("<<this->objectName()<<"): Adding Tab Contents Failed (the pointer of the parent object is null.)";
         }
-        qDebug()<<"("<<this->objectName()<<"): Category:"<<"{title:"<<category->title()<<", UUID:"<<category->identifier().toString()<<"}";
-        
-        plugin::root *root;
-        if((root=qobject_cast<plugin::root *>(category->parent()))==nullptr){
-            qWarning()<<"("<<this->objectName()<<")"<<"Couldn't get root of. Adding board to "+this->objectName()+"failed";
-            return;
+        plugin::root *root=qobject_cast<decltype(root)>(category->parent());
+        if(root==nullptr){
+            qWarning()<<"("<<this->objectName()<<"): Adding Tab Contents Failed (the pointer of the parent object is null.)";
         }
-        qDebug()<<"("<<this->objectName()<<"): Root:"<<"{title:"<<root->title()<<", UUID:"<<root->identifier().toString()<<"}";
-        auto &&key=qMakePair(root->title(),root->identifier());
+        QPair<QString,QUuid> &&key=qMakePair(root->title(),root->identifier());
         if(this->_tabcontents.contains(key)){
-            
+            BoardTabContents *contents=qobject_cast<decltype(contents)>(this->_tabcontents[key]);
         }else{
-            qDebug()<<"Adding:"<<key;
-            this->_tabcontents.insert(key,new BoardTabContents(root->title(),root->identifier(),board,this));
+            this->_tabcontents.insert(key,new BoardTabContents(root->title(),root->identifier(),this));
         }
-        */
     }
 
     void BoardWindow::removeTopics(plugin::board *board){

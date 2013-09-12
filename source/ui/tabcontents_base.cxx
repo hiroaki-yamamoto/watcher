@@ -42,9 +42,12 @@ namespace ui{
     QString TabContentsBase::title() const{return this->_tabcontents->property("title").toString();}
     QUuid TabContentsBase::UUID() const{return this->_tabcontents->property("uuid").toString();}
     QQuickItem *TabContentsBase::addTab(const QString &title,const QUuid &uuid){
-        Q_UNUSED(title)
-        Q_UNUSED(uuid)
-        return nullptr;
+        QVariant variant;
+        if(!QMetaObject::invokeMethod(this->_tabcontents,"addTab",Q_RETURN_ARG(QVariant,variant),
+                                      Q_ARG(QVariant,QVariant(title)),Q_ARG(QVariant,QVariant(uuid.toString())))){
+            qWarning()<<"("<<this->objectName()<<"):Adding Tab failed:{title:"<<title<<",uuid:"<<uuid.toString()<<"}";
+            return nullptr;
+        }else return variant.value<QQuickItem *>();
     }
     void TabContentsBase::setTitle(const QString &title){
         QString &&previous=this->title();

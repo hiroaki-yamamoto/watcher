@@ -9,9 +9,6 @@ Requirements:
 *) make
 *) Qt5 or later. I recommend to install all features. I'll implement new feature in the feature.
 
-Optional:
-*) Lua (This hasn't been used yet. But, there is a replacement plan from C++ Based Plugin Loader to Lua)
-
 Instruction:
 1) Open your fevorite terminal.
 2) $> cd path/to/watcher

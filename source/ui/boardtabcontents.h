@@ -2,7 +2,6 @@
 #include <QObject>
 #include <QtNetwork/QNetworkReply>
 #include "tabcontents_base.h"
-#include "tabwindow_base.h"
 namespace plugin{
     class board;
     class topic;
@@ -10,15 +9,18 @@ namespace plugin{
 class QQuickItem;
 class QString;
 class QUuid;
+class TabWindowBase;
 
 namespace ui{
     class BoardTabContents:public TabContentsBase{
             Q_OBJECT
         public:
-            BoardTabContents(const QString &root_title,const QUuid &root_uuid,TabWindowBase *parent=nullptr);
+            //I want to use constructor inheritence, but compiler outputs version confliction error.
+            BoardTabContents(const QString &title,const QUuid &uuid,TabWindowBase *parent=nullptr);
+            BoardTabContents(const QString &title,const QUuid &uuid,TabContentsBase *parent=nullptr);
+        public slots:
+            void addBoard(plugin::board *board);
         signals:
             void responseMode(plugin::topic *topic);
-        public slots:
-            QQuickItem *addTab(const QString &title, const QUuid &uuid);
     };
 }
