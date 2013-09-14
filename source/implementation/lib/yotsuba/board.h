@@ -7,6 +7,7 @@
 
 class QNetworkReply;
 class QNetworkAccessManager;
+class QTextDocument;
 namespace plugin{
     class topic;
 }
@@ -28,6 +29,7 @@ namespace yotsuba{
             std::mt19937 *_mt;
             QString _dir;
             QUrl _board_url;
+            QTextDocument *_documentProcessor;
             QNetworkAccessManager *_accessmanager;
     };
 }
