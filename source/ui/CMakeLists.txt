@@ -34,6 +34,7 @@ set(src
     "boardtabcontents.cxx"
     "tabcontents_base.cxx"
     "tabwindow_base.cxx"
+    "topicview.cxx"
 
     "configwindow/constructor.cxx"
     "configwindow/properties.cxx"

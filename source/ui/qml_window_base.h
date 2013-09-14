@@ -35,6 +35,8 @@ namespace ui{
             void exitApplication();
             void restartApplication();
             void setParent(QMLWindowBase *parent);
+        signals:
+            void loaded();
         protected:
             virtual QFileInfo _getQMLFileFromSelectedThemes(const QString &file);
             /*

@@ -2,7 +2,7 @@ import QtQuick 2.0
 Item{
     id:root
     height:text_back.height
-    property alias URL:url_text.text
+    property alias url:url_text.text
     Rectangle{
         id:text_back
         radius:3

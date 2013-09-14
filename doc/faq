@@ -10,9 +10,12 @@ Q.  How can I add plugins?
 A.  1) Open your terminal
     2) Build the plugins.
     3) Copy the plugins into ~/watcher/plugins
+    
+    All operations are like modding.
 
 Q.  How can I add themes?
 A.  1) Copy the theme directory into ~/watcher/themes
+        Note that you need to copy the directory.
 
 Q.  How can I develop plugins/theme?
 A.  See API manuals.
@@ -37,15 +40,15 @@ A.  Sure, patches are welcome, but don't forget I have a choice whether your pat
 Q.  Can I send bug reports?
 A.  Sure, I know bug reports are very important to improve the software. To repro the bug, you need the following stuff.
     *) The order to repro the bug.
-    *) The repetition of the bug.
-    *) The timing of the bug occurrence.
+    *) The repetition and timing of the bug.
     *) Setting file (I have a program to check the integrity.)
     *) Unofficial plugins or themes if you have.
     *) GDB Dump file if you are using debug build.
 
 If you found bugs, please let me know.
-============================
+=====================================
 Hiroaki Yamamoto
 admin@hysoftware.net
 http://hysoftware.net
-============================
+http://github.com/hysoftware/watcher
+=====================================

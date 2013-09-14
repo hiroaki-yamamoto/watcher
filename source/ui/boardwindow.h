@@ -25,7 +25,6 @@ namespace ui{
             storage::property_storage *property() const;
         public slots:
             void addTabContents(plugin::board *board);
-            void removeTopics(plugin::board *board);
         private slots:
             void _responseMode(plugin::topic *topic);
             void _createRelationBetweenSignalsAndSlots();
