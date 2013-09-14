@@ -1,18 +1,36 @@
 project(watcher-ui)
-add_custom_command(
-    OUTPUT default
-    COMMAND mkdir ARGS -p ${CMAKE_BINARY_DIR}/themes
-    COMMAND cp ARGS -r ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
-    COMMENT "Copying default theme file..."
-)
 
-add_custom_target(
-    default_ui_copy ALL
-    DEPENDS default
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
+if(WIN32)
+    add_custom_command(
+        OUTPUT default
+        COMMAND md ARGS ${CMAKE_BINARY_DIR}/themes
+        COMMAND xcopy ARGS ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes /E
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
+        COMMENT "Copying default theme file..."
+    )
+    
+    add_custom_target(
+        default_ui_copy ALL
+        DEPENDS default
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+else(WIN32)
+    add_custom_command(
+        OUTPUT default
+        COMMAND mkdir ARGS -p ${CMAKE_BINARY_DIR}/themes
+        COMMAND cp ARGS -r ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
+        COMMENT "Copying default theme file..."
+    )
+    
+    add_custom_target(
+        default_ui_copy ALL
+        DEPENDS default
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+endif(WIN32)
 
 qt5_add_resources(rc_out "resource.qrc") 
 qt5_wrap_ui(ui_generated
