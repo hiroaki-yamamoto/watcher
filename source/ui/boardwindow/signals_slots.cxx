@@ -1,6 +1,7 @@
 #include <loader/root.h>
 #include <loader/category.h>
 #include <loader/board.h>
+#include<QtQuick/QQuickItem>
 #include <QtDebug>
 #include "boardwindow.h"
 #include "boardtabcontents.h"
@@ -22,15 +23,14 @@ namespace ui{
             qWarning()<<"("<<this->objectName()<<"): Adding Tab Contents Failed (the pointer of the parent object is null.)";
         }
         QPair<QString,QUuid> &&key=qMakePair(root->title(),root->identifier());
+        BoardTabContents *contents=nullptr;
         if(this->_tabcontents.contains(key)){
-            BoardTabContents *contents=qobject_cast<decltype(contents)>(this->_tabcontents[key]);
+            contents=qobject_cast<decltype(contents)>(this->_tabcontents[key]);
         }else{
-            this->_tabcontents.insert(key,new BoardTabContents(root->title(),root->identifier(),this));
+            contents=new BoardTabContents(root->title(),root->identifier(),this);
+            this->_tabcontents.insert(key,contents);
         }
-    }
-
-    void BoardWindow::removeTopics(plugin::board *board){
-        
+        contents->addBoard(board);
     }
 
     void BoardWindow::_responseMode(plugin::topic *topic){

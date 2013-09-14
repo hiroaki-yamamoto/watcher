@@ -15,7 +15,8 @@ HEADERS +=      rootwindow.h \
                 boardtabcontents.h \
                 topicwindow.h \
                 tabcontents_base.h \
-                tabwindow_base.h
+                tabwindow_base.h \
+                topicview.h
 
 SOURCES +=      versionwindow.cxx \
                 configwindow/constructor.cxx \
@@ -43,7 +44,8 @@ SOURCES +=      versionwindow.cxx \
                 roottabcontents.cxx \
                 boardtabcontents.cxx \
                 tabcontents_base.cxx \
-                tabwindow_base.cxx
+                tabwindow_base.cxx \
+                topicview.cxx
 
 OTHER_FILES+=   default/Button.qml \
                 default/RootWindow.qml \

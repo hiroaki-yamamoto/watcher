@@ -62,6 +62,7 @@ namespace ui{
         this->setMinimumSize(this->sizeHint());
         this->rootContext()->setContextProperty("window",this);
         this->rootContext()->setContextProperty("property",qobject_cast<storage::property_storage *>(this->property()));
+        emit this->loaded();
     }
     void QMLWindowBase::_loadQMLFile(const QString &file){
         QFileInfo info=this->_getQMLFileFromSelectedThemes(file);

@@ -3,7 +3,7 @@ Item{
     id:root
     property string title:"Untitled"
     property string uuid:"00000000-0000-0000-0000-000000000000"
-    property alias boardURL:locationBar.URL
+    property alias boardURL:locationBar.url
     readonly property bool debug:false
     property bool hasAnimation:false
     

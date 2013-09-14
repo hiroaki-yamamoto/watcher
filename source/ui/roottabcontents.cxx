@@ -175,7 +175,6 @@ namespace ui{
         categories.sort([](const plugin::category *a,const plugin::category *b)->bool{return a->title().compare(b->title())<0;});
         for(const plugin::category *category:categories){
             this->_addButton(category->title(),category->description(),category->identifier());
-            qDebug()<<"("<<this->objectName()<<")"<<":Category UUID:"<<category->identifier();
         }
         if(this->_hasAnimation) QMetaObject::invokeMethod(this->_tabcontents,"show");
     }
@@ -185,7 +184,6 @@ namespace ui{
         boards.sort([](const plugin::board *a,const plugin::board *b)->bool{return a->title().compare(b->title())<0;});
         for(const plugin::board *board:boards){
             this->_addButton(board->title(),board->description(),board->identifier());
-            qDebug()<<"("<<this->objectName()<<")"<<":Board UUID:"<<board->identifier();
         }
         if(this->_hasAnimation) QMetaObject::invokeMethod(this->_tabcontents,"show");
     }

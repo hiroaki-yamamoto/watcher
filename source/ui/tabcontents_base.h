@@ -20,11 +20,12 @@ namespace ui{
             void titleChanged();
             void uuidChanged();
         public slots:
-            //By default, this function does nothing and always returns nulltpr.
             virtual QQuickItem *addTab(const QString &title,const QUuid &uuid);
+            virtual void removeTab(const QString &title,const QUuid &uuid);
             void setTitle(const QString &title);
             void setUUID(const QUuid &uuid);
             virtual void deleteLater();
+            virtual void _closeButtonClicked(const QVariant &title,const QVariant &uuid);
         protected:
             virtual TabContentsBase *_getCurrentTabContents();
             QHash<QPair<QString,QUuid>,TabContentsBase *> _childrenTabs;

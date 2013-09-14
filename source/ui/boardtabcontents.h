@@ -17,7 +17,6 @@ namespace ui{
         public:
             //I want to use constructor inheritence, but compiler outputs version confliction error.
             BoardTabContents(const QString &title,const QUuid &uuid,TabWindowBase *parent=nullptr);
-            BoardTabContents(const QString &title,const QUuid &uuid,TabContentsBase *parent=nullptr);
         public slots:
             void addBoard(plugin::board *board);
         signals:
