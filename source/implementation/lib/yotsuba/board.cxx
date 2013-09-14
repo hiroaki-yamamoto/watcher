@@ -10,6 +10,7 @@
 #include <QPair>
 #include <QtDebug>
 #include <QHash>
+#include <QTextDocument>
 #include "api_urls.h"
 #include "attribute.h"
 #include "board.h"
@@ -25,6 +26,7 @@ namespace yotsuba{
             return;
         }
         this->_accessmanager=accessManager;
+        this->_documentProcessor=new QTextDocument(this);
         this->_mt=mt;
     }
 
@@ -102,10 +104,13 @@ namespace yotsuba{
                 topic->setTopicURL(this->board_url().resolved("res/"+QString::number(topic->topicID())));
                 topic->setIdentifier(QUuid::createUuidV5(this->identifier(),QString::number(topic->topicID())));
                 QString subject=topic_obj["sub"].toString(),name=topic_obj["name"].toString();
+                if(topic_obj.contains("trip")&&topic_obj["trip"].type()==QJsonValue::String) name+=topic_obj["trip"].toString();
                 if(subject.isEmpty()) subject="Untitled";
                 if(name.isEmpty()) name="Anonymouse";
-                topic->setTitle(subject);
-                topic->setAuthor(name);
+                this->_documentProcessor->setHtml(subject);
+                topic->setTitle(this->_documentProcessor->toPlainText());
+                this->_documentProcessor->setHtml(name);
+                topic->setAuthor(this->_documentProcessor->toPlainText());
                 if(topic_obj.contains("com")&&topic_obj["com"].isString())
                     topic->setDescription(topic_obj["com"].toString());
                 topics<<topic;
