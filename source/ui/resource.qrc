@@ -18,5 +18,6 @@
         <file alias="Button.qml">failsafe/Button.qml</file>
         <file alias="ScrollBar.qml">failsafe/ScrollBar.qml</file>
         <file alias="ToolTip.qml">failsafe/ToolTip.qml</file>
+        <file alias="BoardWindow.qml">failsafe/BoardWindow.qml</file>
     </qresource>
 </RCC>

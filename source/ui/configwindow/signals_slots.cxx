@@ -2,6 +2,7 @@
 #include <QUuid>
 #include <QFileInfo>
 #include <QFile>
+#include <QList>
 #include <QtDebug>
 
 #include "configwindow.h"
@@ -129,13 +130,10 @@ namespace ui{
         const QVariant &&id=QVariant(sender_panel->plugin_instance()->identifier());
         if(!enabled){
             if(!disabled_plugin_list.contains(id)) disabled_plugin_list<<id;
-        } else{
-            QVariantList &&setting_disabled_plugins=this->_property->get(default_value::setting_default::name_disabled_plugins_uuid()).toList();
-            if(setting_disabled_plugins.contains(id)){
-                disabled_plugin_list=setting_disabled_plugins;
-                disabled_plugin_list.removeAll(id);
-            }else if(disabled_plugin_list.contains(id)) disabled_plugin_list.removeAll(id);
+        }else{
+            if(disabled_plugin_list.contains(id)) disabled_plugin_list.removeAll(id);
         }
         this->_modified_setting[default_value::setting_default::name_disabled_plugins_uuid()]=disabled_plugin_list;
+        qDebug()<<this->_modified_setting[default_value::setting_default::name_disabled_plugins_uuid()];
     }
 }

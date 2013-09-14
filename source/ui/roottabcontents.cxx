@@ -15,41 +15,21 @@
 
 #include "roottabcontents.h"
 #include "rootwindow.h"
+#include "tabcontents_base.h"
 namespace ui{
-    RootTabContents::RootTabContents(plugin::root *plugin_root, ui::RootWindow *parent):QObject(parent){
-        this->setObjectName(plugin_root->identifier().toString());
+    RootTabContents::RootTabContents(plugin::root *plugin_root, ui::RootWindow *parent):
+        TabContentsBase(plugin_root->title(),plugin_root->identifier(),parent){
         this->_root=plugin_root;
-        this->_parent=parent;
         this->_state=RootTabContents::Category;
-        this->_tabcontent=nullptr;
-        QVariant tabcontent;
-        //If adding tab is failed, RootTabContents should be deleted.
-        if(!QMetaObject::invokeMethod(this->_parent->rootObject(),"addTab",Q_RETURN_ARG(QVariant,tabcontent),
-                                  Q_ARG(QVariant,QVariant(this->_root->title())),
-                                  Q_ARG(QVariant,QVariant(this->_root->identifier().toString())))){
-            qWarning()<<"("<<this->objectName()<<"): Adding tab failed.";
-            this->deleteLater();
-            return;
-        }
-        this->_tabcontent=tabcontent.value<QQuickItem *>();
-        this->_tabcontent->setObjectName(plugin_root->identifier().toString());
+
         connect(this->_root,SIGNAL(get_categories_finished(QVector<plugin::category*>)),
                 SLOT(_get_category_completed(QVector<plugin::category*>)));
         connect(this->_root,SIGNAL(get_categories_failed(QNetworkReply::NetworkError,QString)),
                             SLOT(_get_category_failed(QNetworkReply::NetworkError,QString)));
-        connect(this->_tabcontent,SIGNAL(buttonClicked(QVariant)),SLOT(button_clicked(QVariant)));
-        QVariant &&hasAnimation=this->_tabcontent->property("hasAnimation");
+        connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(button_clicked(QVariant)));
+        QVariant &&hasAnimation=this->_tabcontents->property("hasAnimation");
         this->_hasAnimation=hasAnimation.type()==QMetaType::Bool&&hasAnimation.toBool();
         this->_root->get_categories();
-    }
-    void RootTabContents::deleteLater(){
-        if(this->_tabcontent!=nullptr){
-            qDebug()<<"("<<this->objectName()<<"):"<<"Deleting tab:"<<this->objectName();
-            this->_tabcontent->deleteLater();
-        }else{
-            qDebug()<<"("<<this->objectName()<<"):Tab is null";
-        }
-        QObject::deleteLater();
     }
     bool RootTabContents::categories_empty()const{return this->_category_hash.isEmpty();}
     bool RootTabContents::boards_empty()const{return this->_board_hash.isEmpty();}
@@ -74,13 +54,13 @@ namespace ui{
     
     RootTabContents::ViewState RootTabContents::state(){return this->_state;}
     QString RootTabContents::TabName() const{
-        if(this->_tabcontent->property("title").type()!=QMetaType::QString){
+        if(this->_tabcontents->property("title").type()!=QMetaType::QString){
             qWarning()<<this->objectName()<<": Couldn't get the name of the tab.";
             return QString();
         }
-        return this->_tabcontent->property("title").toString();
+        return this->_tabcontents->property("title").toString();
     }
-    void RootTabContents::setTabName(const QString &name){this->_tabcontent->setProperty("title",name);}
+    void RootTabContents::setTabName(const QString &name){this->_tabcontents->setProperty("title",name);}
     void RootTabContents::button_clicked(QVariant button_var){
         qDebug()<<"("<<this->objectName()<<"):Current State:"<<this->_state;
         this->_contentsName.insert(this->_state,
@@ -93,8 +73,8 @@ namespace ui{
     void RootTabContents::_do_switch(const SwitchInstruction sw){
         this->_sw_inst=sw;
         if(this->_hasAnimation&&(sw!=RootTabContents::ContentsSwitch||this->_state==RootTabContents::Category)){
-            connect(this->_tabcontent,SIGNAL(hideAnimationCompleted()),SLOT(_process_switch_instruction()));
-            QMetaObject::invokeMethod(this->_tabcontent,"hide");
+            connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),SLOT(_process_switch_instruction()));
+            QMetaObject::invokeMethod(this->_tabcontents,"hide");
         }else this->_process_switch_instruction();
     }
     void RootTabContents::_process_switch_instruction(){
@@ -104,7 +84,7 @@ namespace ui{
                 case RootTabContents::Forward:       this->_forward();           break;
                 case RootTabContents::Reload:        this->_reload();            break;
         }
-        if(this->_hasAnimation) this->_tabcontent->disconnect(SIGNAL(hideAnimationCompleted()));
+        if(this->_hasAnimation) this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()));
     }
     
     void RootTabContents::_switch_contents(){
@@ -181,13 +161,13 @@ namespace ui{
         }
     }
     void RootTabContents::_addButton(const QString &button_text, const QString &detailed_text, const QUuid &id){
-        QMetaObject::invokeMethod(this->_tabcontent,
+        QMetaObject::invokeMethod(this->_tabcontents,
                                   "addButton",
                                   Q_ARG(QVariant,button_text),
                                   Q_ARG(QVariant,detailed_text),
                                   Q_ARG(QVariant,QVariant(id.toString())));
     }
-    void RootTabContents::_clearButtons(){QMetaObject::invokeMethod(this->_tabcontent,"clearButtons");}
+    void RootTabContents::_clearButtons(){QMetaObject::invokeMethod(this->_tabcontents,"clearButtons");}
 
     void RootTabContents::_set_category(){
         this->_clearButtons();
@@ -195,9 +175,8 @@ namespace ui{
         categories.sort([](const plugin::category *a,const plugin::category *b)->bool{return a->title().compare(b->title())<0;});
         for(const plugin::category *category:categories){
             this->_addButton(category->title(),category->description(),category->identifier());
-            qDebug()<<"("<<this->objectName()<<")"<<":Category UUID:"<<category->identifier();
         }
-        if(this->_hasAnimation) QMetaObject::invokeMethod(this->_tabcontent,"show");
+        if(this->_hasAnimation) QMetaObject::invokeMethod(this->_tabcontents,"show");
     }
     void RootTabContents::_set_board(){
         this->_clearButtons();
@@ -205,9 +184,8 @@ namespace ui{
         boards.sort([](const plugin::board *a,const plugin::board *b)->bool{return a->title().compare(b->title())<0;});
         for(const plugin::board *board:boards){
             this->_addButton(board->title(),board->description(),board->identifier());
-            qDebug()<<"("<<this->objectName()<<")"<<":Board UUID:"<<board->identifier();
         }
-        if(this->_hasAnimation) QMetaObject::invokeMethod(this->_tabcontent,"show");
+        if(this->_hasAnimation) QMetaObject::invokeMethod(this->_tabcontents,"show");
     }
     
     //Error case

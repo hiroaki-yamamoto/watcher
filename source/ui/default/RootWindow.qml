@@ -5,9 +5,10 @@ Rectangle {
     objectName: "viewRoot"
     width:600
     height:640
-    property bool debug:false
-    property alias currentSelectedTabContent:tab.currentPanel
+    readonly property bool debug:false
+    readonly property alias currentSelectedTabContent:tab.currentPanel
     signal currentTabChanged(var previous,var current)
+    signal tabCreated(var createdTab)
     Rectangle{
         id:menu_background
         anchors{
@@ -26,11 +27,8 @@ Rectangle {
         }
         color:"gray"
         Row{
-            anchors{
-                margins:5
-                verticalCenter: parent.verticalCenter
-                left:parent.left
-            }
+            id:menu_row
+            anchors.fill: menu_background
             spacing:2
             Button{
                 id:back
@@ -40,6 +38,8 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Go back")
                 tooltip_body: qsTr("Go back to previous view.")
+                radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             
             Button{
@@ -50,6 +50,8 @@ Rectangle {
                 icon:"icons/go-next.png"
                 tooltip_title:qsTr("Go forward")
                 tooltip_body:qsTr("Go forward.")
+                radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
 
             Button{
@@ -61,12 +63,14 @@ Rectangle {
                 tooltip_title: qsTr("Reload")
                 tooltip_body: qsTr("Reload category list.")
                 radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
-            Rectangle{
-                width:1
-                height:parent.height
+            Spacer{
+                toFit: menu_row
                 color:"lightgray"
+                anchors.verticalCenter: menu_row.verticalCenter
             }
+
             Button{
                 id:bookmark
                 objectName:"bookmark"
@@ -76,12 +80,13 @@ Rectangle {
                 tooltip_title: qsTr("Bookmark")
                 tooltip_body: qsTr("Open Bookmark Manager")
                 radius:2
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             
-            Rectangle{
-                width:1
-                height:parent.height
+            Spacer{
+                toFit: menu_row
                 color:"lightgray"
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:config
@@ -92,6 +97,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Settings")
                 tooltip_body:qsTr("Configure settings.")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:save
@@ -102,6 +108,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Export")
                 tooltip_body:qsTr("Export settings and Bookmarks.")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:open
@@ -112,12 +119,13 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: qsTr("Import")
                 tooltip_body:qsTr("Import settings and Bookmarks.")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
 
-            Rectangle{
-                width:1
-                height:parent.height
+            Spacer{
+                toFit: menu_row
                 color:"lightgray"
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:info
@@ -128,6 +136,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title:qsTr("About")
                 tooltip_body:qsTr("About this software")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
             Button{
                 id:exit
@@ -138,6 +147,7 @@ Rectangle {
                 show_tooltip: true
                 tooltip_title: "Exit"
                 tooltip_body: qsTr("Quit this application")
+                anchors.verticalCenter: menu_row.verticalCenter
             }
         }
     }
@@ -161,27 +171,27 @@ Rectangle {
             function addTab(tabText,uuid){
                 var createdComponent=Qt.createComponent("RootTabContent.qml")
                 if(createdComponent.status===Component.Ready){
-                    var createdContent=createdComponent.createObject()
-                    createdContent.title=tabText
-                    createdContent.uuid=uuid
-                    createdContent.parent=tab.tabPanel
+                    var createdContent=createdComponent.createObject(tab.tabPanel,{"title":tabText,"uuid":uuid})
                     return createdContent
                 }
             }
         }
     }
-    function addTab(tabText,uuid){return tab.addTab(tabText,uuid)}
+    function addTab(tabText,uuid){
+        var createdTab=tab.addTab(tabText,uuid)
+        if(createdTab===undefined) console.log("TabContent("+tabText+":"+uuid+") couldn't be created.");
+        else return createdTab;
+    }
+    
 
     Component.onCompleted: {
         if(debug){
-            var createdContent1=addTab("CategoryView1")
+            var createdContent1=addTab("CategoryView1","00000000-0000-0000-0000-000000000000")
             createdContent1.buttonClickedEvent=function(sender_button){
                 console.log("Clicked");
             }
     
-            var createdContent2=addTab("CategoryView2")
-            for(var i=0;i<256;i++) addButton(createdContent1,"test "+i)
-            for(var i=0;i<100;i++) addButton(createdContent2,"test2 "+i)
+            var createdContent2=addTab("CategoryView2","00000000-0000-0000-0000-000000000001")
         }
     }
 }

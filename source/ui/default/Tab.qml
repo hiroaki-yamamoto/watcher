@@ -1,16 +1,16 @@
 import QtQuick 2.0
+import QtQml 2.0
 
 Item{
     id:root
-
-    default property alias  children        :panel.children
+    
     property Item           tabPanel        :panel
     property alias          currentPanel    :panel.current
     property bool           useClosebutton  :false
     property int            orientation     :Qt.Horizontal
     property alias          titleBorder     :view_rect.border
     property alias          contentBorder   :panel.border
-    signal closeButtonClicked(var uuid)
+    signal closeButtonClicked(var text,var uuid)
     signal currentTabChanged(var previous,var current)
        
     clip: true
@@ -42,7 +42,6 @@ Item{
                 text:title
                 selectable:true
                 Component.onCompleted:{
-                    console.log("Width:"+width+" Height:"+height)
                     if(index==0) select()
                 }
                 onSelected: {
@@ -53,14 +52,14 @@ Item{
                     panel.select(index)
                 }
                 onDeselected: if(buttons_model.selected===button) button.select()
-                onCloseButtonClicked: root.closeButtonClicked(button.uuid)
+                onCloseButtonClicked: root.closeButtonClicked(button.text,button.uuid)
             }
         }
         ListView{
             id:button_view
             model:buttons_model
             clip: false
-            orientation:ListView.Horizontal
+            z:0
         }
 
         color:"transparent"
@@ -78,8 +77,10 @@ Item{
         property Item previous:null
         onChildrenChanged: {
             titleModel.clear()
-            for(var index=0;index<children.length;index++){
+            for(var index in children){
                 titleModel.append({"title":children[index].title,"idex":index,"identifier":children[index].uuid})
+                children[index].titleChanged.connect(reloadTitleBar)
+                children[index].uuidChanged.connect(reloadTitleBar)
                 if(index>0)children[index].visible=false
             }
         }
@@ -90,7 +91,16 @@ Item{
             if(current!==null)current.visible=true
             currentTabChanged(previous,current)
             previous=current
+            console.log("current.title:"+current.title)
         }
+        function reloadTitleBar(){
+            titleModel.clear()
+            for(var index in children){
+                titleModel.append({"title":children[index].title,"idex":index,"identifier":children[index].uuid})
+                if(index>0)children[index].visible=false
+            }
+        }
+
         function select(i){
             current=children[i]
         }
@@ -111,6 +121,11 @@ Item{
                 }
             }
             PropertyChanges{
+                target: button_view
+                orientation:ListView.Horizontal
+                anchors.fill: view_rect
+            }
+            PropertyChanges{
                 target:panel
                 anchors{
                     margins:5
@@ -119,11 +134,6 @@ Item{
                     left:parent.left
                     right:parent.right
                 }
-            }
-            PropertyChanges{
-                target: button_view
-                orientation:ListView.Horizontal
-                anchors.fill: view_rect
             }
             
         },
@@ -141,6 +151,17 @@ Item{
                 }
             }
             PropertyChanges{
+                target: button_view
+                width:view_rect.height
+                height:view_rect.width
+                orientation:ListView.Horizontal
+                transformOrigin:Item.TopLeft
+                layoutDirection:ListView.RightToLeft
+                rotation:-90
+                x:0
+                y:view_rect.height
+            }
+            PropertyChanges{
                 target:panel
                 anchors{
                     margins:5
@@ -149,17 +170,6 @@ Item{
                     left:view_rect.right
                     right:parent.right
                 }
-            }
-            PropertyChanges{
-                target: button_view
-                
-                width:view_rect.height
-                height:view_rect.width
-                transformOrigin:Item.TopLeft
-                layoutDirection:ListView.RightToLeft
-                rotation:-90
-                x:0
-                y:view_rect.height
             }
         }
     ]

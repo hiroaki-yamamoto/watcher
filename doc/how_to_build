@@ -1,15 +1,13 @@
 How to Build
 ============
-Requirement:
+Requirements:
+*) libserializer (it can be found:http://hysoftware.net/softview.htm?type=software&file=/settings/software/simple_serializer.json)
 *) GNU/Linux or BSD.
 *) coreutils
 *) gcc-4.8
 *) cmake
 *) make
 *) Qt5 or later. I recommend to install all features. I'll implement new feature in the feature.
-
-Optional:
-*) Lua (This hasn't been used currently. But, there is a replacement plan from C++ Based Plugin Loader to Lua)
 
 Instruction:
 1) Open your fevorite terminal.

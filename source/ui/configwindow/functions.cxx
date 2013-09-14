@@ -2,8 +2,12 @@
 #include <QtWidgets/QApplication>
 #include <QtDebug>
 
+#include <property_storage/property_storage.h>
+#include <setting_default.h>
+#include <QVariant>
 namespace ui{
     int ConfigDialog::exec(){
+        this->_modified_setting[default_value::setting_default::name_disabled_plugins_uuid()]=this->_property->get(default_value::setting_default::name_disabled_plugins_uuid());
         int ret=QDialog::exec();
         this->close();
         return ret;

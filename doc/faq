@@ -1,7 +1,7 @@
 FAQ
 ===
 Q.  What is this software?
-A.  An Extensible Browser Aimed for Communication.
+A.  An Extensible Browser Aimed at look Communication Websites.
 
 Q.  Why 4chan?
 A.  Because, 4chan has good and well-understandable API for Qt. esp.JSON.
@@ -10,9 +10,12 @@ Q.  How can I add plugins?
 A.  1) Open your terminal
     2) Build the plugins.
     3) Copy the plugins into ~/watcher/plugins
+    
+    All operations are like modding.
 
 Q.  How can I add themes?
 A.  1) Copy the theme directory into ~/watcher/themes
+        Note that you need to copy the directory.
 
 Q.  How can I develop plugins/theme?
 A.  See API manuals.
@@ -20,18 +23,16 @@ A.  See API manuals.
 Q.  Could you create/code/make/invent/research/study ...
 A.  Nope, I'm not interested in it. I'll create programs that I'm interested in it only. Before you ask me to create something,
     you need to make me be interested in it. You have 2 ways to make me be interested in it:
-    *)  Post as a job.
-        I'm a person who is weak of money. Therefore it seems to be the most effective way to make me be interested in it.
-        Moreover, I'll completely finish my business as long as I applied your jobs.
-        However, DO NOT FORGET I'M NOT A MAMMONIST like a certain company. If I can't do your job in the technique that I have, or
-        I'm not interested in it though you are willing to pay a lot, I'll refuse your job.
-        If you have a job for me, post the job via the following address:
+    *)  Offer it as payment jobs.
+        I'm a person who is weak in money. Therefore it seems to be the most effective way to make me be interested in it.
+        Moreover, I'll completely finish my business as long as I applied your jobs. However, DO NOT FORGET I'M NOT A MAMMONIST like a certain company.
+        If I can't do your jobs within the technique that I have, or I'm not interested in it though you are willing to pay a lot, I'll refuse your jobs.
+        If you have jobs for me, post them via the following address:
             https://www.odesk.com/users/~01f335a1c147aa9d33
             
     *)  Induce me to create it
-        It seems to be the most inefficient way to make me be interested in it, because I'm very lazy like the lazy dog you have.
-        Moreover, Escaping from your job is possible in progress because I work as a volunteer.
-        However, you don't need to pay a lot.
+        It seems to be the most inefficient way to make me be interested in it, because I'm very lazy like your lazy dog.
+        Moreover, escaping from the job is possible in progress because I work as a volunteer. However, you don't need to pay a lot for the creation.
 
 Q.  Can I send patches?
 A.  Sure, patches are welcome, but don't forget I have a choice whether your patches are applied onto an official repository or not.
@@ -39,15 +40,15 @@ A.  Sure, patches are welcome, but don't forget I have a choice whether your pat
 Q.  Can I send bug reports?
 A.  Sure, I know bug reports are very important to improve the software. To repro the bug, you need the following stuff.
     *) The order to repro the bug.
-    *) The repetition of the bug.
-    *) The timing of the bug occurrence.
+    *) The repetition and timing of the bug.
     *) Setting file (I have a program to check the integrity.)
     *) Unofficial plugins or themes if you have.
     *) GDB Dump file if you are using debug build.
 
 If you found bugs, please let me know.
-============================
+=====================================
 Hiroaki Yamamoto
 admin@hysoftware.net
 http://hysoftware.net
-============================
+http://github.com/hysoftware/watcher
+=====================================

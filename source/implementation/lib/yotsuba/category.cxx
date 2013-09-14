@@ -15,6 +15,7 @@
 #include "category.h"
 #include "board.h"
 #include "error.h"
+#include "trace.h"
 namespace yotsuba{
     category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QObject *parent):plugin::category(parent){
         if(mt==nullptr){
@@ -35,6 +36,7 @@ namespace yotsuba{
     }
     //This slot is called when downloading board list has been finished.
     void category::getDataFinished(QNetworkReply *reply){
+        traceReply(*reply);
         if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
             qWarning()<<"Yotsuba.Category:Signal disconnection failed.";
         }

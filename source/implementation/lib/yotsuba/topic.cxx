@@ -5,6 +5,7 @@
 #include "attribute.h"
 #include "enum_convert.h"
 #include "response.h"
+#include "trace.h"
 
 #include <QtWidgets/QApplication>
 #include <QVector>
@@ -44,6 +45,7 @@ namespace yotsuba{
         this->_accessmanager->get(create_request(response_list_url(parent->board_dir(),this->_topicID)));
     }
     void topic::getDataFinished(QNetworkReply *reply){
+        traceReply(*reply);
         if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
             qWarning()<<"Yotsuba.Topic:Signal disconnection failed.";
         }

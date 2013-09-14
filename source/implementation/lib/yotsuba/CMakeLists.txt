@@ -9,6 +9,7 @@ add_library(yotsuba SHARED
     "response.cxx"
     "root.cxx"
     "topic.cxx"
+    "trace.cxx"
 )
 set_property(TARGET yotsuba PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins")
 qt5_use_modules(yotsuba Core Network Widgets)

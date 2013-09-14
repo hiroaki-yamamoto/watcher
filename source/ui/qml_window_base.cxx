@@ -19,10 +19,14 @@
 #include "setting_default.h"
 
 namespace ui{
-    QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QWindow *parent):QQuickView(parent){
+    QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QMLWindowBase *parent):QQuickView(nullptr){
+        this->setObjectName(title);
         this->setTitle(title);
         this->setIcon(icon);
+        this->_parent=parent;
+        if(this->_parent!=nullptr) connect(this->_parent,SIGNAL(visibleChanged(bool)),SLOT(_parentVisibleChanged(bool)));
     }
+    QMLWindowBase *QMLWindowBase::parent() const{return this->_parent;}
     QFileInfo QMLWindowBase::_getQMLFileFromSelectedThemes(const QString &file){
         QFileInfo info=QFileInfo();
         const QString &&selected_theme=default_value::setting_default::name_theme_selected_dir();
@@ -58,6 +62,7 @@ namespace ui{
         this->setMinimumSize(this->sizeHint());
         this->rootContext()->setContextProperty("window",this);
         this->rootContext()->setContextProperty("property",qobject_cast<storage::property_storage *>(this->property()));
+        emit this->loaded();
     }
     void QMLWindowBase::_loadQMLFile(const QString &file){
         QFileInfo info=this->_getQMLFileFromSelectedThemes(file);
@@ -85,5 +90,13 @@ namespace ui{
     void QMLWindowBase::restartApplication(){
         this->exitApplication();
         QProcess::startDetached(qApp->arguments()[0],qApp->arguments());
+    }
+    void QMLWindowBase::_parentVisibleChanged(const bool visible){
+        if(!visible) this->setVisible(false);
+    }
+    void QMLWindowBase::setParent(QMLWindowBase *parent){
+        if(this->_parent!=nullptr) this->_parent->disconnect(SIGNAL(visibleChanged(bool)),this,SLOT(_parentVisibleChanged(bool)));
+        this->_parent=parent;
+        if(this->_parent!=nullptr) connect(this->_parent,SIGNAL(visibleChanged(bool)),SLOT(_parentVisibleChanged(bool)));
     }
 }

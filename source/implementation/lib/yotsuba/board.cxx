@@ -16,6 +16,7 @@
 #include "topic.h"
 #include "error.h"
 #include "enum_convert.h"
+#include "trace.h"
 namespace yotsuba{
     board::board(std::mt19937 *mt, QNetworkAccessManager *accessManager, QObject *parent):plugin::board(parent){
         if(mt==nullptr){
@@ -36,6 +37,7 @@ namespace yotsuba{
         this->_accessmanager->get(create_request(topic_list_url(this->_dir)));
     }
     void board::getDataFinished(QNetworkReply *reply){
+        traceReply(*reply);
         if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
             qWarning()<<"Yotsuba.Board:Signal disconnection failed.";
         }
@@ -104,6 +106,8 @@ namespace yotsuba{
                 if(name.isEmpty()) name="Anonymouse";
                 topic->setTitle(subject);
                 topic->setAuthor(name);
+                if(topic_obj.contains("com")&&topic_obj["com"].isString())
+                    topic->setDescription(topic_obj["com"].toString());
                 topics<<topic;
             }
         }

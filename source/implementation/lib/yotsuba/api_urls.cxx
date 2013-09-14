@@ -4,10 +4,12 @@
 #include <QtDebug>
 #include <QHash>
 #include "api_urls.h"
+#include "trace.h"
 namespace yotsuba{
     QNetworkRequest create_request(const QUrl &url){
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::UserAgentHeader,"Watcher Yotsuba Plugin");
+        traceRequest(request);
         return request;
     }
     
