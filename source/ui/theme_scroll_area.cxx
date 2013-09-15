@@ -22,7 +22,7 @@ namespace ui{
     }
     void ThemeScrollArea::selectDir(const QDir &dir){
         for(int index=0;index<this->children_size();index++){
-            ThemePanel *panel=qobject_cast<ThemePanel *>((*this)[index]);
+            ThemePanel *panel=qobject_cast<decltype(panel)>((*this)[index]);
             if(panel->dir()==dir){
                 panel->setSelected(true);
                 return;
@@ -49,7 +49,7 @@ namespace ui{
         }
     }
     void ThemeScrollArea::selectionChanged(bool selected){
-        ThemePanel *sender=qobject_cast<ThemePanel *>(this->sender());
+        ThemePanel *sender=qobject_cast<decltype(sender)>(this->sender());
         if(!selected&&sender==this->_previous_selected){
             sender->setSelected(true);
         }

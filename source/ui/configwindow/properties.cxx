@@ -45,12 +45,12 @@ namespace ui{
                 case QMetaType::Int:
                 {
                     int index=value.toInt();
-                    ThemeScrollArea *theme_area=qobject_cast<ThemeScrollArea *>(ui);
+                    ThemeScrollArea *theme_area=qobject_cast<decltype(theme_area)>(ui);
                     if (theme_area->children_size()<=index){
                         qWarning()<<"("<<ui->objectName()<<"):"<<"Out of range.";
                         break;
                     }
-                    ThemePanel *panel=qobject_cast<ThemePanel *>((*theme_area)[value.toInt()]);
+                    ThemePanel *panel=qobject_cast<decltype(panel)>((*theme_area)[value.toInt()]);
                     panel->setSelected(true);
                 }
                     break;

@@ -43,19 +43,19 @@ namespace ui{
     void RootWindow::_show_version_window(){this->_version->show();}
     void RootWindow::_config(){this->_config_dialog->exec();}
     void RootWindow::_go_back(){
-        RootTabContents *current=qobject_cast<RootTabContents *>(this->_getCurrentTabContents());
+        RootTabContents *current=qobject_cast<decltype(current)>(this->_getCurrentTabContents());
         if(current!=nullptr) current->back();
         else qWarning()<<"("<<this->objectName()<<",_go_back):current is null.";
     }
     
     void RootWindow::_go_forward(){
-        RootTabContents *current=qobject_cast<RootTabContents *>(this->_getCurrentTabContents());
+        RootTabContents *current=qobject_cast<decltype(current)>(this->_getCurrentTabContents());
         if(current!=nullptr)current->forward();
         else qWarning()<<"("<<this->objectName()<<",_go_forward):current is null.";
     }
     
     void RootWindow::_reloadView(){
-        RootTabContents *current=qobject_cast<RootTabContents*>(this->_getCurrentTabContents());
+        RootTabContents *current=qobject_cast<decltype(current)>(this->_getCurrentTabContents());
         if(current!=nullptr) current->reload();
         else qWarning()<<"("<<this->objectName()<<",_reloadView):current is null.";
     }
@@ -138,7 +138,7 @@ namespace ui{
     void RootWindow::_tabContentStateChanged(const QVariant &previous, const QVariant &current){
         Q_UNUSED(previous)
         Q_UNUSED(current)
-        RootTabContents *cur=qobject_cast<RootTabContents *>(this->_getCurrentTabContents());
+        RootTabContents *cur=qobject_cast<decltype(cur)>(this->_getCurrentTabContents());
         if(cur==nullptr){
             qWarning()<<"("<<this->objectName()<<")"<<"Current TabContent is nullptr";
             return;

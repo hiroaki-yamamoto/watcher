@@ -38,7 +38,7 @@ namespace ui{
             return;
         }
         this->setObjectName(uuid.toString());
-        connect(this->_parentTab,SIGNAL(closeButtonClicked(QVariant,QVariant)),SLOT(_closeButtonClicked(QVariant,QVariant)));
+        connect(this->_tabcontents,SIGNAL(closeButtonClicked(QVariant,QVariant)),SLOT(_closeButtonClicked(QVariant,QVariant)));
     }
     
     QString TabContentsBase::title() const{return this->_tabcontents->property("title").toString();}

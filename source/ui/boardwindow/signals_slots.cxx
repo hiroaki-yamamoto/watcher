@@ -1,6 +1,7 @@
 #include <loader/root.h>
 #include <loader/category.h>
 #include <loader/board.h>
+#include <loader/topic.h>
 #include<QtQuick/QQuickItem>
 #include <QtDebug>
 #include "boardwindow.h"
@@ -28,16 +29,22 @@ namespace ui{
             contents=qobject_cast<decltype(contents)>(this->_tabcontents[key]);
         }else{
             contents=new BoardTabContents(root->title(),root->identifier(),this);
+            connect(contents,SIGNAL(responseMode(plugin::topic*)),SLOT(_responseMode(plugin::topic*)));
             this->_tabcontents.insert(key,contents);
         }
         contents->addBoard(board);
     }
-
     void BoardWindow::_responseMode(plugin::topic *topic){
-        
+        qDebug()<<"("<<this->objectName()<<") ResponseMode:{title:"<<topic->title()<<",author:"<<topic->author()
+               <<",UUID:"<<topic->identifier()<<"}";
     }
     void BoardWindow::_reload(){
-        qDebug()<<"ReloadClicked";
+        BoardTabContents *currentContents=qobject_cast<decltype(currentContents)>(this->_getCurrentTabContents());
+        if(currentContents==nullptr){
+            qWarning()<<"("<<this->objectName()<<"):Reloading Failed. CurrentTabContents is null.";
+            return;
+        }
+        currentContents->reload();
     }
     void BoardWindow::_close(){
         this->setVisible(false);

@@ -17,7 +17,9 @@ namespace ui{
         connect(board,SIGNAL(get_topics_failed(QNetworkReply::NetworkError,QString)),
                 SLOT(_getTopicsFailed(QNetworkReply::NetworkError,QString)));
         board->get_topics();
+        this->_board=board;
         this->_tabcontents->setProperty("boardURL",QVariant(board->board_url().toString()));
+        connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(_buttonClicked(QVariant)));
     }
     void TopicView::addButton(const QString &title, const QString &detail, const QUuid &uuid){
         if(!QMetaObject::invokeMethod(this->_tabcontents,"addButton",
@@ -28,13 +30,20 @@ namespace ui{
                      <<detail<<","<<"uuid:"<<uuid<<"}";
         }
     }
+    void TopicView::clearButtons(){
+        if(!QMetaObject::invokeMethod(this->_tabcontents,"clearButtons"))
+            qWarning()<<"("<<this->objectName()<<"): Deleting buttons failed.";
+    }
 
     void TopicView::_getTopicsFinished(const QVector<plugin::topic *> &topics){
+        this->clearButtons();
         for(plugin::topic *topic:topics){
             this->_topics[qMakePair(topic->title(),topic->identifier())]=topic;
             this->addButton(topic->title(),topic->author(),topic->identifier());
         }
     }
+    void TopicView::reload(){this->_board->get_topics();}
+
     void TopicView::_getTopicsFailed(const QNetworkReply::NetworkError err, const QString &err_str){
         QMessageBox::critical(nullptr,tr("Getting Topics failed"),tr("Getting topics failed:%1\n"
                                                                      "Board Title:%2\n"

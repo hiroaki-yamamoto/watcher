@@ -13,6 +13,8 @@ Item{
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
     signal showAnimationCompleted()
+    //Prevent error message "No such signal"
+    signal closeButtonClicked(var text,var uuid)
     ButtonListView{
         id:category
         anchors.fill: tabContentRoot

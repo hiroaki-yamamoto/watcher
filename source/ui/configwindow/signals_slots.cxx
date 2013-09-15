@@ -125,7 +125,7 @@ namespace ui{
         this->_modified_setting[default_value::setting_default::name_theme_selected_dir()]=panel->dir().absolutePath();
     }
     void ConfigDialog::_plugin_enabled_changed(bool enabled){
-        PluginPanel *sender_panel=qobject_cast<PluginPanel*>(this->sender());
+        PluginPanel *sender_panel=qobject_cast<decltype(sender_panel)>(this->sender());
         QVariantList &&disabled_plugin_list=this->_modified_setting[default_value::setting_default::name_disabled_plugins_uuid()].toList();
         const QVariant &&id=QVariant(sender_panel->plugin_instance()->identifier());
         if(!enabled){

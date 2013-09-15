@@ -26,7 +26,7 @@ namespace ui{
                 SLOT(_get_category_completed(QVector<plugin::category*>)));
         connect(this->_root,SIGNAL(get_categories_failed(QNetworkReply::NetworkError,QString)),
                             SLOT(_get_category_failed(QNetworkReply::NetworkError,QString)));
-        connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(button_clicked(QVariant)));
+        connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(_button_clicked(QVariant)));
         QVariant &&hasAnimation=this->_tabcontents->property("hasAnimation");
         this->_hasAnimation=hasAnimation.type()==QMetaType::Bool&&hasAnimation.toBool();
         this->_root->get_categories();
@@ -61,7 +61,7 @@ namespace ui{
         return this->_tabcontents->property("title").toString();
     }
     void RootTabContents::setTabName(const QString &name){this->_tabcontents->setProperty("title",name);}
-    void RootTabContents::button_clicked(QVariant button_var){
+    void RootTabContents::_button_clicked(const QVariant &button_var){
         qDebug()<<"("<<this->objectName()<<"):Current State:"<<this->_state;
         this->_contentsName.insert(this->_state,
                                    qMakePair(
