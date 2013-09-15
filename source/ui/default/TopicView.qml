@@ -10,6 +10,8 @@ Item{
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
     signal showAnimationCompleted()
+    //Prevent "No such signal"
+    signal closeButtonClicked(var text,var uuid)
     
     anchors.fill: parent
     LocationBar{
@@ -45,6 +47,7 @@ Item{
         }
     }
     function addButton(text,detail,uuid){topicButtons.addButton(text,detail,uuid,false,"","")}
+    function clearButtons(){topicButtons.clearButtons()}
     Component.onCompleted: {
         if(debug){
             for(var i=10;i<51;i++){

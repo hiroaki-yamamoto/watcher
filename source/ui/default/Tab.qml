@@ -91,7 +91,6 @@ Item{
             if(current!==null)current.visible=true
             currentTabChanged(previous,current)
             previous=current
-            console.log("current.title:"+current.title)
         }
         function reloadTitleBar(){
             titleModel.clear()

@@ -9,6 +9,8 @@ Rectangle {
     readonly property alias currentSelectedTabContent:tab.currentPanel
     signal currentTabChanged(var previous,var current)
     signal tabCreated(var createdTab)
+    //Prevent "No such signal"
+    signal closeButtonClicked(var text,var uuid)
     Rectangle{
         id:menu_background
         anchors{

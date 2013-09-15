@@ -19,7 +19,10 @@ namespace ui{
             BoardTabContents(const QString &title,const QUuid &uuid,TabWindowBase *parent=nullptr);
         public slots:
             void addBoard(plugin::board *board);
+            void reload();
         signals:
             void responseMode(plugin::topic *topic);
+        private slots:
+            void _buttonClicked(const QString &text,const QUuid &id,plugin::topic *topic);
     };
 }
