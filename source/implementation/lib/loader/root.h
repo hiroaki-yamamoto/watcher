@@ -19,13 +19,14 @@ namespace plugin{
             Q_OBJECT
             using content_base::content_base;
         public:
-            virtual void get_categories()=0;
-            virtual void open_option(QWidget *sender=nullptr);
             virtual bool enable_option() const=0;
             virtual const QString &version() const=0;
             virtual const QIcon &icon() const=0;
             virtual QObject *this_object();
             virtual void closing();
+        public slots:
+            virtual void get_categories()=0;
+            virtual void open_option(QWidget *sender=nullptr);
         signals:
             void get_categories_finished(const QVector<plugin::category *> &categories);
             void get_categories_failed(const QNetworkReply::NetworkError err,const QString &err_str);

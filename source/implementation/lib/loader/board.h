@@ -18,6 +18,7 @@ namespace plugin{
             using content_base::content_base;
         public:
             virtual const QUrl &board_url() const=0;
+        public slots:
             virtual void get_topics()=0;
         signals:
             void get_topics_finished(const QVector<plugin::topic *> &topics);

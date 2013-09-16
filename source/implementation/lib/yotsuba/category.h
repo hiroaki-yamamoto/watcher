@@ -13,8 +13,8 @@ namespace yotsuba{
             friend class root;
         public:
             category(std::mt19937 *mt, QNetworkAccessManager *manager, QObject *parent=nullptr);
-            void get_boards();
         public slots:
+            void get_boards();
             void setWorkSafe(const bool ws);
         private slots:
             void getDataFinished(QNetworkReply *reply);

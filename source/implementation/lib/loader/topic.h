@@ -18,9 +18,10 @@ namespace plugin{
             Q_OBJECT
             using content_base::content_base;
         public:
-            virtual void get_responses()=0;
             virtual bool readonly() const=0;
             virtual const QUrl &topic_url() const=0;
+        public slots:
+            virtual void get_responses()=0;
             virtual void post(const response &res)=0;
         signals:
             void post_finished(const response &res);

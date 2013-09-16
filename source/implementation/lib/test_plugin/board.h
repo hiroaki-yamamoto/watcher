@@ -11,6 +11,7 @@ namespace test{
         public:
             board(std::mt19937 *mt,const QString &name,const QUuid &id,QObject *parent=nullptr);
             const QUrl &board_url() const;
+        public slots:
             void get_topics();
         private:
             QUrl _board_url;
