@@ -43,4 +43,13 @@ namespace ui{
     void TabWindowBase::_closeButtonClicked(const QVariant &title,const QVariant &uuid){
         this->removeTab(title.toString(),uuid.toString());
     }
+    void TabWindowBase::deleteLater(){
+        if(this->_tabcontents.size()>0){
+            for(const QPair<QString,QUuid> &key:this->_tabcontents.uniqueKeys()){
+                for(TabContentsBase *value:this->_tabcontents.values(key)) value->deleteLater();
+            }
+            this->_tabcontents.clear();
+        }
+        QObject::deleteLater();
+    }
 }

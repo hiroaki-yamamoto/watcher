@@ -18,6 +18,7 @@ namespace ui{
             virtual void removeTab(const QString &title,const QUuid &uuid);
             virtual void _closeButtonClicked(const QVariant &title,const QVariant &uuid);
             virtual void _loaded();
+            void deleteLater();
         protected:
             TabContentsBase *_getCurrentTabContents();
             QHash<QPair<QString,QUuid>,TabContentsBase *> _tabcontents;

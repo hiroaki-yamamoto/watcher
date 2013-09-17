@@ -90,6 +90,12 @@ namespace ui{
     }
 
     void TabContentsBase::deleteLater(){
+        if(this->_childrenTabs.size()>0){
+            for(const QPair<QString,QUuid> &key:this->_childrenTabs.uniqueKeys()){
+                for(TabContentsBase *base:this->_childrenTabs.values(key)) base->deleteLater();
+            }
+            this->_childrenTabs.clear();
+        }
         if(this->_tabcontents!=nullptr){
             qDebug()<<"("<<this->objectName()<<"):"<<"Deleting tab:"<<this->objectName();
             this->_tabcontents->deleteLater();

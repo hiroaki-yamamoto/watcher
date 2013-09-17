@@ -24,7 +24,7 @@ namespace ui{
             virtual void removeTab(const QString &title,const QUuid &uuid);
             void setTitle(const QString &title);
             void setUUID(const QUuid &uuid);
-            virtual void deleteLater();
+            void deleteLater();
             virtual void _closeButtonClicked(const QVariant &title,const QVariant &uuid);
         protected:
             virtual TabContentsBase *_getCurrentTabContents();
