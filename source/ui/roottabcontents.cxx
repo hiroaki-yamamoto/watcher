@@ -74,7 +74,7 @@ namespace ui{
         this->_sw_inst=sw;
         if(this->_hasAnimation&&(sw!=RootTabContents::ContentsSwitch||this->_state==RootTabContents::Category)){
             connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),SLOT(_process_switch_instruction()));
-            QMetaObject::invokeMethod(this->_tabcontents,"hide");
+            if(!QMetaObject::invokeMethod(this->_tabcontents,"hide")) this->_process_switch_instruction();
         }else this->_process_switch_instruction();
     }
     void RootTabContents::_process_switch_instruction(){

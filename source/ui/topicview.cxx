@@ -36,13 +36,27 @@ namespace ui{
     }
 
     void TopicView::_getTopicsFinished(const QVector<plugin::topic *> &topics){
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            this->_tabcontents->disconnect(this->_board);
+        }
         this->clearButtons();
         for(plugin::topic *topic:topics){
             this->_topics[qMakePair(topic->title(),topic->identifier())]=topic;
             this->addButton(topic->title(),topic->author(),topic->identifier());
         }
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            QMetaObject::invokeMethod(this->_tabcontents,"startShowAnimation");
+        }
     }
-    void TopicView::reload(){this->_board->get_topics();}
+    void TopicView::reload(){
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),this->_board,SLOT(get_topics()));
+            if(!QMetaObject::invokeMethod(this->_tabcontents,"startHideAnimation")){
+                this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()),this->_board,SLOT(get_topics()));
+                this->_board->get_topics();
+            }
+        }else this->_board->get_topics();
+    }
 
     void TopicView::_getTopicsFailed(const QNetworkReply::NetworkError err, const QString &err_str){
         QMessageBox::critical(nullptr,tr("Getting Topics failed"),tr("Getting topics failed:%1\n"

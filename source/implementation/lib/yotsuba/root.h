@@ -24,6 +24,7 @@ namespace yotsuba{
             const QString &version() const;
             const QIcon &icon() const;
             const quint32 random_number();
+        public slots:
             void get_categories();
         private:
             std::mt19937 *_mt;

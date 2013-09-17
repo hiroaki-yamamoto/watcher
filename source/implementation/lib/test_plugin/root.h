@@ -13,10 +13,11 @@ namespace test{
         public:
             root(QObject *parent=nullptr);
             ~root();
-            void get_categories();
             bool enable_option() const;
             const QString &version() const;
             const QIcon &icon() const;
+        public slots:
+            void get_categories();
         private:
             std::mt19937 *_mt;
             const QString _ver="Testing";

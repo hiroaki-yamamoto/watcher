@@ -65,6 +65,7 @@ OTHER_FILES+=   default/Button.qml \
                 default/ResponsePanel.qml\
                 default/Spacer.qml \
                 default/LocationBar.qml \
+                default/LinkImage.qml \
                 failsafe/RootWindow.qml \
                 failsafe/VersionWindow.qml \
                 failsafe/ToolTip.qml \

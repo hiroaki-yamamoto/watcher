@@ -26,7 +26,5 @@ namespace plugin{
             virtual const QUrl &response_url() const=0;
             //Image cache.
             virtual const QHash<QUrl,QImage> &images() const=0;
-            virtual const bool has_images() const=0;
-            virtual const quint64 num_images() const=0;
     };
 }
