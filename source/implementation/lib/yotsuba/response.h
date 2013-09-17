@@ -23,8 +23,6 @@ namespace yotsuba{
             const QDateTime &creation_date() const;
             const QUrl &response_url() const;
             const QHash<QUrl,QImage> &images() const;
-            const bool has_images() const;
-            const quint64 num_images() const;
             const quint64 resID() const;
         public slots:
             void fetchImage(const QUrl &url);

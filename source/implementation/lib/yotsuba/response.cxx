@@ -30,15 +30,12 @@ namespace yotsuba{
     const QDateTime &response::creation_date() const{return *(this->_creation_date);}
     const QUrl &response::response_url() const{return *(this->_topic_url);}
     const QHash<QUrl,QImage> &response::images() const{return *(this->_images);}
-    const bool response::has_images() const{return this->_has_images;}
-    const quint64 response::num_images() const{return this->_images->size();}
     const quint64 response::resID() const{return this->_resID;}
     
     void response::setBody(const QString &body){(*this->_body)=body;}
     void response::setCreationDate(const QDateTime &creation_date){(*this->_creation_date)=creation_date;}
     void response::setResponseUrl(const QUrl &url){(*this->_topic_url)=url;}
     void response::setImages(const QHash<QUrl, QImage> &images){(*this->_images)=images;}
-    void response::setHasImages(const bool has_images){this->_has_images=has_images;}
     void response::setResID(const quint64 &resID){this->_resID=resID;}
     void response::setEmail(const QString &email){(*this->_email)=email;}
     void response::fetchImage(const QUrl &url){
@@ -58,6 +55,5 @@ namespace yotsuba{
         }
         this->_images->insert(reply->url(),QImage::fromData(reply->readAll()));
         reply->close();
-        this->_has_images=(this->_images->count()>0);
     }
 }
