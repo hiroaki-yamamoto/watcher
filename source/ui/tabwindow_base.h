@@ -11,8 +11,10 @@ namespace ui{
             Q_OBJECT
         public:
             TabWindowBase(const QString &title,
-                           const QIcon &icon,
-                           QMLWindowBase *parent=nullptr);
+                          const QIcon &icon,
+                          QList<plugin::root *> *plugins,
+                          storage::property_storage *property,
+                          QMLWindowBase *parent=nullptr);
         public slots:
             virtual QQuickItem *addTab(const QString &title,const QUuid &uuid);
             virtual void removeTab(const QString &title,const QUuid &uuid);

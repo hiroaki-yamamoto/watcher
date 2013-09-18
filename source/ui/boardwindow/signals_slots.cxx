@@ -2,10 +2,11 @@
 #include <loader/category.h>
 #include <loader/board.h>
 #include <loader/topic.h>
-#include<QtQuick/QQuickItem>
+#include <QtQuick/QQuickItem>
 #include <QtDebug>
 #include "boardwindow.h"
 #include "boardtabcontents.h"
+#include "responsewindow.h"
 namespace ui{
     void BoardWindow::_createRelationBetweenSignalsAndSlots(){
         for(const QString &childName:this->_children.uniqueKeys()){
@@ -37,6 +38,7 @@ namespace ui{
     void BoardWindow::_responseMode(plugin::topic *topic){
         qDebug()<<"("<<this->objectName()<<") ResponseMode:{title:"<<topic->title()<<",author:"<<topic->author()
                <<",UUID:"<<topic->identifier()<<"}";
+        this->_responseWindow->show();
     }
     void BoardWindow::_reload(){
         BoardTabContents *currentContents=qobject_cast<decltype(currentContents)>(this->_getCurrentTabContents());

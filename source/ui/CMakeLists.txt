@@ -63,19 +63,19 @@ set(src
     "configwindow/functions.cxx"
     
     "rootwindow/constructor.cxx"
-    "rootwindow/properties.cxx"
     "rootwindow/signals_slots.cxx"
     "rootwindow/functions.cxx"
 
     "boardwindow/constructor.cxx"
-    "boardwindow/properties.cxx"
     "boardwindow/signals_slots.cxx"
-    "boardwindow/functions.cxx"
+
+    "responsewindow/constructor.cxx"
 )
 qt5_wrap_cpp(moc_src
     "configwindow.h"
     "rootwindow.h"
     "boardwindow.h"
+    "responsewindow.h"
 )
 
 

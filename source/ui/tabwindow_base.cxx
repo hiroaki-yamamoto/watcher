@@ -4,7 +4,8 @@
 #include "tabwindow_base.h"
 #include "tabcontents_base.h"
 namespace ui{
-    TabWindowBase::TabWindowBase(const QString &title,const QIcon &icon,QMLWindowBase *parent):QMLWindowBase(title,icon,parent){
+    TabWindowBase::TabWindowBase(const QString &title, const QIcon &icon, QList<plugin::root *> *plugins, storage::property_storage *property, QMLWindowBase *parent):
+        QMLWindowBase(title,icon,plugins,property,parent){
         connect(this,SIGNAL(loaded()),SLOT(_loaded()));
     }
     void TabWindowBase::_loaded(){

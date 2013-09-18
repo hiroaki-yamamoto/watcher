@@ -33,7 +33,7 @@ namespace ui{
             else if(objName=="open")        connect(this->_children.value(objName),SIGNAL(clicked()),SLOT(_import_setting()));
             else if(objName=="exit")        connect(this->_children.value(objName),SIGNAL(clicked()),SLOT(exitApplication()));
         }
-        connect(this->_property,SIGNAL(propertyChanged(QString,QVariant,QVariant)),SLOT(_property_changed(QString,QVariant,QVariant)));
+        connect(this->property(),SIGNAL(propertyChanged(QString,QVariant,QVariant)),SLOT(_property_changed(QString,QVariant,QVariant)));
         connect(this->_loader,SIGNAL(loaded()),SLOT(_plugin_loaded()));
         connect(this->rootObject(),SIGNAL(currentTabChanged(QVariant,QVariant)),
                 SLOT(_tabContentStateChanged(const QVariant,const QVariant)));
@@ -72,7 +72,7 @@ namespace ui{
             if(info.exists()&&info.isReadable()){
                 std::ifstream in(import_path.toStdString());
                 serializer sr(in);
-                sr>>(*this->_property);
+                sr>>(*this->property());
                 sr.close();
                 in.close();
                 this->_config_dialog->updateProperties();
@@ -88,7 +88,7 @@ namespace ui{
             QFileInfo info(export_path);
             std::ofstream out(export_path.toStdString());
             serializer sr(out);
-            sr<<(*this->_property);
+            sr<<(*this->property());
             sr.close();
             out.close();
         }
@@ -120,7 +120,7 @@ namespace ui{
         this->_tabcontents.clear();
         bool anything_not_loaded=true;
         for(plugin::root *&plugin_root:*this->plugins()){
-            if(!this->_property->get(default_value::setting_default::name_disabled_plugins_uuid()).toList().contains(QVariant(plugin_root->identifier()))){
+            if(!this->property()->get(default_value::setting_default::name_disabled_plugins_uuid()).toList().contains(QVariant(plugin_root->identifier()))){
                 QPair<QString,QUuid> key=qMakePair(plugin_root->title(),plugin_root->identifier());
                 this->_tabcontents[key]=new RootTabContents(plugin_root,this);
                 anything_not_loaded=false;

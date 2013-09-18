@@ -16,6 +16,7 @@ HEADERS +=      rootwindow.h \
                 topicwindow.h \
                 tabcontents_base.h \
                 tabwindow_base.h \
+                responsewindow.h \
                 topicview.h
 
 SOURCES +=      versionwindow.cxx \
@@ -27,13 +28,11 @@ SOURCES +=      versionwindow.cxx \
                 configwindow/signals_slots.cxx \
                 configwindow/properties.cxx \
                 rootwindow/constructor.cxx \
-                rootwindow/properties.cxx \
                 rootwindow/signals_slots.cxx \
                 rootwindow/functions.cxx \
                 boardwindow/constructor.cxx \
-                boardwindow/functions.cxx \
-                boardwindow/properties.cxx \
                 boardwindow/signals_slots.cxx \
+                responsewindow/constructor.cxx \
                 pluginpanel.cxx \
                 multiple_scroll_area.cxx \
                 themepanel.cxx \
