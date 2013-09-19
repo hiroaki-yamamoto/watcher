@@ -4,6 +4,10 @@
 #include <QtDebug>
 #include <QStringList>
 
+#include <logging/logging.h>
+
+using namespace logging;
+
 namespace ui{
     ThemeScrollArea::ThemeScrollArea(const QVector<QDir> &theme_root_dirs, QWidget *parent):MultipleScrollArea(parent){
         this->_theme_root_dirs=new QVector<QDir>();
@@ -35,13 +39,13 @@ namespace ui{
         this->clear();
         for(QDir &dir:*this->_theme_root_dirs){
             if(!dir.exists()){
-                qWarning()<<"Theme root dir:"<<dir.path()<<"doesn't exist.";
+                qWarning()<<this<<"Theme root dir:"<<dir.path()<<"doesn't exist.";
                 continue;
             }
             QStringList nameFilter;
             nameFilter<<"*";
             for(QFileInfo &info:dir.entryInfoList(nameFilter,QDir::NoDotAndDotDot|QDir::Dirs)){
-                qDebug()<<"Theme dir found:"<<info.filePath();
+                qDebug()<<this<<"Theme dir found:"<<info.filePath();
                 ui::ThemePanel *panel=new ui::ThemePanel(QDir(info.filePath()),this);
                 connect(panel,SIGNAL(selectionChanged(bool)),SLOT(selectionChanged(bool)));
                 (*this)<<panel;

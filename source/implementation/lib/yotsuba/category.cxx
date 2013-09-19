@@ -19,7 +19,7 @@
 namespace yotsuba{
     category::category(std::mt19937 *mt,QNetworkAccessManager *manager,QObject *parent):plugin::category(parent){
         if(mt==nullptr){
-            qWarning()<<"mt must not be nulltpr.";
+            qWarning()<<"yotsuba: mt must not be nulltpr.";
             this->deleteLater();
             return;
         }
@@ -38,7 +38,7 @@ namespace yotsuba{
     void category::getDataFinished(QNetworkReply *reply){
         traceReply(*reply);
         if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
-            qWarning()<<"Yotsuba.Category:Signal disconnection failed.";
+            qWarning()<<"yotsuba: Yotsuba.Category:Signal disconnection failed.";
         }
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_boards_failed(reply->error(),reply->errorString());

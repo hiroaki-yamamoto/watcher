@@ -17,7 +17,6 @@
 #include "qml_window_base.h"
 #include "property_storage.h"
 #include "setting_default.h"
-
 namespace ui{
     QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QList<plugin::root *> *plugins, storage::property_storage *property, QMLWindowBase *parent):QQuickView(nullptr){
         this->setObjectName(title);

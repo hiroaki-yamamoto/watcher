@@ -9,7 +9,7 @@ class QNetworkAccessManager;
 
 namespace yotsuba{
     /*
-     * Response class is written with very trickky coding.
+     * Response class is written with very tricky coding.
      * First, to avoid using include compiler instruction, all variables and return values are references or pointers.
      */
     class response:public plugin::response{

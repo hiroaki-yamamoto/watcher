@@ -8,10 +8,14 @@
 #include <QtDebug>
 #include <QDesktopServices>
 
+#include <logging/logging.h>
+
 #include "versionwindow.h"
 #include "license.h"
 #include "property_storage.h"
 #include "setting_default.h"
+
+using namespace logging;
 namespace ui{
     VersionWindow::VersionWindow(const QString &title, const QIcon &icon, QList<plugin::root *> *plugins, storage::property_storage *property, QMLWindowBase *parent):
         QMLWindowBase(title,icon,plugins,property,parent){
@@ -37,7 +41,7 @@ namespace ui{
     #ifdef EXPERIMENT
         if(name==default_value::setting_default::name_theme_selected_dir()){
             if(now.type()==QMetaType::QString) this->_loadQMLFile(QFileInfo(now.toString(),"VersionWindow.qml"));
-            else qWarning()<<this->objectName()<<": Setting key:"<<default_value::setting_default::name_theme_selected_dir()<<" has an invalid value type.";
+            else qWarning()<<this<<": Setting key:"<<default_value::setting_default::name_theme_selected_dir()<<" has an invalid value type.";
         }
     #endif
     }

@@ -1,36 +1,18 @@
 project(watcher-ui)
+add_custom_command(
+    OUTPUT default
+    COMMAND mkdir ARGS -p ${CMAKE_BINARY_DIR}/themes
+    COMMAND cp ARGS -r ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
+    COMMENT "Copying default theme file..."
+)
 
-if(WIN32)
-    add_custom_command(
-        OUTPUT default
-        COMMAND md ARGS ${CMAKE_BINARY_DIR}/themes
-        COMMAND xcopy ARGS ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes /E
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
-        COMMENT "Copying default theme file..."
-    )
-    
-    add_custom_target(
-        default_ui_copy ALL
-        DEPENDS default
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-else(WIN32)
-    add_custom_command(
-        OUTPUT default
-        COMMAND mkdir ARGS -p ${CMAKE_BINARY_DIR}/themes
-        COMMAND cp ARGS -r ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
-        COMMENT "Copying default theme file..."
-    )
-    
-    add_custom_target(
-        default_ui_copy ALL
-        DEPENDS default
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-endif(WIN32)
+add_custom_target(
+    default_ui_copy ALL
+    DEPENDS default
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
 qt5_add_resources(rc_out "resource.qrc") 
 qt5_wrap_ui(ui_generated
@@ -64,7 +46,6 @@ set(src
     
     "rootwindow/constructor.cxx"
     "rootwindow/signals_slots.cxx"
-    "rootwindow/functions.cxx"
 
     "boardwindow/constructor.cxx"
     "boardwindow/signals_slots.cxx"
@@ -81,7 +62,7 @@ qt5_wrap_cpp(moc_src
 
 add_library(watcher_ui SHARED ${ui_generated} ${src} ${moc_src} ${rc_out})
 set_property(TARGET watcher_ui PROPERTY LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-target_link_libraries(watcher_ui storage loader)
+target_link_libraries(watcher_ui storage loader logging)
 qt5_use_modules(watcher_ui Core Widgets Quick Qml Network)
 
 install(

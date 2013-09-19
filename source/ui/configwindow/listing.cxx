@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include <loader/root.h>
+#include <logging/logging.h>
 
 #include "configwindow.h"
 
@@ -11,6 +12,7 @@
 #include "plugin_loader.h"
 #include "themepanel.h"
 
+using namespace logging;
 namespace ui{
     void ConfigDialog::_list_plugins(){
         this->_plugin_list->clear();
@@ -32,7 +34,7 @@ namespace ui{
         }else if(this->_property->get(default_value::setting_default::name_theme_root_dir()).type()==QMetaType::QString){
             dirs<<QDir(this->_property->get(default_value::setting_default::name_theme_root_dir()).toString());
         }else{
-            qWarning()<<default_value::setting_default::name_theme_root_dir()<<"is invalid type.";
+            qWarning()<<this<<default_value::setting_default::name_theme_root_dir()<<"is invalid type.";
             return;
         }
         qDebug()<<"Theme root directories:"<<dirs;
@@ -50,11 +52,11 @@ namespace ui{
                             if(root_has_selected){
                                 this->_theme_list->selectDir(selected_theme_dir);
                             }else{
-                                qWarning()<<this->objectName()<<": The selected theme is out of the root theme directory.";
+                                qWarning()<<this<<"The selected theme is out of the root theme directory.";
                                 this->_select_theme_index0();
                             }
                         }else{
-                            qWarning()<<this->objectName()<<": parent directory couldn't be found.";
+                            qWarning()<<this<<"Parent directory couldn't be found.";
                             this->_select_theme_index0();
                         }
                     }else{
@@ -62,31 +64,30 @@ namespace ui{
                         this->_select_theme_index0();
                     }
                 }else{
-                    qWarning()<<this->objectName()<<": "<<default_value::setting_default::name_theme_selected_dir()<<" in "<<
-                                this->_property->objectName()<<" is empty.";
+                    qWarning()<<this<<default_value::setting_default::name_theme_selected_dir()<<" in "<<
+                                this->_property->objectName()<<"it is empty.";
                     this->_select_theme_index0();
                 }
             }else{
-                qWarning()<<this->objectName()<<": "<<default_value::setting_default::name_theme_selected_dir()<<" in "<<
-                            this->_property->objectName()<<" is an invalid types.";
+                qWarning()<<this<<default_value::setting_default::name_theme_selected_dir()<<" in "<<
+                            this->_property->objectName()<<"it is an invalid types.";
                 this->_select_theme_index0();
             }
         }else{
-            qWarning()<<this->objectName()<<":"
-                     <<default_value::setting_default::name_theme_selected_dir()
-                    <<" couldn't be found in "<<this->_property->objectName()<<".";
+            qWarning()<<this<<default_value::setting_default::name_theme_selected_dir()
+                     <<" couldn't be found in "<<this->_property->objectName()<<".";
             this->_select_theme_index0();
         }
     }
     void ConfigDialog::_select_theme_index0(){
-        qWarning()<<this->objectName()<<": Select first theme.";
+        qWarning()<<this<<"Select first theme.";
         ui::ThemePanel *panel=qobject_cast<ui::ThemePanel *>((*(this->_theme_list))[0]);
         if(panel!=nullptr){
             panel->setSelected(true);
             this->_clear_selected_theme=false;
             this->_modified_setting[default_value::setting_default::name_theme_selected_dir()]=panel->dir().absolutePath();
         }else{
-            qWarning()<<"("<<this->objectName()<<"): The first panel is null.";
+            qWarning()<<this<<"The first panel is null.";
         }
     }
 }

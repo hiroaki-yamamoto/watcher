@@ -3,10 +3,12 @@
 #include <QtWidgets/QMessageBox>
 #include <property_storage/property_storage.h>
 #include <setting_default.h>
+#include <logging/logging.h>
 
 #include "configwindow.h"
 #include "qml_window_base.h"
 
+using namespace logging;
 namespace ui{
     void ConfigDialog::closeEvent(QCloseEvent *event){
     #ifndef EXPERIMENT
@@ -40,7 +42,7 @@ namespace ui{
             switch(result){
                case QMessageBox::Yes:
                     if(this->_parent!=nullptr) this->_parent->restartApplication();
-                    else qWarning()<<"Restarting failed. QMLWindowBase parent couldn't be found!";
+                    else qWarning()<<this<<"Restarting failed. QMLWindowBase parent couldn't be found!";
                     break;
                default: break;
             }

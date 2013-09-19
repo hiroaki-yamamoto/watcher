@@ -4,10 +4,12 @@
 #include <QVector>
 #include <QtDebug>
 #include <QUuid>
+#include <logging/logging.h>
+using namespace logging;
 namespace test{
     category::category(std::mt19937 *mt, const QString &name, const QUuid &id, QObject *parent):plugin::category(parent){
         if(mt==nullptr){
-            qWarning()<<"mt must not be nulltpr.";
+            qWarning()<<this<<"mt must not be nulltpr.";
             this->deleteLater();
             return;
         }

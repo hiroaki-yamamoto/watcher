@@ -6,9 +6,11 @@
 
 #include <loader/board.h>
 #include <loader/topic.h>
+#include <logging/logging.h>
 
 #include "topicview.h"
 
+using namespace logging;
 namespace ui{
     TopicView::TopicView(plugin::board *board, TabContentsBase *parent):
         TabContentsBase(board->title(),board->identifier(),parent){
@@ -26,13 +28,12 @@ namespace ui{
                                   Q_ARG(QVariant,QVariant(title)),
                                   Q_ARG(QVariant,QVariant(detail)),
                                   Q_ARG(QVariant,QVariant(uuid.toString())))){
-            qWarning()<<"("<<this->objectName()<<"): Adding a button failed:{title:"<<title<<",detail:"
-                     <<detail<<","<<"uuid:"<<uuid<<"}";
+            qWarning()<<this<<"Adding a button failed:{title:"<<title<<",detail:"<<detail<<","<<"uuid:"<<uuid<<"}";
         }
     }
     void TopicView::clearButtons(){
         if(!QMetaObject::invokeMethod(this->_tabcontents,"clearButtons"))
-            qWarning()<<"("<<this->objectName()<<"): Deleting buttons failed.";
+            qWarning()<<this<<"Deleting buttons failed.";
     }
 
     void TopicView::_getTopicsFinished(const QVector<plugin::topic *> &topics){
@@ -71,7 +72,7 @@ namespace ui{
         if(this->_topics[key]){
             emit this->buttonClicked(str,id,this->_topics[key]);
         }else{
-            qWarning()<<"("<<this->objectName()<<"): No such a topic:{title:"<<str<<", id:"<<id<<"}";
+            qWarning()<<this<<"No such a topic:"<<key;
         }
     }
 }

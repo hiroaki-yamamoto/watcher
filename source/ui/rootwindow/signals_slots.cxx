@@ -9,6 +9,7 @@
 
 #include <loader/root.h>
 #include <loader/topic.h>
+#include <logging/logging.h>
 #include <setting_default.h>
 
 #include <fstream>
@@ -20,6 +21,7 @@
 #include "boardwindow.h"
 #include "roottabcontents.h"
 
+using namespace logging;
 namespace ui{
     void RootWindow::_createRelationBetweenSignalsAndSlots(){
         for(const QString &objName:this->_children.uniqueKeys()){
@@ -45,19 +47,19 @@ namespace ui{
     void RootWindow::_go_back(){
         RootTabContents *current=qobject_cast<decltype(current)>(this->_getCurrentTabContents());
         if(current!=nullptr) current->back();
-        else qWarning()<<"("<<this->objectName()<<",_go_back):current is null.";
+        else qWarning()<<this<<"Mode:GoBack:current is null.";
     }
     
     void RootWindow::_go_forward(){
         RootTabContents *current=qobject_cast<decltype(current)>(this->_getCurrentTabContents());
         if(current!=nullptr)current->forward();
-        else qWarning()<<"("<<this->objectName()<<",_go_forward):current is null.";
+        else qWarning()<<this<<"Mode:GoForward:current is null.";
     }
     
     void RootWindow::_reloadView(){
         RootTabContents *current=qobject_cast<decltype(current)>(this->_getCurrentTabContents());
         if(current!=nullptr) current->reload();
-        else qWarning()<<"("<<this->objectName()<<",_reloadView):current is null.";
+        else qWarning()<<this<<"Mode:Reload:current is null.";
     }
     
     //TODO: Implement Bookmark Manager
@@ -101,15 +103,15 @@ namespace ui{
         if(key==default_value::setting_default::name_plugin_root_dir()){
             if(now.type()==QMetaType::QString){
                 if(this->_loader->reload(now.toString())){
-                    qDebug()<<"Plugin reloading succeeded.";
-                }else qWarning()<<"Reloading failed!";
+                    qDebug()<<this<<"Plugin reloading succeeded.";
+                }else qWarning()<<this<<"Reloading failed!";
             }
         }
         else if(key==default_value::setting_default::name_theme_selected_dir()){
     #ifdef EXPERIMENT
             if(now.type()==QMetaType::QString){
                 this->_loadQMLFile(QFileInfo(now.toString(),"RootWindow.qml"));
-            }else qWarning()<<this->objectName()<<": Setting key:"<<default_value::setting_default::name_theme_selected_dir()<<" has an invalid value type.";
+            }else qWarning()<<this<<"Setting key:"<<default_value::setting_default::name_theme_selected_dir()<<" has an invalid value type.";
     #endif
         }else if(key==default_value::setting_default::name_disabled_plugins_uuid()){
             this->_loader->reload();
@@ -140,7 +142,7 @@ namespace ui{
         Q_UNUSED(current)
         RootTabContents *cur=qobject_cast<decltype(cur)>(this->_getCurrentTabContents());
         if(cur==nullptr){
-            qWarning()<<"("<<this->objectName()<<")"<<"Current TabContent is nullptr";
+            qWarning()<<this<<"Current TabContent is nullptr";
             return;
         }
         switch(cur->state()){

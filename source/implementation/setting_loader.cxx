@@ -5,6 +5,8 @@
 #include <property_storage.h>
 #include <fstream>
 #include <libserializer/serializer.h>
+#include <logging/logging.h>
+using namespace logging;
 namespace loader{
     setting_loader::setting_loader(const QString &file,const int element_size,const QString &objName){
         this->_storage=new storage::property_storage(element_size,objName);
@@ -22,12 +24,12 @@ namespace loader{
         std::ifstream setting_in(this->_file.toStdString());
         bool success=false;
         if(!setting_in){
-            qWarning()<<"("<<this->_storage->objectName()<<"):"<<"Setting file couldn't be read:"<<this->_file;
+            qWarning()<<this<<"Setting file couldn't be read:"<<this->_file;
         }else{
             serializer serializer_in(setting_in);
             serializer_in>>(*this->_storage);
             serializer_in.close();
-            qDebug()<<"("<<this->_storage->objectName()<<"):"<<"Read setting file:"<<this->_file;
+            qDebug()<<this<<"Read setting file:"<<this->_file;
             success=true;
         }
         setting_in.close();
@@ -46,7 +48,7 @@ namespace loader{
         serializer_out<<((*this->_storage)-(*this->_default));
         serializer_out.close();
         setting_out.close();
-        qDebug()<<"("<<this->_storage->objectName()<<"):"<<"Wrote setting to:"<<this->_file;
+        qDebug()<<this<<"Wrote setting to:"<<this->_file;
         return true;
     }
 }

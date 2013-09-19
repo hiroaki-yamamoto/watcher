@@ -8,6 +8,6 @@ namespace ui{
                              QMLWindowBase *parent):TabWindowBase(title,icon,plugins,property,parent){
         this->_loadQMLFile("BoardWindow.qml");
         this->_createRelationBetweenSignalsAndSlots();
-        this->_responseWindow=new ResponseWindow(tr("Response View"),this->icon(),this->plugins(),this->property(),this);
+        this->_responseWindow=new ResponseWindow(tr("Response View"),this->icon(),this->plugins(),this->property(),this->parent());
     }
 }

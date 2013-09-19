@@ -29,7 +29,6 @@ SOURCES +=      versionwindow.cxx \
                 configwindow/properties.cxx \
                 rootwindow/constructor.cxx \
                 rootwindow/signals_slots.cxx \
-                rootwindow/functions.cxx \
                 boardwindow/constructor.cxx \
                 boardwindow/signals_slots.cxx \
                 responsewindow/constructor.cxx \

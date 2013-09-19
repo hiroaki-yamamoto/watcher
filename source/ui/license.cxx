@@ -11,6 +11,7 @@ const QString short_license(){
             "<tr><td>libloader</td><td>LGPL3</td></tr>"
             "<tr><td>libstorage</td><td>GPL3</td></tr>"
             "<tr><td>libwatcher_ui</td><td>GPL3</td></tr>"
+            "<tr><td>liblogging</td><td>GPL3</td></tr>"
             "<tr><td>Watcher Executable</td><td>GPL3</td></tr>"
             "</table>"
             "</p>"
