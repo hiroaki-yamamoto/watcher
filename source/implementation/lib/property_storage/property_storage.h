@@ -44,6 +44,7 @@ namespace storage{
             void differencial_copy(const property_storage &setting);
             void copy(const QString &key, const QVariantList &values);
             void setElementSize(const int size);
+            void dump();
         signals:
             void propertyChanged(const QString &key,const QVariant &previous,const QVariant &now);
             void propertyRemoved(const QString &key);

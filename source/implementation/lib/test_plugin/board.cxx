@@ -1,10 +1,12 @@
+#include <logging/logging.h>
 #include <QtDebug>
 #include "board.h"
 #include "topic.h"
+using namespace logging;
 namespace test{
     board::board(std::mt19937 *mt,const QString &name,const QUuid &id,QObject *parent):plugin::board(parent){
         if(mt==nullptr){
-            qWarning()<<"mt must not be nullptr.";
+            qWarning()<<this<<"mt must not be nullptr.";
             this->deleteLater();
             return;
         }
@@ -15,7 +17,7 @@ namespace test{
         QString copied_name=this->title();
         copied_name.replace(" ","_");
         this->_board_url=QString("http://example.com/boards/%1").arg(copied_name);
-        qDebug()<<"("<<this->objectName()<<"): board URI="<<this->_board_url;
+        qDebug()<<this<<"board URI="<<this->_board_url;
     }
     const QUrl &board::board_url() const{return this->_board_url;}
     void board::get_topics(){

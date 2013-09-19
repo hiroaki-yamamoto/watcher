@@ -1,10 +1,14 @@
 #include <QVariant>
 #include <QtQuick/QQuickItem>
 #include <QtDebug>
+#include <logging/logging.h>
 #include "tabwindow_base.h"
 #include "tabcontents_base.h"
+
+using namespace logging;
 namespace ui{
-    TabWindowBase::TabWindowBase(const QString &title,const QIcon &icon,QMLWindowBase *parent):QMLWindowBase(title,icon,parent){
+    TabWindowBase::TabWindowBase(const QString &title, const QIcon &icon, QList<plugin::root *> *plugins, storage::property_storage *property, QMLWindowBase *parent):
+        QMLWindowBase(title,icon,plugins,property,parent){
         connect(this,SIGNAL(loaded()),SLOT(_loaded()));
     }
     void TabWindowBase::_loaded(){
@@ -13,14 +17,14 @@ namespace ui{
     TabContentsBase *TabWindowBase::_getCurrentTabContents(){
         QQuickItem *currentTab=this->rootObject()->property("currentSelectedTabContent").value<QQuickItem *>();
         if(currentTab==nullptr){
-            qDebug()<<"("<<this->objectName()<<": currentSelectedTabContent is null.";
+            qDebug()<<this<<"currentSelectedTabContent is null.";
             return nullptr;
         }
         QUuid tab_uuid=QUuid(currentTab->property("uuid").toString());
         QString tab_title=currentTab->property("title").toString();
         QPair<QString,QUuid> tab_key=qMakePair(tab_title,tab_uuid);
         if(!this->_tabcontents.contains(tab_key)){
-            qDebug()<<"("<<this->objectName()<<": TabContent Named:"<<tab_title<<" couldn't be found.";
+            qDebug()<<this<<"TabContent Named:"<<tab_title<<" couldn't be found.";
             return nullptr;
         }else return this->_tabcontents[tab_key];
     }
@@ -37,10 +41,19 @@ namespace ui{
             this->_tabcontents[key]->deleteLater();
             this->_tabcontents.remove(key);
         }else{
-            qWarning()<<"("<<this->objectName()<<"): Not found:{title:"<<title<<","<<uuid.toString()<<"}";
+            qWarning()<<this<<"Not found:"<<key;
         }
     }
     void TabWindowBase::_closeButtonClicked(const QVariant &title,const QVariant &uuid){
         this->removeTab(title.toString(),uuid.toString());
+    }
+    void TabWindowBase::deleteLater(){
+        if(this->_tabcontents.size()>0){
+            for(const QPair<QString,QUuid> &key:this->_tabcontents.uniqueKeys()){
+                for(TabContentsBase *value:this->_tabcontents.values(key)) value->deleteLater();
+            }
+            this->_tabcontents.clear();
+        }
+        QObject::deleteLater();
     }
 }

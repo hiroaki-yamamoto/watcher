@@ -8,6 +8,9 @@
 #include <list>
 #include <tuple>
 
+#include <logging/logging.h>
+
+using namespace logging;
 namespace ui{
     ThemePanel::ThemePanel(const QDir &dir, QWidget *parent):QWidget(parent){
         this->setupUi(this);
@@ -39,21 +42,21 @@ namespace ui{
                                     QMetaObject::invokeMethod(std::get<2>(tuple),"setText",Q_ARG(QString,object[std::get<0>(tuple)].toString()));
                                 }
                             }else{
-                                qWarning()<<"("<<this->objectName()<<"):"<<std::get<0>(tuple)<<" is invalid type.";
+                                qWarning()<<this<<std::get<0>(tuple)<<" is invalid type.";
                             }
-                        }else qWarning()<<"("<<this->objectName()<<"):"<<std::get<0>(tuple)<<" couldn't be found.";
+                        }else qWarning()<<this<<std::get<0>(tuple)<<" couldn't be found.";
                     }
                 }else{
-                    qWarning()<<"Format of the information file is invalid.";
+                    qWarning()<<this<<"Format of the information file is invalid.";
                     this->setEmptyTitleAndDesc();
                 }
                 info.close();
             }else{
-                qWarning()<<"Opening the information file failed:"<<info.errorString();
+                qWarning()<<this<<"Opening the information file failed:"<<info.errorString();
                 this->setEmptyTitleAndDesc();
             }
         }else{
-            qWarning()<<"The information file counldn't be found.";
+            qWarning()<<this<<"The information file counldn't be found.";
             this->setEmptyTitleAndDesc();
         }
         

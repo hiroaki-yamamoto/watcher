@@ -6,6 +6,9 @@
 
 #include "setting_default.h"
 #include "plugin_loader.h"
+
+#include <logging/logging.h>
+using namespace logging;
 namespace ui{
     void ConfigDialog::_createRelationUIandSetting(){
         this->_setting_object[default_value::setting_default::name_plugin_root_dir()]=this->_plugin_dir;
@@ -21,10 +24,10 @@ namespace ui{
             qDebug()<<"Control Type:"<<class_name;
             
             if(this->_property->exists(key)){
-                qDebug()<<"Key:"<<key<<" is found in setting storage. reading...";
+                qDebug()<<this<<"Key:"<<key<<" is found in setting storage. reading...";
                 this->_setVariantToUI(obj,this->_property->get(key));
             }else{
-                qDebug()<<"Key:"<<key<<" couldn't be found in setting storage. Ignoring...";
+                qDebug()<<this<<"Key:"<<key<<" couldn't be found in setting storage. Ignoring...";
             }
         }
     }
@@ -47,7 +50,7 @@ namespace ui{
                     int index=value.toInt();
                     ThemeScrollArea *theme_area=qobject_cast<decltype(theme_area)>(ui);
                     if (theme_area->children_size()<=index){
-                        qWarning()<<"("<<ui->objectName()<<"):"<<"Out of range.";
+                        qWarning()<<this<<"Out of range.";
                         break;
                     }
                     ThemePanel *panel=qobject_cast<decltype(panel)>((*theme_area)[value.toInt()]);
@@ -55,7 +58,7 @@ namespace ui{
                 }
                     break;
                 default:
-                    qWarning()<<"("<<ui->objectName()<<"):"<<"The type of specified value is invalid.";
+                    qWarning()<<this<<"The type of specified value is invalid.";
                     break;
             }
         }

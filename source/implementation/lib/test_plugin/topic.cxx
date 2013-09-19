@@ -1,11 +1,12 @@
 #include <QtDebug>
+#include <logging/logging.h>
 #include <loader/response.h>
 
 #include "topic.h"
 namespace test{
     topic::topic(std::mt19937 *mt, const QString &title, const QString &author, const QUuid &id,const QUrl &topicURL, QObject *parent):plugin::topic(parent){
         if(mt==nullptr){
-            qWarning()<<"mt must not be null."<<endl;
+            qWarning()<<this<<"mt must not be null."<<endl;
         }
         this->_mt=mt;
         this->setTitle(title);

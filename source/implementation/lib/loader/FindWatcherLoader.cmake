@@ -12,8 +12,7 @@ foreach(header IN LISTS WatcherLoader_HEADERS)
 endforeach(header)
 
 foreach(library IN LISTS WatcherLoader_LIBRARIES)
-    find_library(INTERNAL_LIBRARIES "${library}" 
-                HINTS "/usr/lib/watcher" "/usr/local/lib/watcher")
+    find_library(INTERNAL_LIBRARIES "${library}" HINTS "/usr/lib/watcher" "/usr/local/lib/watcher")
     list(FIND WatcherLoader_LIBRARIES_DIR ${INTERNAL_LIBRARIES} result)
     if(result EQUAL -1)
         list(APPEND WatcherLoader_LIBRARIES_DIR ${INTERNAL_LIBRARIES})

@@ -21,7 +21,7 @@
 namespace yotsuba{
     board::board(std::mt19937 *mt, QNetworkAccessManager *accessManager, QObject *parent):plugin::board(parent){
         if(mt==nullptr){
-            qWarning()<<"mt must not be null.";
+            qWarning()<<"yotsuba: mt must not be null.";
             this->deleteLater();
             return;
         }

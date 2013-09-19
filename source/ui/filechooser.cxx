@@ -6,6 +6,9 @@
 
 #include <QtDebug>
 
+#include<logging/logging.h>
+
+using namespace logging;
 namespace ui{
     FileChooser::FileChooser(const QString &objName,QWidget *parent){
         FileChooser(QFileInfo(),FileChooser::File,objName,parent);
@@ -13,8 +16,8 @@ namespace ui{
     
     FileChooser::FileChooser(const QFileInfo &file_path, const ChooseMode mode,const QString &objName, QWidget *parent):QWidget(parent){
         this->setObjectName(objName);
-        if(!file_path.exists()) qWarning()<<"("<<this->objectName()<<"): "<<file_path.filePath()<<"doesn't exist.";
-        else qWarning()<<"("<<this->objectName()<<"): FilePath"<< file_path.absoluteFilePath();
+        if(!file_path.exists()) qWarning()<<this<<file_path.filePath()<<" doesn't exist.";
+        else qWarning()<<this<<"FilePath"<<file_path.absoluteFilePath();
         this->_info=file_path;
         this->_filepath=new QLineEdit(file_path.absoluteFilePath(),this);
         this->_mode=mode;
@@ -41,14 +44,14 @@ namespace ui{
     void FileChooser::setPath(const QString &path){
         QFileInfo previous_path=this->_info,now_path=QFileInfo(path);
         bool cancel=false;
-        if(!now_path.exists()){qWarning()<<"("<<this->objectName()<<"): "<<now_path.absoluteFilePath()<<" doesn't exist.";}
-        if(this->_mode==FileChooser::Dir&&!now_path.isDir()) qWarning()<<now_path.absoluteFilePath()<<" is not a directory.";
-        else if(this->_mode==FileChooser::File&&now_path.isDir()) qWarning()<<now_path.absoluteFilePath()<<"is not a file.";
+        if(!now_path.exists()){qWarning()<<this<<now_path.absoluteFilePath()<<" doesn't exist.";}
+        if(this->_mode==FileChooser::Dir&&!now_path.isDir()) qWarning()<<this<<now_path.absoluteFilePath()<<" is not a directory.";
+        else if(this->_mode==FileChooser::File&&now_path.isDir()) qWarning()<<this<<now_path.absoluteFilePath()<<"is not a file.";
         this->_filepath->setText(now_path.absoluteFilePath());
         if(previous_path!=now_path){
             this->_info=now_path;
-            qDebug()<<"("<<this->objectName()<<"): Previous Path:"<<previous_path.absoluteFilePath();
-            qDebug()<<"("<<this->objectName()<<"): Current Path:"<<now_path.absoluteFilePath();
+            qDebug()<<this<<"Previous Path:"<<previous_path.absoluteFilePath();
+            qDebug()<<this<<"Current Path:"<<now_path.absoluteFilePath();
             emit this->filePathChanged(previous_path,now_path,cancel);
         }
         if(cancel){
