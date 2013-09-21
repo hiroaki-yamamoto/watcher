@@ -32,6 +32,7 @@ SOURCES +=      versionwindow.cxx \
                 boardwindow/constructor.cxx \
                 boardwindow/signals_slots.cxx \
                 responsewindow/constructor.cxx \
+                responsewindow/signals_slots.cxx \
                 pluginpanel.cxx \
                 multiple_scroll_area.cxx \
                 themepanel.cxx \

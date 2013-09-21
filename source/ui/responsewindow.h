@@ -16,5 +16,9 @@ namespace ui{
                         QList<plugin::root *> *plugins,
                         storage::property_storage *property,
                         QMLWindowBase *parent=nullptr);
+        private slots:
+            void _createRelationBetweenSignalsAndSlots();
+            void _postButtonClicked();
+            void _reload();
     };
 }
