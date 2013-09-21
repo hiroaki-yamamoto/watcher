@@ -26,6 +26,22 @@ Rectangle{
             id:menuLayout
             anchors.fill: menu
             spacing: 2
+            Button{
+                id:post
+                objectName:"post"
+                style:post.style_mode.icon
+                radius:2
+                icon:"icons/post.png"
+                anchors.verticalCenter: menuLayout.verticalCenter
+            }
+            Button{
+                id:reload
+                objectName:"reload"
+                style:post.style_mode.icon
+                radius:2
+                icon:"icons/reload.png"
+                anchors.verticalCenter: menuLayout.verticalCenter
+            }
         }
     }
 }

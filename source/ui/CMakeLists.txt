@@ -51,6 +51,7 @@ set(src
     "boardwindow/signals_slots.cxx"
 
     "responsewindow/constructor.cxx"
+    "responsewindow/signals_slots.cxx"
 )
 qt5_wrap_cpp(moc_src
     "configwindow.h"

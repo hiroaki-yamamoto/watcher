@@ -5,5 +5,6 @@ namespace ui{
                                    storage::property_storage *property, 
                                    QMLWindowBase *parent):TabWindowBase(title,icon,plugins,property,parent){
         this->_loadQMLFile("ResponseWindow.qml");
+        this->_createRelationBetweenSignalsAndSlots();
     }
 }
