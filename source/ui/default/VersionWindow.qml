@@ -93,7 +93,7 @@ Rectangle{
                     right:parent.right
                     top:parent.top
                 }
-                height:paintedHeight
+                height:contentHeight
             }
             onContentYChanged: bar.position=contentY/contentHeight
         }

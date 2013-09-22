@@ -62,6 +62,7 @@ OTHER_FILES+=   default/Button.qml \
                 default/ResponseTabContent.qml\
                 default/ResponseView.qml\
                 default/ResponsePanel.qml\
+                default/ResponseList.qml\ 
                 default/Spacer.qml \
                 default/LocationBar.qml \
                 default/LinkImage.qml \
