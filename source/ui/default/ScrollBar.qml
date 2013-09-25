@@ -8,8 +8,8 @@ Rectangle {
     
     color:"#80FFFFFF";
     
-    width: (orientation==Qt.Vertical)?10:width;
-    height: (orientation==Qt.Horizontal)?10:height;
+    width: (orientation==Qt.Horizontal)?width:10;
+    height: (orientation==Qt.Vertical)?height:10;
     clip: true;
     
     property real pagewidth:10;

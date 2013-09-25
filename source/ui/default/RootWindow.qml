@@ -192,7 +192,6 @@ Rectangle {
             createdContent1.buttonClickedEvent=function(sender_button){
                 console.log("Clicked");
             }
-    
             var createdContent2=addTab("CategoryView2","00000000-0000-0000-0000-000000000001")
         }
     }
