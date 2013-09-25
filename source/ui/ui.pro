@@ -66,6 +66,7 @@ OTHER_FILES+=   default/Button.qml \
                 default/Spacer.qml \
                 default/LocationBar.qml \
                 default/LinkImage.qml \
+                default/ImageFlicker.qml \
                 failsafe/RootWindow.qml \
                 failsafe/VersionWindow.qml \
                 failsafe/ToolTip.qml \
