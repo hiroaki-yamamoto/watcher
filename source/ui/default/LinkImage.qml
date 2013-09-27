@@ -3,6 +3,8 @@ Image{
     id:root
     property url imageURI:"http://example.com"
     source: "icons/warn160.png"
+    width:root.paintedWidth
+    height:root.paintedHeight
     MouseArea{
         anchors.fill:root
         hoverEnabled: true
