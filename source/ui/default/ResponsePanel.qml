@@ -69,7 +69,7 @@ Rectangle{
         
         Text{
             id:emailText
-            text:"<a href=\""+root.email+"\">"+root.email+"</a>"
+            text:"<a href=\"mailto:"+root.email+"\">"+root.email+"</a>"
             anchors{
                 margins:5
                 top:dateText.bottom
@@ -80,7 +80,11 @@ Rectangle{
     }
     Rectangle{
         id:bodyArea
-        height:bodyText.height+imageFlick.height+(imageFlick.anchors.margins*2)+(bodyText.anchors.margins*2)
+        height:{
+            var areaHeight=bodyText.height+(bodyText.anchors.margins*2)
+            if(imageFlick.visible) areaHeight+=imageFlick.height+(imageFlick.anchors.margins*2)
+            areaHeight
+        }
         color:"transparent"
         border{
             width:1
@@ -109,17 +113,24 @@ Rectangle{
         ImageFlicker{
             id:imageFlick
             height:50
+            visible:false
             anchors{
                 margins:5
                 top:bodyText.bottom
                 left:bodyArea.left
                 right:bodyArea.right
             }
+            areaPanel.onChildrenChanged: {
+                imageFlick.visible=(areaPanel.children.length>0)
+                var areaHeight=bodyText.height+(bodyText.anchors.margins*2)
+                if(imageFlick.visible) imageFlick.height+(imageFlick.anchors.margins*2)
+            }
+
             function addImage(link_url,source_url){
                 var createdComponent=Qt.createComponent("LinkImage.qml")
                 if(createdComponent.status===Component.Ready){
                     var createdContent=createdComponent.createObject(imageFlick.areaPanel,
-                                                                     {"imageURI":link_url,"source_url":source_url})
+                                                                     {"imageURI":link_url,"source":source_url})
                     return createdContent
                 }
             }
@@ -131,6 +142,6 @@ Rectangle{
         return value: Generated Item. i.e. LinkImage.
     */
     function addImage(linkURI,sourceURL){
-        imageFlick.addImage(linkURI,sourceURL)
+        return imageFlick.addImage(linkURI,sourceURL)
     }
 }

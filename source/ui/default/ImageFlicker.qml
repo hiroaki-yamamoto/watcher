@@ -3,6 +3,8 @@ import QtQuick 2.0
 Rectangle{
    id:root
    property alias areaPanel:imageArea
+   width:50
+   height:50
    border{
        width:1
        color:"black"
@@ -24,20 +26,17 @@ Rectangle{
        Row{
            id:imageArea
            spacing:2
-           x:0
-           y:0
            width:50
            height:imageFlick.height
            onChildrenChanged: {
-               var extendwidth=0
-               for(children_index in imageArea.children){
+               var hasChild=false
+               for(var children_index in imageArea.children){
                    imageArea.children[children_index].fillMode=Image.PreserveAspectFit
-                   imageArea.children[children_index].height*=root.height/children_index.height
+                   imageArea.children[children_index].height=imageArea.height
                    imageArea.children[children_index].width=imageArea.paintedWidth
-                   extendwidth+=imageArea.children[children_index].width
+                   hasChild=true
                }
-               if(extendwidth>0) imageArea.width=extendwidth
-               else imageArea.width=50
+               if(!hasChild) imageArea.width=50
            }
        }
        contentWidth: imageArea.width
