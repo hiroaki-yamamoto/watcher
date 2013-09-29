@@ -7,7 +7,7 @@ Item{
     property string uuid    :"00000000-0000-0000-0000-000000000000"
 
     readonly property alias currentSelectedTabContent:responses.currentPanel
-    readonly property bool debug:true
+    readonly property bool debug:false
     
     signal currentTabChanged(var previous,var current)
     signal closeButtonClicked(var text,var uuid)
