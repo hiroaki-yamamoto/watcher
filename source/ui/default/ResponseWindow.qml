@@ -1,6 +1,7 @@
 import QtQuick 2.0
 Rectangle{
     id:root
+    readonly property bool debug:false
     readonly property alias currentSelectedTabContent:plugin_tab.currentPanel
     
     signal currentTabChanged(var previous,var current)
@@ -61,5 +62,36 @@ Rectangle{
         }
         onCurrentTabChanged: root.currentTabChanged(previous,current)
         onCloseButtonClicked: root.closeButtonClicked(text,uuid)
+        function addTab(tabText,uuid){
+            var createdComponent=Qt.createComponent("ResponseTabContent.qml")
+            if(createdComponent.status===Component.Ready){
+                var createdContent=createdComponent.createObject(plugin_tab.tabPanel,{
+                                                                     "title":tabText, "uuid":uuid,
+                                                                     "anchors.fill":plugin_tab.tabPanel
+                                                                 })
+                return createdContent
+            }
+        }
+    }
+    function addTab(tabText,uuid){
+        var genTab=plugin_tab.addTab(tabText,uuid)
+        if(genTab===undefined) console.log("Couldn't create Tab:{title:"+tabText+", uuid:"+uuid+"}")
+        else return genTab
+    }
+    Component.onCompleted: {
+        if(debug){
+            for(var i=0;i<3;i++){
+                var pluginTab=addTab("test"+i,i)
+                for(var j=0;j<3;j++){
+                    var topicTab=pluginTab.addTab("test["+i+","+j+"]")
+                    topicTab.topicURL="http://exmaple.com/boards/"+i+"/"+j
+                    for(var k=0;k<100;k++){
+                        topicTab.addResponse("Test "+k,"Anonymouse"+k,"anon@example.com",
+                                             "Sun Sep 29 2013 10:46:46."+k,"This is a test ["+i+","+j+","+k+"]",k,
+                                             "http://example.com/boards/response/"+i+"/"+j+"/"+k)
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,9 +1,10 @@
 import QtQuick 2.0
 Item{
     id:root
-    readonly property bool debug:true
+    readonly property bool debug:false
     width:100
     height:100
+    clip: true
     Flickable{
         id:panelView
         flickableDirection: Flickable.VerticalFlick

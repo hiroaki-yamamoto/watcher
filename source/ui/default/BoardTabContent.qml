@@ -9,7 +9,6 @@ Item{
     signal currentTabChanged(var previous,var current)
     signal closeButtonClicked(var text,var uuid)
     
-    anchors.fill: parent
     Tab{
         id:tab
         anchors.fill: root
