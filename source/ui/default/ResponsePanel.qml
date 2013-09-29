@@ -142,6 +142,8 @@ Rectangle{
         return value: Generated Item. i.e. LinkImage.
     */
     function addImage(linkURI,sourceURL){
-        return imageFlick.addImage(linkURI,sourceURL)
+        var image=imageFlick.addImage(linkURI,sourceURL)
+        if(image===undefined) console.log("Couldn't create Linked Image:{linkURI:"+linkURI+",sourceURL:"+sourceURL+"}")
+        else return image
     }
 }

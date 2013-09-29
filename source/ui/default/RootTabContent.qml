@@ -1,7 +1,6 @@
 import QtQuick 2.0
 Item{
     id: tabContentRoot
-    anchors.fill: parent
     clip: true
 
     property string title:"Untitled"

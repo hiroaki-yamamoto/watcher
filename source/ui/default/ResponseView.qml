@@ -28,7 +28,9 @@ Item{
         }
     }
     function addResponse(title,author,email,post_time,body,uuid,URL){
-        return responseList.addPanel(title,author,email,post_time,body,uuid,URL)
+        var generatedContent=responseList.addPanel(title,author,email,post_time,body,uuid,URL)
+        if(generatedContent===undefined) console.log("Couldn't create response panel.")
+        else return generatedContent
     }
     Component.onCompleted: {
         if(debug)
