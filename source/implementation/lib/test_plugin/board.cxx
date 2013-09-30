@@ -4,13 +4,7 @@
 #include "topic.h"
 using namespace logging;
 namespace test{
-    board::board(std::mt19937 *mt,const QString &name,const QUuid &id,QObject *parent):plugin::board(parent){
-        if(mt==nullptr){
-            qWarning()<<this<<"mt must not be nullptr.";
-            this->deleteLater();
-            return;
-        }
-        this->_mt=mt;
+    board::board(const QString &name,const QUuid &id,QObject *parent):plugin::board(parent){
         this->setObjectName(name);
         this->setTitle(name);
         this->setIdentifier(id);
@@ -24,7 +18,7 @@ namespace test{
         QVector<plugin::topic *> topics;
         for(quint16 count=0;count<100;count++){
             QUuid topic_id=QUuid::createUuidV5(this->identifier(),QString::number(count));
-            topics<<new test::topic(this->_mt,QString("Test Topic Title: %1").arg(count),"Anonymous",
+            topics<<new test::topic(QString("Test Topic Title: %1").arg(count),"Anonymous",
                               topic_id,this->board_url().resolved(QString("topic-%1").arg(topic_id.toString())),this);
         }
         emit this->get_topics_finished(topics);

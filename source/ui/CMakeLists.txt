@@ -30,8 +30,6 @@ set(src
     "theme_scroll_area.cxx"
     "filechooser.cxx"
     "license.cxx"
-    "roottabcontents.cxx"
-    "boardtabcontents.cxx"
     "tabcontents_base.cxx"
     "tabwindow_base.cxx"
     "topicview.cxx"
@@ -46,17 +44,29 @@ set(src
     
     "rootwindow/constructor.cxx"
     "rootwindow/signals_slots.cxx"
+    "rootwindow/roottabcontents.cxx"
 
     "boardwindow/constructor.cxx"
     "boardwindow/signals_slots.cxx"
+    "boardwindow/boardtabcontents.cxx"
 
     "responsewindow/constructor.cxx"
     "responsewindow/signals_slots.cxx"
+    "responsewindow/responselist.cxx"
+    "responsewindow/responsepanel.cxx"
+    "responsewindow/responsetabcontents.cxx"
+    "responsewindow/responseview.cxx"
 )
 qt5_wrap_cpp(moc_src
     "configwindow.h"
     "rootwindow.h"
     "boardwindow.h"
+    "boardtabcontents.h"
+    "roottabcontents.h"
+    "responselist.h"
+    "responsepanel.h"
+    "responsetabcontents.h"
+    "responseview.h"
     "responsewindow.h"
 )
 

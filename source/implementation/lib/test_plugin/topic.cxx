@@ -4,23 +4,19 @@
 
 #include "topic.h"
 namespace test{
-    topic::topic(std::mt19937 *mt, const QString &title, const QString &author, const QUuid &id,const QUrl &topicURL, QObject *parent):plugin::topic(parent){
-        if(mt==nullptr){
-            qWarning()<<this<<"mt must not be null."<<endl;
-        }
-        this->_mt=mt;
+    topic::topic(const QString &title, const QString &author, const QUuid &id,const QUrl &topicURL, QObject *parent):plugin::topic(parent){
         this->setTitle(title);
         this->setAuthor(author);
         this->setIdentifier(id);
         this->_topicURL=topicURL;
     }
-    bool topic::readonly() const{return true;}
+    bool topic::readonly() const{return false;}
 
     const QUrl &topic::topic_url() const{return this->_topicURL;}
     void topic::get_responses(){
         
     }
-    void topic::post(const plugin::response &response){
+    void topic::post(){
         
     }
 }

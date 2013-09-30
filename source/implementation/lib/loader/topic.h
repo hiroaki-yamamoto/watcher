@@ -22,7 +22,8 @@ namespace plugin{
             virtual const QUrl &topic_url() const=0;
         public slots:
             virtual void get_responses()=0;
-            virtual void post(const response &res)=0;
+            //This function is for showing posting dialog, and post the response when "Ok" button is clicked.
+            virtual void post()=0;
         signals:
             void post_finished(const response &res);
             void post_failed(const QNetworkReply::NetworkError err,const QString &err_str);

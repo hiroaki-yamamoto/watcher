@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="aghi">images/aghi.jpg</file>
+        <file alias="air">images/air.png</file>
+        <file alias="atra_dot">images/atra_dot.jpg</file>
+        <file alias="auros">images/auros.png</file>
+        <file alias="autumn">images/autumn.png</file>
+    </qresource>
+</RCC>

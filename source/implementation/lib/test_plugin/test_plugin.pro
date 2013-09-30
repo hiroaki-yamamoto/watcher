@@ -14,3 +14,6 @@ SOURCES +=  board.cxx \
             topic.cxx
 
 OTHER_FILES+=CMakeLists.txt root.json
+
+RESOURCES += \
+    images.qrc
