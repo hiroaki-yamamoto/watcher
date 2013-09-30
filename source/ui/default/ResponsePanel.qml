@@ -10,13 +10,13 @@ Rectangle{
     }
     color:"transparent"
 
-    property alias title:titleText.text
+    property string title:titleText.text
     property alias author:authorText.text
     property string email:"anonymous@exmaple.com"
     property alias post_time:dateText.text
     property alias body:bodyText.text
     property string uuid:"00000000-0000-0000-0000-000000000000"
-    property url    responseURL:"http://example.com/responses/blablabla"
+    property string responseURL:"http://example.com/responses/blablabla"
     
     signal linkActivated(var linkURL);
     
@@ -39,12 +39,16 @@ Rectangle{
         color:"transparent"
         Text{
             id:titleText
-            text:"Untitled"
+            text:{
+                if (root.responseURL===undefined||root.responseURL.toString()==="") return root.title
+                else return "<a href=\""+root.responseURL.toString()+"\">"+root.title+"</a>"
+            }
             anchors{
                 margins:5
                 top:titleArea.top
                 left:titleArea.left
             }
+            onLinkActivated: root.linkActivated(link)
         }
         Text{
             id:authorText
