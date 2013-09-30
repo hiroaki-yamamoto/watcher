@@ -38,7 +38,7 @@ namespace yotsuba{
     bool topic::readonly() const{return true;}
     void topic::setTopicURL(const QUrl &url){this->_url=url;}
     void topic::setTopicID(const qulonglong &topicID){this->_topicID=topicID;}
-    void topic::post(const plugin::response &res){}
+    void topic::post(){}
     void topic::get_responses(){
         connect(this->_accessmanager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
         board *parent=qobject_cast<board *>(this->parent());

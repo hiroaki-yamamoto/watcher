@@ -19,7 +19,7 @@ namespace yotsuba{
             void setTopicID(const qulonglong &topicID);
             void setTopicURL(const QUrl &url);
             void get_responses();
-            void post(const plugin::response &res);
+            void post();
         private slots:
             void getDataFinished(QNetworkReply *reply);
         private:

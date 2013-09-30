@@ -14,13 +14,13 @@ namespace test{
         this->setIdentifier(id);
         this->_topicURL=topicURL;
     }
-    bool topic::readonly() const{return true;}
+    bool topic::readonly() const{return false;}
 
     const QUrl &topic::topic_url() const{return this->_topicURL;}
     void topic::get_responses(){
         
     }
-    void topic::post(const plugin::response &response){
+    void topic::post(){
         
     }
 }

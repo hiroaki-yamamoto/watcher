@@ -17,6 +17,10 @@ HEADERS +=      rootwindow.h \
                 tabcontents_base.h \
                 tabwindow_base.h \
                 responsewindow.h \
+                responselist.h \
+                responsepanel.h \
+                responsetabcontents.h \
+                responseview.h \
                 topicview.h
 
 SOURCES +=      versionwindow.cxx \
@@ -29,10 +33,16 @@ SOURCES +=      versionwindow.cxx \
                 configwindow/properties.cxx \
                 rootwindow/constructor.cxx \
                 rootwindow/signals_slots.cxx \
+                rootwindow/roottabcontents.cxx \
                 boardwindow/constructor.cxx \
                 boardwindow/signals_slots.cxx \
+                boardwindow/boardtabcontents.cxx \
                 responsewindow/constructor.cxx \
                 responsewindow/signals_slots.cxx \
+                responsewindow/responselist.cxx \
+                responsewindow/responsepanel.cxx \
+                responsewindow/responsetabcontents.cxx \
+                responsewindow/responseview.cxx \
                 pluginpanel.cxx \
                 multiple_scroll_area.cxx \
                 themepanel.cxx \
@@ -40,8 +50,6 @@ SOURCES +=      versionwindow.cxx \
                 filechooser.cxx \
                 qml_window_base.cxx \
                 license.cxx \
-                roottabcontents.cxx \
-                boardtabcontents.cxx \
                 tabcontents_base.cxx \
                 tabwindow_base.cxx \
                 topicview.cxx
