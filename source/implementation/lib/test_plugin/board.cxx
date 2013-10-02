@@ -4,7 +4,7 @@
 #include "topic.h"
 using namespace logging;
 namespace test{
-    board::board(const QString &name,const QUuid &id,QObject *parent):plugin::board(parent){
+    board::board(const QString &name, const QUuid &id, QObject *parent):plugin::board(parent){
         this->setObjectName(name);
         this->setTitle(name);
         this->setIdentifier(id);

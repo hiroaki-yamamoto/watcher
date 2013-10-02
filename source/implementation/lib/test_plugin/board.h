@@ -2,7 +2,6 @@
 #include <loader/board.h>
 #include <QString>
 #include <QUrl>
-#include <random>
 class QUuid;
 namespace test{
     class board:public plugin::board{
@@ -15,5 +14,6 @@ namespace test{
             void get_topics();
         private:
             QUrl _board_url;
+            quint64 _num;
     };
 }

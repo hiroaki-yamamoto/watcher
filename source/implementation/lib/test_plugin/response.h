@@ -9,8 +9,8 @@ namespace test{
     class response:public plugin::response{
             Q_OBJECT
         public:
-            response(const QString &title,const QString &desc,const QString &author,const QString &email,
-                     const QString &body,const QDateTime &creation_date,const QUrl &res_url,const QUuid &id,QObject *parent);
+            response(const QString &title,const QString &body,const QString &author,const QString &email,
+                     const QDateTime &creation_date,const QUrl &res_url,const QUuid &id,QObject *parent);
             const QString &email() const;
             const QString &body() const;
             const QDateTime &creation_date() const;
@@ -20,7 +20,7 @@ namespace test{
             void fetchImage(const QUrl &link_url,const QImage &image);
         private:
             QHash<QUrl,QImage> _images;
-            QString _email,_body;
+            QString _email;
             QDateTime _creation_date;
             QUrl _response_url;
     };
