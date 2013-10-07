@@ -17,7 +17,6 @@ HEADERS +=      rootwindow.h \
                 tabcontents_base.h \
                 tabwindow_base.h \
                 responsewindow.h \
-                responselist.h \
                 responsepanel.h \
                 responsetabcontents.h \
                 responseview.h \
@@ -39,7 +38,6 @@ SOURCES +=      versionwindow.cxx \
                 boardwindow/boardtabcontents.cxx \
                 responsewindow/constructor.cxx \
                 responsewindow/signals_slots.cxx \
-                responsewindow/responselist.cxx \
                 responsewindow/responsepanel.cxx \
                 responsewindow/responsetabcontents.cxx \
                 responsewindow/responseview.cxx \

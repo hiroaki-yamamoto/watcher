@@ -23,6 +23,12 @@ Rectangle{
     onEmailChanged:{
         emailText.text="<a href=\""+root.email+"\">"+root.email+"</a>"
     }
+    onResponseURLChanged:{
+        if (root.responseURL===undefined||root.responseURL.toString()==="")
+            titleText.text=root.title
+        else
+            titleText.text="<a href=\""+root.responseURL.toString()+"\">"+root.title+"</a>"
+    }
     
     Rectangle{
         id:titleArea
@@ -113,6 +119,7 @@ Rectangle{
             }
             height: bodyText.contentHeight
             text:"The quick brown fox jumps over the lazy dog."
+            onLinkActivated: root.linkActivated(link)
         }
         ImageFlicker{
             id:imageFlick
@@ -130,11 +137,14 @@ Rectangle{
                 if(imageFlick.visible) imageFlick.height+(imageFlick.anchors.margins*2)
             }
 
-            function addImage(link_url,source_url){
+            function addImage(link_url,source_url,uuid){
                 var createdComponent=Qt.createComponent("LinkImage.qml")
                 if(createdComponent.status===Component.Ready){
                     var createdContent=createdComponent.createObject(imageFlick.areaPanel,
-                                                                     {"imageURI":link_url,"source":source_url})
+                                                                     {"imageURI":link_url,
+                                                                      "source"  :source_url,
+                                                                       "uuid"   :uuid
+                                                                     })
                     return createdContent
                 }
             }
@@ -145,8 +155,8 @@ Rectangle{
         sourceURL:URL of the actual image.
         return value: Generated Item. i.e. LinkImage.
     */
-    function addImage(linkURI,sourceURL){
-        var image=imageFlick.addImage(linkURI,sourceURL)
+    function addImage(linkURI,sourceURL,uuid){
+        var image=imageFlick.addImage(linkURI,sourceURL,uuid)
         if(image===undefined) console.log("Couldn't create Linked Image:{linkURI:"+linkURI+",sourceURL:"+sourceURL+"}")
         else return image
     }

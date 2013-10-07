@@ -1,5 +1,5 @@
 set(WatcherLoader_LIBRARIES "loader")
-set(WatcherLoader_HEADERS "board.h" "category.h" "response.h" "topic.h")
+set(WatcherLoader_HEADERS "board.h" "category.h" "content_base.h" "response.h" "root.h" "topic.h")
 set(WatcherLoader_VERSION 1.0)
 
 foreach(header IN LISTS WatcherLoader_HEADERS)

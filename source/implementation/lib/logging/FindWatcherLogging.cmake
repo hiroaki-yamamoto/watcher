@@ -1,5 +1,5 @@
-set(WatcherLogging_LIBRARIES "")
-set(WatcherLogging_HEADERS "")
+set(WatcherLogging_LIBRARIES "logging")
+set(WatcherLogging_HEADERS "logging.h")
 set(WatcherLogging_VERSION 1.0)
 
 foreach(header IN LISTS WatcherLogging_HEADERS)
