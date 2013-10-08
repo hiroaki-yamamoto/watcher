@@ -62,7 +62,6 @@ qt5_wrap_cpp(moc_src
     "boardwindow.h"
     "boardtabcontents.h"
     "roottabcontents.h"
-    "responselist.h"
     "responsepanel.h"
     "responsetabcontents.h"
     "responseview.h"
