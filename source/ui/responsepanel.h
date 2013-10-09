@@ -14,17 +14,18 @@ namespace plugin{
     class response;
 }
 namespace ui{
+    class ResponseView;
     class ResponsePanel:public QObject{
             Q_OBJECT
-            Q_PROPERTY(QString title READ title WRITE setTitle)
-            Q_PROPERTY(QString author READ author WRITE setAuthor)
-            Q_PROPERTY(QString email READ email WRITE setEmail)
-            Q_PROPERTY(QDateTime postTime READ post_time WRITE setPostTime)
-            Q_PROPERTY(QString body READ body WRITE setBody)
-            Q_PROPERTY(QUuid UUID READ uuid WRITE setUUID)
-            Q_PROPERTY(QUrl responseURL READ responseURL WRITE setResponseURL)
+            Q_PROPERTY(QString title READ title)
+            Q_PROPERTY(QString author READ author)
+            Q_PROPERTY(QString email READ email)
+            Q_PROPERTY(QDateTime postTime READ post_time)
+            Q_PROPERTY(QString body READ body)
+            Q_PROPERTY(QUuid UUID READ UUID)
+            Q_PROPERTY(QUrl responseURL READ responseURL)
         public:
-            ResponsePanel(plugin::response *res,QObject *parent);
+            ResponsePanel(const plugin::response *res,ResponseView *parent);
             QString title() const;
             QString author() const;
             QString email() const;
@@ -32,15 +33,11 @@ namespace ui{
             QString body() const;
             QUuid UUID() const;
             QUrl responseURL() const;
+            const plugin::response *response() const;
         public slots:
-            void setTitle(const QString &title);
-            void setAuthor(const QString &author);
-            void setEmail(const QString &email);
-            void setPostTime(const QDateTime &post_time);
-            void setBody(const QString &body);
-            void setUUID(const QUuid &id);
-            void setResponseURL(const QUrl &url);
+            void setResponse(const plugin::response *res);
         private:
+            const plugin::response *_response;
             QQuickItem *_item;
             manager::ImageManager _imageManager;
             manager::PixelManager _pixelManager;
