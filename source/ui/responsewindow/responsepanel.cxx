@@ -21,10 +21,7 @@ namespace ui{
     QString     ResponsePanel::body()           const{return this->_response->body();}
     QUuid       ResponsePanel::UUID()           const{return this->_response->identifier();}
     QUrl        ResponsePanel::responseURL()    const{return this->_response->response_url();}
-    const plugin::response *ResponsePanel::response() const{
-        return this->_response;
-    }
-    void ResponsePanel::setResponse(const plugin::response *res){
-        this->_response=res;
-    }
+    
+    const plugin::response *ResponsePanel::response() const {return this->_response;}
+    void ResponsePanel::setResponse(const plugin::response *res){this->_response=res;}
 }

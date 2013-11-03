@@ -132,8 +132,8 @@ namespace ui{
             }
         }
         if(anything_not_loaded){
-            this->_children["back"]->setProperty("enabled",false);
-            this->_children["next"]->setProperty("enabled",false);
+            if(this->_children["back"]!=nullptr) this->_children["back"]->setProperty("enabled",false);
+            if(this->_children["next"]!=nullptr) this->_children["next"]->setProperty("enabled",false);
         }
     }
     void RootWindow::_tabContentStateChanged(){this->_tabContentStateChanged(QVariant(),QVariant());}
