@@ -4,7 +4,7 @@
 #include <QUuid>
 #include <random>
 #include <logging/logging.h>
-#include <cstdlib>
+//#include <cstdlib>
 #include "root.h"
 #include "category.h"
 #include "board.h"
@@ -93,6 +93,6 @@ namespace test{
     }
 
     void topic::post(){
-        
+        //TODO:Create and Open posting UI(UI includes input fields of title,email, images and body)
     }
 }

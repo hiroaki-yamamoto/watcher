@@ -39,6 +39,7 @@ include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/property_storage"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/loader"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/logging"
+    "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/manager"
 )
 add_subdirectory(implementation)
 add_subdirectory(ui)
