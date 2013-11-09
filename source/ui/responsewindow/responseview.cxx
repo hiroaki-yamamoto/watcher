@@ -6,6 +6,7 @@
 #include <QString>
 #include <QDateTime>
 #include <QUrl>
+#include <QPair>
 #include <logging/logging.h>
 
 #include <loader/response.h>
@@ -13,18 +14,47 @@
 
 
 namespace ui{
-    ResponseView::ResponseView(plugin::topic *topic, TabContentsBase *parent):QObject(parent){
-        this->_item=parent->addTab(topic->title(),topic->identifier());
-        connect(topic,SIGNAL(get_responses_finished(QVector<plugin::response*>)),
+    ResponseView::ResponseView(plugin::topic *topic, TabContentsBase *parent):
+        TabContentsBase(topic->title(),topic->identifier(),parent){
+        this->_topic=topic;
+        connect(this->_topic,SIGNAL(get_responses_finished(QVector<plugin::response*>)),
                       SLOT(responseLoaded(QVector<plugin::response*>)));
-        connect(topic,SIGNAL(get_responses_failed(QNetworkReply::NetworkError,QString)),
+        connect(this->_topic,SIGNAL(get_responses_failed(QNetworkReply::NetworkError,QString)),
                       SLOT(responseFetchingFailed(QNetworkReply::NetworkError,QString)));
-        topic->get_responses();
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),this->_topic,SLOT(get_responses()));
+            if(!QMetaObject::invokeMethod(this->_tabcontents,"startHideAnimation")){
+                this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()),this->_topic,SLOT(get_responses()));
+                this->_topic->get_responses();
+            }
+        }else this->_topic->get_responses();
+    }
+    QQuickItem *ResponseView::addTab(const QString &title, const QUuid &uuid){
+        Q_UNUSED(title)
+        Q_UNUSED(uuid)
+        return new QQuickItem(this->_tabcontents);
+    }
+    void ResponseView::reload(){
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),this->_topic,SLOT(get_responses()));
+            if(!QMetaObject::invokeMethod(this->_tabcontents,"startHideAnimation")){
+                this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()),this->_topic,SLOT(get_responses()));
+                this->_topic->get_responses();
+            }
+        }else this->_topic->get_responses();
     }
     
     void ResponseView::responseLoaded(const QVector<plugin::response *> &responses){
+        plugin::topic *topic=qobject_cast<decltype(topic)>(this->sender());
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()),topic,SLOT(get_responses()));
+        }
+        for(auto &panel:this->_childrenTabs.values()) panel->deleteLater();
+        this->_childrenTabs.clear();
         for(plugin::response *response:responses) this->addItem(response);
+        if(this->_tabcontents->property("hasAnimation").toBool()) QMetaObject::invokeMethod(this->_tabcontents,"startShowAnimation");
     }
+    
     void ResponseView::responseFetchingFailed(const QNetworkReply::NetworkError err, const QString &err_str){
         Q_UNUSED(err)
         QMessageBox::warning(nullptr,tr("Response Fetching failed"),
@@ -35,13 +65,13 @@ namespace ui{
     }
 
     void ResponseView::addItem(plugin::response *res){
-        this->_panels[res->identifier()]=new ResponsePanel(res,this);
+        this->_childrenTabs[qMakePair(res->title(),res->identifier())]=new ResponsePanel(res,this);
     }
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,
                                        const QUrl &responseURL){
         QVariant invoke_result;
-        bool succeeded=QMetaObject::invokeMethod(this->_item,"addResponse",
+        bool succeeded=QMetaObject::invokeMethod(this->_tabcontents,"addResponse",
                                                  Q_RETURN_ARG(QVariant,invoke_result),Q_ARG(QVariant,QVariant(title)),
                                                  Q_ARG(QVariant,QVariant(author)),Q_ARG(QVariant,QVariant(email)),
                                                  Q_ARG(QVariant,QVariant(post_time.toString())),Q_ARG(QVariant,QVariant(body)),

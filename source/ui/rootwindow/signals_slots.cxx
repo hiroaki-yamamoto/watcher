@@ -163,7 +163,7 @@ namespace ui{
 
     void RootWindow::_topicMode(plugin::board *board){
         qDebug()<<"Topic Mode";
-        this->_boardwindow->show();
         this->_boardwindow->addTabContents(board);
+        this->_boardwindow->show();
     }
 }

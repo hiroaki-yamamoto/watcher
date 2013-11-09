@@ -14,12 +14,18 @@ using namespace logging;
 namespace ui{
     TopicView::TopicView(plugin::board *board, TabContentsBase *parent):
         TabContentsBase(board->title(),board->identifier(),parent){
-        connect(board,SIGNAL(get_topics_finished(QVector<plugin::topic*>)),
-                SLOT(_getTopicsFinished(QVector<plugin::topic*>)));
-        connect(board,SIGNAL(get_topics_failed(QNetworkReply::NetworkError,QString)),
-                SLOT(_getTopicsFailed(QNetworkReply::NetworkError,QString)));
-        board->get_topics();
         this->_board=board;
+        connect(this->_board,SIGNAL(get_topics_finished(QVector<plugin::topic*>)),
+                SLOT(_getTopicsFinished(QVector<plugin::topic*>)));
+        connect(this->_board,SIGNAL(get_topics_failed(QNetworkReply::NetworkError,QString)),
+                SLOT(_getTopicsFailed(QNetworkReply::NetworkError,QString)));
+        if(this->_tabcontents->property("hasAnimation").toBool()){
+            connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),this->_board,SLOT(get_topics()));
+            if(!QMetaObject::invokeMethod(this->_tabcontents,"startHideAnimation")){
+                this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()),this->_board,SLOT(get_topics()));
+                this->_board->get_topics();
+            }
+        }else this->_board->get_topics();
         this->_tabcontents->setProperty("boardURL",QVariant(board->board_url().toString()));
         connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(_buttonClicked(QVariant)));
     }
@@ -38,7 +44,7 @@ namespace ui{
 
     void TopicView::_getTopicsFinished(const QVector<plugin::topic *> &topics){
         if(this->_tabcontents->property("hasAnimation").toBool()){
-            this->_tabcontents->disconnect(this->_board);
+            this->_tabcontents->disconnect(SIGNAL(hideAnimationCompleted()),this->_board,SLOT(get_topics()));
         }
         this->clearButtons();
         for(plugin::topic *topic:topics){

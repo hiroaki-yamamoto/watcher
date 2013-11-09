@@ -7,6 +7,7 @@ Item{
     property string uuid:"00000000-0000-0000-0000-000000000000"
     property alias topicURL:location.url
     readonly property bool debug:false
+    readonly property bool hasAnimation:false
     
     LocationBar{
         id:location

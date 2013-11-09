@@ -29,11 +29,11 @@ namespace yotsuba{
         return result;
     }
     QUrl response_list_url(const QString &board_dir, const qulonglong &topicID){
-        QUrl &&result=api_domain().resolved(QUrl("/"+board_dir+"/"+QString::number(topicID)+".json"));
+        QUrl &&result=api_domain().resolved(QUrl("/"+board_dir+"/res/"+QString::number(topicID)+".json"));
         qDebug()<<"yotsuba: 4chan API response list URL:"<<result;
         return result;
     }
     QUrl image_url(const QString &board_dir, const qulonglong &tim, const QString &ext){
-        return QUrl(QString("http://images.4chan.org/%1/src/%2.%3").arg(board_dir,QString::number(tim),ext));
+        return QUrl(QString("http://images.4chan.org/%1/src/%2%3").arg(board_dir,QString::number(tim),ext));
     }
 }

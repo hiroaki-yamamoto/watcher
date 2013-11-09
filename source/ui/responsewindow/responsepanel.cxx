@@ -7,11 +7,13 @@
 #include "responseview.h"
 
 namespace ui{
-    ResponsePanel::ResponsePanel(const plugin::response *res, ResponseView *parent):QObject(parent){
+    ResponsePanel::ResponsePanel(const plugin::response *res, ResponseView *parent):
+        TabContentsBase(res->title(),res->identifier(),parent){
         this->_response=res;
-        this->_item=parent->_addItem(this->title(),this->author(),
-                                        this->email(),this->post_time(),
-                                        this->body(),this->UUID(),this->responseURL());
+        this->_tabcontents->deleteLater();
+        this->_tabcontents=parent->_addItem(this->title(),this->author(),
+                                            this->email(),this->post_time(),
+                                            this->body(),this->UUID(),this->responseURL());
         
     }
     QString     ResponsePanel::title()          const{return this->_response->title();}
