@@ -6,6 +6,8 @@
 #include <QHash>
 #include <QPair>
 
+#include "tabcontents_base.h"
+
 #include <manager/imagemanager.h>
 #include <manager/pixelmanager.h>
 
@@ -15,7 +17,7 @@ namespace plugin{
 }
 namespace ui{
     class ResponseView;
-    class ResponsePanel:public QObject{
+    class ResponsePanel:public TabContentsBase{
             Q_OBJECT
             Q_PROPERTY(QString title READ title)
             Q_PROPERTY(QString author READ author)

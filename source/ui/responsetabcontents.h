@@ -2,15 +2,17 @@
 #include<QtQuick/QQuickItem>
 
 #include "tabcontents_base.h"
+class QString;
+class QUuid;
 namespace plugin{
     class topic;
 }
 namespace ui{
-    class ResponseTabContents:TabContentsBase{
+    class ResponseTabContents:public TabContentsBase{
             Q_OBJECT
         public:
-            ResponseTabContents(plugin::topic *topic,TabWindowBase *parent=nullptr);
-        private:
-            plugin::topic *_topic;
+            ResponseTabContents(const QString &tabName,const QUuid &tabID,TabWindowBase *parent=nullptr);
+            void addTopic(plugin::topic *topic);
+            void reload();
     };
 }

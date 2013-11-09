@@ -40,6 +40,7 @@ namespace ui{
     void BoardWindow::_responseMode(plugin::topic *topic){
         qDebug()<<this<<"ResponseMode:{title:"<<topic->title()<<",author:"<<topic->author()
                <<",UUID:"<<topic->identifier()<<"}";
+        this->_responseWindow->addTopic(topic);
         this->_responseWindow->show();
     }
     void BoardWindow::_reload(){
