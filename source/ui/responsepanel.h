@@ -17,7 +17,7 @@ namespace plugin{
 }
 namespace ui{
     class ResponseView;
-    class ResponsePanel:public TabContentsBase{
+    class ResponsePanel:public QObject{
             Q_OBJECT
             Q_PROPERTY(QString title READ title)
             Q_PROPERTY(QString author READ author)

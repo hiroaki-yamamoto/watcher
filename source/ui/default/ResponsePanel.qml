@@ -19,8 +19,6 @@ Rectangle{
     property string responseURL:"http://example.com/responses/blablabla"
     
     signal linkActivated(var linkURL);
-    //This signal exsits to avoid "no such signal".
-    signal closeButtonClicked(var text,var uuid)
     
     onEmailChanged:{
         emailText.text="<a href=\""+root.email+"\">"+root.email+"</a>"

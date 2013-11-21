@@ -8,6 +8,7 @@ Item{
     property alias topicURL:location.url
     readonly property bool debug:false
     readonly property bool hasAnimation:false
+    signal closeButtonClicked(var text,var uuid)
     
     LocationBar{
         id:location
