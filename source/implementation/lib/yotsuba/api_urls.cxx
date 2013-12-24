@@ -34,6 +34,7 @@ namespace yotsuba{
         return result;
     }
     QUrl image_url(const QString &board_dir, const qulonglong &tim, const QString &ext){
-        return QUrl(QString("http://images.4chan.org/%1/src/%2%3").arg(board_dir,QString::number(tim),ext));
+        //Adjusted 4chan api
+        return QUrl(QString("http://t.4cdn.org/%1/thumb/%2%3").arg(board_dir,QString::number(tim),".jpg"));
     }
 }
