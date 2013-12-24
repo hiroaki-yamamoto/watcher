@@ -65,7 +65,7 @@ namespace ui{
     }
 
     void ResponseView::addItem(plugin::response *res){
-        this->_childrenTabs[qMakePair(res->title(),res->identifier())]=new ResponsePanel(res,this);
+        this->_childrenItems[qMakePair(res->title(),res->identifier())]=new ResponsePanel(res,this);
     }
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,

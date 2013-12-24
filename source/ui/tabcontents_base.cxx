@@ -54,6 +54,7 @@ namespace ui{
             return nullptr;
         }else return variant.value<QQuickItem *>();
     }
+
     void TabContentsBase::removeTab(const QString &title,const QUuid &uuid){
         const QPair<QString,QUuid> &&key=qMakePair(title,uuid);
         if(this->_childrenTabs.contains(key)){

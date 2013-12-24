@@ -36,5 +36,6 @@ namespace ui{
                                 const QString &body, const QUuid &uuid,
                                 const QUrl &responseURL);
             plugin::topic *_topic;
+            QHash<QPair<QString,QUuid>,QObject *> _childrenItems;
     };
 }

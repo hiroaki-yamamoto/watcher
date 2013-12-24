@@ -39,6 +39,7 @@ Item{
                                                                      "anchors.right"    :responsePage.right,
                                                                     }
                                                                  )
+                createdContent.responseURLChanged()
                 return createdContent
             }
         }
