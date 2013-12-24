@@ -10,7 +10,7 @@ Rectangle{
     }
     color:"transparent"
 
-    property string title:titleText.text
+    property alias title:titleText.text
     property alias author:authorText.text
     property string email:"anonymous@exmaple.com"
     property alias post_time:dateText.text
@@ -45,10 +45,6 @@ Rectangle{
         color:"transparent"
         Text{
             id:titleText
-            text:{
-                if (root.responseURL===undefined||root.responseURL.toString()==="") return root.title
-                else return "<a href=\""+root.responseURL.toString()+"\">"+root.title+"</a>"
-            }
             anchors{
                 margins:5
                 top:titleArea.top
