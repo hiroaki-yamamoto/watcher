@@ -29,10 +29,11 @@ int main(int argc,char **argv){
     qDebug()<<"Plugin Dir: "<<plugin_root_dir;
     plugin_finder.load();
     
-    ui::RootWindow window(QObject::tr("Watcher"),QIcon(),plugin_finder,setting.storage());
-    window.setObjectName("RootWindow");
-    window.show();
+    ui::RootWindow *window=new ui::RootWindow(QObject::tr("Watcher"),QIcon(),plugin_finder,setting.storage());
+    window->setObjectName("RootWindow");
+    window->show();
     int exit_code=app.exec();
+    window->deleteLater();
     setting.write();
     plugin_finder.unload();
     return exit_code;
