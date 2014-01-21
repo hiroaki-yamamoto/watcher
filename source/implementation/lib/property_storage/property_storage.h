@@ -64,7 +64,6 @@ namespace storage{
     };
     serializer& operator<<(serializer &out,const property_storage &data);
     serializer& operator>>(serializer &in,property_storage &data);
-    
-    serializer& operator<<(serializer &out,const QVariant &data);
-    serializer& operator>>(serializer &in,QVariant &data);
 }
+serializer& operator<<(serializer &out,const QVariant &data);
+serializer& operator>>(serializer &in,QVariant &data);

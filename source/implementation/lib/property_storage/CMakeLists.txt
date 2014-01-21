@@ -1,5 +1,5 @@
 project(property_storage)
-add_library(storage SHARED "property_storage.cxx" "operators.cxx")
+add_library(storage SHARED "operators.cxx" "property_storage.cxx")
 set_property(TARGET storage PROPERTY LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 target_link_libraries(storage logging ${libserializer_LIBRARIES})
 qt5_use_modules(storage Core)
