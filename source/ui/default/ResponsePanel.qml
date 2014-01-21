@@ -29,7 +29,16 @@ Rectangle{
         else
             titleText.text="<a href=\""+root.responseURL.toString()+"\">"+root.title+"</a>"
     }
-    
+    /*
+    TextEdit{
+        id:pageArea
+        anchors.fill: root
+        readOnly:true
+        wrapMode:TextEdit.Wrap
+        textFormat: TextEdit.RichText
+        selectByMouse: true
+    }*/
+
     Rectangle{
         id:titleArea
         anchors{
