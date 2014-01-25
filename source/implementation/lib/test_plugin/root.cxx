@@ -1,6 +1,7 @@
 #include "root.h"
 #include "category.h"
 #include <QVector>
+#include <random>
 #include <array>
 
 namespace test{

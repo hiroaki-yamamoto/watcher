@@ -2,9 +2,9 @@
 #include <QImage>
 #include <QUrl>
 #include <QUuid>
+#include <QtGlobal>
 #include <random>
 #include <logging/logging.h>
-//#include <cstdlib>
 #include "root.h"
 #include "category.h"
 #include "board.h"
@@ -49,7 +49,7 @@ namespace test{
         mt19937 random(((quint32 *)this->identifier().toByteArray().data())[0]);
         for(quint32 count=0;count<512;count++){
             QUuid id=QUuid::createUuidV5(this->identifier(),QString::number(count));
-            quint32 num_images=((quint32)abs(random()))%(images.size()+1);
+            quint32 num_images=(qAbs(random()))%(images.size()+1);
             
             QUrl responseURL=this->_topicURL.resolved("res/"+QString::number(count));
             QString response_info=informationTable.arg("Response",responseAuthor.arg(QString::number(count)),
@@ -86,7 +86,7 @@ namespace test{
                                                   responseURL,id,this);
             for(quint32 count_2=0;count_2<num_images;count_2++)
                 res->fetchImage(responseURL.resolved(QUrl(QString("images/%1.jpg").arg(QString::number(count_2)))),
-                                     images[((quint32)abs(random()))%images.size()]);
+                                     images[(qAbs(random()))%images.size()]);
             this->_resposes<<res;
         }
         emit this->get_responses_finished(this->_resposes);
