@@ -13,7 +13,7 @@ serializer& storage::operator>>(serializer &in,property_storage &data){
     return in;
 }
 
-serializer& storage::operator<<(serializer &out,const QVariant &data){
+serializer& operator<<(serializer &out,const QVariant &data){
     bool success=false;
     if(data.canConvert(QMetaType::ULongLong)){
         qulonglong value=data.toULongLong(&success);
@@ -52,7 +52,7 @@ serializer& storage::operator<<(serializer &out,const QVariant &data){
     return out;
 }
 
-serializer& storage::operator>>(serializer &in,QVariant &data){
+serializer& operator>>(serializer &in,QVariant &data){
     int type;
     in>>type;
     data.clear();

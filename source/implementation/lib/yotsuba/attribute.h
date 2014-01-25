@@ -1,6 +1,6 @@
 #pragma once
 #include <QJsonValue>
-template <class S,class T> class QPair;
+template <class S,class T> struct QPair;
 template <class T> class QVector;
 class QRegExp;
 class QString;

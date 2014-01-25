@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle{
     id:root
-    height:titleArea.height+bodyArea.height
+    //height:titleArea.height+bodyArea.height
     width:640
     border{
         width:1
@@ -10,26 +10,15 @@ Rectangle{
     }
     color:"transparent"
 
-    property alias title:titleText.text
-    property alias author:authorText.text
+    property string title:"Title"
+    property string author:"Anonymouse Corward"
     property string email:"anonymous@exmaple.com"
-    property alias post_time:dateText.text
-    property alias body:bodyText.text
+    property string post_time:"1970-01-01 00:00:00 UTC"
+    property string body:"(^q^)"
     property string uuid:"00000000-0000-0000-0000-000000000000"
     property string responseURL:"http://example.com/responses/blablabla"
     
     signal linkActivated(var linkURL);
-    
-    onEmailChanged:{
-        emailText.text="<a href=\""+root.email+"\">"+root.email+"</a>"
-    }
-    onResponseURLChanged:{
-        if (root.responseURL===undefined||root.responseURL.toString()==="")
-            titleText.text=root.title
-        else
-            titleText.text="<a href=\""+root.responseURL.toString()+"\">"+root.title+"</a>"
-    }
-    
     Rectangle{
         id:titleArea
         anchors{
@@ -43,6 +32,13 @@ Rectangle{
             color:"black"
         }
         color:"transparent"
+        /*
+        Text{
+            id:titleBar
+
+        }
+        */
+
         Text{
             id:titleText
             anchors{
