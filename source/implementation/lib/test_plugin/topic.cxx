@@ -82,7 +82,7 @@ namespace test{
             }
             test::response *res=new test::response(responseTitle.arg(QString::number(count)),
                                                   responseBody+plugin_info+category_info+board_info+topic_info+response_info,
-                                                  responseAuthor.arg(QString::number(count)),responseEmail,QDateTime::currentDateTime(),
+                                                  responseAuthor.arg(QString::number(count)),responseEmail.arg(QString::number(count)),QDateTime::currentDateTime(),
                                                   responseURL,id,this);
             for(quint32 count_2=0;count_2<num_images;count_2++)
                 res->fetchImage(responseURL.resolved(QUrl(QString("images/%1.jpg").arg(QString::number(count_2)))),
