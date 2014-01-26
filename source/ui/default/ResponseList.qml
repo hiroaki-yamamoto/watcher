@@ -36,10 +36,9 @@ Item{
                                                                      "uuid"         :uuid,
                                                                      "responseURL"  :URL,
                                                                      "anchors.left"     :responsePage.left,
-                                                                     "anchors.right"    :responsePage.right,
+                                                                     "anchors.right"    :responsePage.right
                                                                     }
                                                                  )
-                createdContent.responseURLChanged()
                 return createdContent
             }
         }

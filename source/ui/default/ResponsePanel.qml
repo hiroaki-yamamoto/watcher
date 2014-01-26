@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle{
     id:root
-    //height:titleArea.height+bodyArea.height
+    height:titleArea.height+bodyArea.height
     width:640
     border{
         width:1
@@ -26,58 +26,25 @@ Rectangle{
             left:root.left
             right:root.right
         }
-        height:emailText.y+emailText.contentHeight+emailText.anchors.margins*2
+        height:titleBar.contentHeight
+        
         border{
             width:1
             color:"black"
         }
         color:"transparent"
-        /*
+
         Text{
             id:titleBar
-
-        }
-        */
-
-        Text{
-            id:titleText
-            anchors{
-                margins:5
-                top:titleArea.top
-                left:titleArea.left
-            }
+            anchors.fill:parent
+            textFormat: Text.RichText
             onLinkActivated: root.linkActivated(link)
-        }
-        Text{
-            id:authorText
-            text:"anonymous"
-            font.italic:true
-            anchors{
-                margins:5
-                top:titleText.bottom
-                left:titleText.left
+            text:{
+                "<table width=\""+titleBar.width+"\">"+
+                "<tr><td><p align=\"left\">"+root.title+"</p></td><td><p align=\"right\">"+root.post_time+"</p></td></tr>"+
+                "<tr><td><p align=\"left\">"+root.author+"</p></td><td><p align=\"right\"><a href=\"mailto:"+root.email+"\">"+root.email+"</a></p></td></tr>"+
+                "</table>"
             }
-        }
-
-        Text{
-            id:dateText
-            text:"Unknown"
-            anchors{
-                margins:5
-                top:titleArea.top
-                right:titleArea.right
-            }
-        }
-        
-        Text{
-            id:emailText
-            text:"<a href=\"mailto:"+root.email+"\">"+root.email+"</a>"
-            anchors{
-                margins:5
-                top:dateText.bottom
-                right:titleArea.right
-            }
-            onLinkActivated: root.linkActivated(link)
         }
     }
     Rectangle{
@@ -110,7 +77,7 @@ Rectangle{
                 right:bodyArea.right
             }
             height: bodyText.contentHeight
-            text:"The quick brown fox jumps over the lazy dog."
+            text:root.body
             onLinkActivated: root.linkActivated(link)
         }
         ImageFlicker{
