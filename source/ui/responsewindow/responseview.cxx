@@ -28,6 +28,7 @@ namespace ui{
                 this->_topic->get_responses();
             }
         }else this->_topic->get_responses();
+        this->_tabcontents->setProperty("topicURL",QVariant(topic->topic_url().toString()));
     }
     QQuickItem *ResponseView::addTab(const QString &title, const QUuid &uuid){
         Q_UNUSED(title)

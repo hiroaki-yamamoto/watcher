@@ -7,9 +7,9 @@ Rectangle {
     property real position:0;
     
     color:"#80FFFFFF";
-    
-    width: (orientation==Qt.Horizontal)?width:10;
-    height: (orientation==Qt.Vertical)?height:10;
+
+    width:10
+    height:10
     clip: true;
     
     property real pagewidth:10;
