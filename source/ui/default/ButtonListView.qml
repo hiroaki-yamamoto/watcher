@@ -5,7 +5,7 @@ Item{
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
     signal showAnimationCompleted()
-    
+
     ScrollBar{
         id:category_scroll
         orientation:Qt.Vertical
@@ -31,10 +31,10 @@ Item{
         }
 
         property int width_holder:buttonListView.width
-        
+
         model:category_model
         clip: true
-        
+
         VisualDataModel{
             id:category_model
             model:ListModel{id:category_list}
