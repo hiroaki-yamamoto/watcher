@@ -1,12 +1,27 @@
 import QtQuick 2.0
+
 Item{
     id:root
     readonly property bool debug:false
     width:100
     height:100
     clip: true
-    Flickable{
-        id:panelView
+
+    ListModel{id: responseModel}
+    ListView{
+        id: panelView
+        spacing: 5
+        model: responseModel
+        delegate:ResponsePanel{
+            title:responseTitle
+            author:responseAuthor
+            email:responseEmail
+            post_time:responsePostTime
+            body:responseBody
+            uuid:responseUUID
+            responseURL:URL
+            width:panelView.width-anchors.rightMargin
+        }
         flickableDirection: Flickable.VerticalFlick
         anchors{
             top:root.top
@@ -15,33 +30,6 @@ Item{
             right:scroll.left
         }
         onContentYChanged: scroll.position=contentY/contentHeight
-
-        Column{
-            id:responsePage
-            x:5
-            y:5
-            spacing: 5
-            width:panelView.width-(x*2)
-            onHeightChanged: panelView.contentHeight=responsePage.height+responsePage.y*2
-        }
-        function addPanel(title,author,email,post_time,body,uuid,URL){
-            var createdComponent=Qt.createComponent("ResponsePanel.qml")
-            if(createdComponent.status===Component.Ready){
-                var createdContent=createdComponent.createObject(responsePage,
-                                                                    {"title"        :title,
-                                                                     "author"       :author,
-                                                                     "email"        :email,
-                                                                     "post_time"    :post_time,
-                                                                     "body"         :body,
-                                                                     "uuid"         :uuid,
-                                                                     "responseURL"  :URL,
-                                                                     "anchors.left"     :responsePage.left,
-                                                                     "anchors.right"    :responsePage.right
-                                                                    }
-                                                                 )
-                return createdContent
-            }
-        }
     }
     ScrollBar{
         id:scroll
@@ -59,7 +47,16 @@ Item{
         }
     }
     function addPanel(title,author,email,post_time,body,uuid,URL){
-        return panelView.addPanel(title,author,email,post_time,body,uuid,URL)
+        responseModel.append({
+                                 "responseTitle":title,
+                                 "responseAuthor":author,
+                                 "responseEmail":email,
+                                 "responsePostTime":post_time,
+                                 "responseBody":body,
+                                 "responseUUID":uuid.toString(),
+                                 "URL":URL.toString()
+                             })
+        return panelView.children[panelView.count-1]
     }
     Component.onCompleted:{
         if(debug){

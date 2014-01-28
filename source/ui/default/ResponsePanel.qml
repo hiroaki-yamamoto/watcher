@@ -1,14 +1,9 @@
 import QtQuick 2.0
 
-Rectangle{
+Column{
     id:root
     height:titleArea.height+bodyArea.height
     width:640
-    border{
-        width:1
-        color:"black"
-    }
-    color:"transparent"
 
     property string title:"Title"
     property string author:"Anonymouse Corward"
@@ -19,10 +14,10 @@ Rectangle{
     property string responseURL:"http://example.com/responses/blablabla"
     
     signal linkActivated(var linkURL);
+
     Rectangle{
         id:titleArea
         anchors{
-            top:root.top
             left:root.left
             right:root.right
         }
@@ -39,6 +34,7 @@ Rectangle{
             anchors.fill:parent
             textFormat: Text.RichText
             onLinkActivated: root.linkActivated(link)
+            renderType: Text.NativeRendering
             text:{
                 "<table width=\""+titleBar.width+"\">"+
                 "<tr><td><p align=\"left\">"+root.title+"</p></td><td><p align=\"right\">"+root.post_time+"</p></td></tr>"+
@@ -60,13 +56,13 @@ Rectangle{
             color:"black"
         }
         anchors{
-            top:titleArea.bottom
             left:root.left
             right:root.right
         }
         TextEdit{
             id:bodyText
             readOnly:true
+            renderType: TextEdit.NativeRendering
             wrapMode:TextEdit.Wrap
             textFormat: TextEdit.RichText
             selectByMouse: true
