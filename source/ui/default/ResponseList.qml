@@ -47,18 +47,20 @@ Item{
         }
     }
     function addPanel(title,author,email,post_time,body,uuid,URL){
-        responseModel.append({
-                                 "responseTitle":title,
-                                 "responseAuthor":author,
-                                 "responseEmail":email,
-                                 "responsePostTime":post_time,
-                                 "responseBody":body,
-                                 "responseUUID":uuid.toString(),
-                                 "URL":URL.toString()
-                             })
-        return panelView.children[panelView.count-1]
+        var responseInfo={
+                "responseTitle":title,
+                "responseAuthor":author,
+                "responseEmail":email,
+                "responsePostTime":post_time,
+                "responseBody":body,
+                "responseUUID":uuid.toString(),
+                "URL":URL.toString()
+            }
+        responseModel.append(responseInfo)
+        return responseInfo
     }
     Component.onCompleted:{
+        /*
         if(debug){
             for(var i=0;i<100;i++){
                 var panel=addPanel("test"+i,
@@ -70,6 +72,6 @@ Item{
                 panel.addImage("http://example.com","icons/640magenta.jpg")
                 panel.addImage("http://example.com","icons/300300cyan.png")
             }
-        }
+        }*/
     }
 }
