@@ -30,7 +30,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
     add_definitions(-DDEBUG)
-    message(STATUS "Debugging mode is enabled. This is not recommended for normal uses.")
+    message(STATUS "Debugging mode is enabled. This is not recommended for normal use.")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 include_directories(
