@@ -31,10 +31,10 @@ namespace ui{
             void addItem(plugin::response *res);
             void reload();
         private:
-            QQuickItem *_addItem(const QString &title,const QString &author,
-                                const QString &email,const QDateTime &post_time,
+            QQuickItem *_addItem(const QString &title, const QString &author,
+                                const QString &email, const QDateTime &post_time,
                                 const QString &body, const QUuid &uuid,
-                                const QUrl &responseURL);
+                                const QUrl &responseURL, const QHash<QUrl, QImage> &images);
             plugin::topic *_topic;
             QHash<QPair<QString,QUuid>,QObject *> _childrenItems;
     };

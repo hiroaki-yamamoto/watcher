@@ -70,13 +70,15 @@ namespace ui{
     }
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,
-                                       const QUrl &responseURL){
+                                       const QUrl &responseURL,const QHash<QUrl,QImage> &images){
+        Q_UNUSED(images)
         QVariant invoke_result;
         bool succeeded=QMetaObject::invokeMethod(this->_tabcontents,"addResponse",
                                                  Q_RETURN_ARG(QVariant,invoke_result),Q_ARG(QVariant,QVariant(title)),
                                                  Q_ARG(QVariant,QVariant(author)),Q_ARG(QVariant,QVariant(email)),
                                                  Q_ARG(QVariant,QVariant(post_time.toString())),Q_ARG(QVariant,QVariant(body)),
-                                                 Q_ARG(QVariant,QVariant(uuid)),Q_ARG(QVariant,responseURL));
+                                                 Q_ARG(QVariant,QVariant(uuid)),Q_ARG(QVariant,responseURL),
+                                                 Q_ARG(QVariant,QVariant("")));
         if(!succeeded){
             qWarning()<<this<<"Calling _addItem failed. Here is the Info.";
             qWarning()<<this<<"    title:"<<title;

@@ -20,6 +20,7 @@ Item{
             body:responseBody
             uuid:responseUUID
             responseURL:URL
+            imageInfoObj:ImageInfo
             width:panelView.width-anchors.rightMargin
         }
         flickableDirection: Flickable.VerticalFlick
@@ -46,7 +47,7 @@ Item{
             if(!panelView.flicking&&!panelView.moving) panelView.contentY=panelView.contentHeight*position
         }
     }
-    function addPanel(title,author,email,post_time,body,uuid,URL){
+    function addPanel(title,author,email,post_time,body,uuid,URL,imageInfo){
         var responseInfo={
                 "responseTitle":title,
                 "responseAuthor":author,
@@ -54,7 +55,8 @@ Item{
                 "responsePostTime":post_time,
                 "responseBody":body,
                 "responseUUID":uuid.toString(),
-                "URL":URL.toString()
+                "URL":URL.toString(),
+                "ImageInfo":imageInfo
             }
         responseModel.append(responseInfo)
         return responseInfo

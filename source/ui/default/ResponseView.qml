@@ -29,8 +29,8 @@ Item{
             right:root.right
         }
     }
-    function addResponse(title,author,email,post_time,body,uuid,URL){
-        var generatedContent=responseList.addPanel(title,author,email,post_time,body,uuid,URL)
+    function addResponse(title,author,email,post_time,body,uuid,URL,imageInfo){
+        var generatedContent=responseList.addPanel(title,author,email,post_time,body,uuid,URL,imageInfo)
         if(generatedContent===undefined) console.log("Couldn't create response panel.")
         else return generatedContent
     }
