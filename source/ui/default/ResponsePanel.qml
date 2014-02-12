@@ -12,6 +12,15 @@ Column{
     property string body:"(^q^)<Tashi Helondass!!v"
     property string uuid:"00000000-0000-0000-0000-000000000000"
     property string responseURL:"http://example.com/responses/blablabla"
+    /*
+      imageInfoObj must be a list in which element is like this:
+      {
+        "LinkURI":"http://exmaple.com",
+        "SourceURI":"image://provider/imageXX.png",
+        "UUID":"187f08b5-02c7-428f-a58b-ec181017cacb",
+      }
+    */
+    property variant imageInfoObj:[]
     
     signal linkActivated(var linkURL);
 
@@ -98,6 +107,13 @@ Column{
             }
         }
     }
+    Component.onCompleted: {
+        for(var index in root.imageInfoObj){
+            var imageInfo=imageInfoObj[index]
+            imageFlick.addImage(imageInfo["LinkURI"],imageInfo["SourceURI"],imageInfo["UUID"])
+        }
+    }
+
     /*
         linkURI:URI to show by browser when the image is clicked.
         sourceURL:URL of the actual image.

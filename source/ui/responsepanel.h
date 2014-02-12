@@ -35,6 +35,7 @@ namespace ui{
             QString body() const;
             QUuid UUID() const;
             QUrl responseURL() const;
+            QHash<QUrl,QImage> imageInfo() const;
             const plugin::response *response() const;
         public slots:
             void setResponse(const plugin::response *res);

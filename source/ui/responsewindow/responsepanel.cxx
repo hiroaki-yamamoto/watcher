@@ -11,8 +11,9 @@ namespace ui{
         QObject(parent){
         this->_response=res;
         this->_item=parent->_addItem(this->title(),this->author(),
-                                            this->email(),this->post_time(),
-                                            this->body(),this->UUID(),this->responseURL());
+                                     this->email(),this->post_time(),
+                                     this->body(),this->UUID(),
+                                     this->responseURL(),this->imageInfo());
         
     }
     QString     ResponsePanel::title()          const{return this->_response->title();}
@@ -22,6 +23,7 @@ namespace ui{
     QString     ResponsePanel::body()           const{return this->_response->body();}
     QUuid       ResponsePanel::UUID()           const{return this->_response->identifier();}
     QUrl        ResponsePanel::responseURL()    const{return this->_response->response_url();}
+    QHash<QUrl,QImage> ResponsePanel::imageInfo()  const{return this->_response->images();}
     
     const plugin::response *ResponsePanel::response() const {return this->_response;}
     void ResponsePanel::setResponse(const plugin::response *res){this->_response=res;}
