@@ -1,5 +1,5 @@
 TEMPLATE = lib
-
+INCLUDEPATH += .
 HEADERS +=      rootwindow.h \
                 versionwindow.h \
                 configwindow.h \
