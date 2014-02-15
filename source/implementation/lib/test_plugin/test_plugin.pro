@@ -1,5 +1,6 @@
 TEMPLATE=lib
 TARGET=test_plugin
+INCLUDEPATH += .
 
 HEADERS +=  board.h \
             category.h \

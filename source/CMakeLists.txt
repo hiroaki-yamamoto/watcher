@@ -34,7 +34,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 include_directories(
-    ${libserializer_INCLUDE_DIR}
+    "${Qt5Core_INCLUDE_DIRS}"
+    "${Qt5Widgets_INCLUDE_DIRS}"
+    "${libserializer_INCLUDE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/ui"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib"
