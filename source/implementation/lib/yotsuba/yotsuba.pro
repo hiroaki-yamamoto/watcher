@@ -1,6 +1,6 @@
 TEMPLATE=lib
+INCLUDEPATH += ..
 TARGET=4chan
-INCLUDEPATH += .
 
 HEADERS+=board.h \
         category.h \
