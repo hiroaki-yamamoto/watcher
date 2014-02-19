@@ -10,8 +10,10 @@ namespace storage{
 }
 template <class S> class QList;
 namespace ui{
+    class ResponsePanel;
     class ResponseWindow:public TabWindowBase{
             Q_OBJECT
+            friend class ResponsePanel;
         public:
             ResponseWindow(const QString &title,
                         const QIcon &icon,
