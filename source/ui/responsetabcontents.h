@@ -8,10 +8,12 @@ namespace plugin{
     class topic;
 }
 namespace ui{
+    class ResponseWindow;
     class ResponseTabContents:public TabContentsBase{
             Q_OBJECT
         public:
-            ResponseTabContents(const QString &tabName,const QUuid &tabID,TabWindowBase *parent=nullptr);
+            ResponseTabContents(const QString &tabName,const QUuid &tabID,ResponseWindow *parent=nullptr);
+            ResponseWindow *parentWindow() const;
             void addTopic(plugin::topic *topic);
             void reload();
     };
