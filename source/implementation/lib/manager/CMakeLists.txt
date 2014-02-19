@@ -2,6 +2,7 @@ project(watcher-logging)
 set(source
     "imagemanager.cxx"
     "pixelmanager.cxx"
+    "imageconverter.cxx"
 )
 add_library(manager SHARED ${source})
 set_property(TARGET logging PROPERTY LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
