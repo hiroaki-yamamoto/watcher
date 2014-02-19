@@ -5,9 +5,13 @@
 
 #include "responsetabcontents.h"
 #include "responseview.h"
+#include "responsewindow.h"
 namespace ui{
-    ResponseTabContents::ResponseTabContents(const QString &tabName, const QUuid &tabID, TabWindowBase *parent):
+    ResponseTabContents::ResponseTabContents(const QString &tabName, const QUuid &tabID, ResponseWindow *parent):
         TabContentsBase(tabName,tabID,parent){}
+    ResponseWindow *ResponseTabContents::parentWindow() const{
+        return qobject_cast<ResponseWindow *>(this->_parentWindow);
+    }
     void ResponseTabContents::addTopic(plugin::topic *topic){
         this->_childrenTabs[qMakePair(topic->title(),topic->identifier())]=new ResponseView(topic,this);
     }
