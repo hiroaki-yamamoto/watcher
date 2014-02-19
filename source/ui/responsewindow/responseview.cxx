@@ -1,3 +1,5 @@
+#include "responsewindow.h"
+#include "responsetabcontents.h"
 #include "tabcontents_base.h"
 #include "responseview.h"
 #include "responsepanel.h"
@@ -11,6 +13,9 @@
 
 #include <loader/response.h>
 #include <loader/topic.h>
+
+#include <manager/imagemanager.h>
+#include <manager/pixelmanager.h>
 
 
 namespace ui{
@@ -68,10 +73,14 @@ namespace ui{
     void ResponseView::addItem(plugin::response *res){
         this->_childrenItems[qMakePair(res->title(),res->identifier())]=new ResponsePanel(res,this);
     }
+    
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,
                                        const QUrl &responseURL,const QHash<QUrl,QImage> &images){
         Q_UNUSED(images)
+        ResponseTabContents *parentTabContents=qobject_cast<ResponseTabContents *>(this->_parentTab);
+        ResponseWindow *parentWindow=parentTabContents->parentWindow();
+        //TODO: Put image manager here.
         QVariant invoke_result;
         bool succeeded=QMetaObject::invokeMethod(this->_tabcontents,"addResponse",
                                                  Q_RETURN_ARG(QVariant,invoke_result),Q_ARG(QVariant,QVariant(title)),
