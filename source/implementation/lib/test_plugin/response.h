@@ -15,11 +15,11 @@ namespace test{
             const QString &body() const;
             const QDateTime &creation_date() const;
             const QUrl      &response_url() const;
-            const QHash<QUrl,QImage> &images() const;
+            manager::ImageManager *images() const;
         public slots:
             void fetchImage(const QUrl &link_url,const QImage &image);
         private:
-            QHash<QUrl,QImage> _images;
+            manager::ImageManager *_images;
             QString _email;
             QDateTime _creation_date;
             QUrl _response_url;

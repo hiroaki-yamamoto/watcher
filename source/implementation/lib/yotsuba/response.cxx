@@ -13,7 +13,7 @@ namespace yotsuba{
         this->_accessManager=accessManager;
         this->_body=new QString();
         this->_creation_date=new QDateTime();
-        this->_images=new QHash<QUrl,QImage>();
+        this->_images=new manager::ImageManager();
         this->_email=new QString();
         this->_topic_url=new QUrl();
     }
@@ -29,13 +29,13 @@ namespace yotsuba{
     const QString &response::body() const{return *(this->_body);}
     const QDateTime &response::creation_date() const{return *(this->_creation_date);}
     const QUrl &response::response_url() const{return *(this->_topic_url);}
-    const QHash<QUrl,QImage> &response::images() const{return *(this->_images);}
+    manager::ImageManager *response::images() const{return this->_images;}
     const quint64 response::resID() const{return this->_resID;}
     
     void response::setBody(const QString &body){(*this->_body)=body;}
     void response::setCreationDate(const QDateTime &creation_date){(*this->_creation_date)=creation_date;}
     void response::setResponseUrl(const QUrl &url){(*this->_topic_url)=url;}
-    void response::setImages(const QHash<QUrl, QImage> &images){(*this->_images)=images;}
+    void response::setImages(manager::ImageManager &images){this->_images=&images;}
     void response::setResID(const quint64 &resID){this->_resID=resID;}
     void response::setEmail(const QString &email){(*this->_email)=email;}
     void response::fetchImage(const QUrl &url){
@@ -53,7 +53,8 @@ namespace yotsuba{
             reply->close();
             return;
         }
-        this->_images->insert(reply->url(),QImage::fromData(reply->readAll()));
+        this->_images->insert(QUuid::createUuidV5(this->identifier(),reply->url().toString()),
+                              qMakePair(reply->url(),QImage::fromData(reply->readAll())));
         reply->close();
     }
 }

@@ -76,11 +76,12 @@ namespace ui{
     
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,
-                                       const QUrl &responseURL,const QHash<QUrl,QImage> &images){
+                                       const QUrl &responseURL,manager::ImageManager *images){
         Q_UNUSED(images)
         ResponseTabContents *parentTabContents=qobject_cast<ResponseTabContents *>(this->_parentTab);
         ResponseWindow *parentWindow=parentTabContents->parentWindow();
-        //TODO: Put image manager here.
+        //TODO: Add image provider
+        
         QVariant invoke_result;
         bool succeeded=QMetaObject::invokeMethod(this->_tabcontents,"addResponse",
                                                  Q_RETURN_ARG(QVariant,invoke_result),Q_ARG(QVariant,QVariant(title)),
