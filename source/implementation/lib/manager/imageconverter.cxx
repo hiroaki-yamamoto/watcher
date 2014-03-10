@@ -23,7 +23,7 @@ namespace manager{
     }
     QHash<QUuid,QPair<QUrl,QPixmap>> convertPixmap(const QHash<QUrl,QPixmap> &map){
         return convert<QPixmap>(map,
-                               QUuid::createUuidV5(QUuid("{b894f363-65ff-45f8-891f-a8f1912d01be}"),
+                               QUuid::createUuidV5(QUuid("{8970514e-8f84-414a-9d9c-865710d3accc}"),
                                                    QString::number(__random_number__())
                                                    )
                                );

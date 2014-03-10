@@ -5,6 +5,8 @@
 #include <QUuid>
 #include <QVector>
 
+#include <manager/imagemanager.h>
+
 #include "tabcontents_base.h"
 
 class QQuickItem;
@@ -34,7 +36,7 @@ namespace ui{
             QQuickItem *_addItem(const QString &title, const QString &author,
                                 const QString &email, const QDateTime &post_time,
                                 const QString &body, const QUuid &uuid,
-                                const QUrl &responseURL, const QHash<QUrl, QImage> &images);
+                                const QUrl &responseURL, manager::ImageManager *imageManager);
             plugin::topic *_topic;
             QHash<QPair<QString,QUuid>,QObject *> _childrenItems;
     };

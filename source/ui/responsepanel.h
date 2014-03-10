@@ -8,12 +8,12 @@
 
 #include "tabcontents_base.h"
 
-#include <manager/imagemanager.h>
-#include <manager/pixelmanager.h>
-
 class QQuickItem;
 namespace plugin{
     class response;
+}
+namespace manager{
+    class ImageManager;
 }
 namespace ui{
     class ResponseView;
@@ -35,14 +35,12 @@ namespace ui{
             QString body() const;
             QUuid UUID() const;
             QUrl responseURL() const;
-            QHash<QUrl,QImage> imageInfo() const;
+            manager::ImageManager *imageInfo() const;
             const plugin::response *response() const;
         public slots:
             void setResponse(const plugin::response *res);
         private:
             const plugin::response *_response;
             QQuickItem *_item;
-            manager::ImageManager _imageManager;
-            manager::PixelManager _pixelManager;
     };
 }

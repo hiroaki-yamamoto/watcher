@@ -13,14 +13,15 @@ Column{
     property string uuid:"00000000-0000-0000-0000-000000000000"
     property string responseURL:"http://example.com/responses/blablabla"
     /*
-      imageInfoObj must be a list in which element is like this:
+      imageInfoObj must be a JSON List and in which object must be like this:
+      In addition to this limitation, the list must be JSON encoded string to avoid implicitly data conversion to QqmlListModel.
       {
         "LinkURI":"http://exmaple.com",
         "SourceURI":"image://provider/imageXX.png",
         "UUID":"187f08b5-02c7-428f-a58b-ec181017cacb",
       }
     */
-    property variant imageInfoObj:[]
+    property string imageInfoObj:"[]"
     
     signal linkActivated(var linkURL);
 
@@ -108,8 +109,9 @@ Column{
         }
     }
     Component.onCompleted: {
-        for(var index in root.imageInfoObj){
-            var imageInfo=imageInfoObj[index]
+        var imageInfoList=JSON.parse(root.imageInfoObj)
+        for(var index in imageInfoList){
+            var imageInfo=imageInfoList[index]
             imageFlick.addImage(imageInfo["LinkURI"],imageInfo["SourceURI"],imageInfo["UUID"])
         }
     }

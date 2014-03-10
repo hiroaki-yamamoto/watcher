@@ -9,6 +9,7 @@
 #include <QUrl>
 
 #include <loader/content_base.h>
+#include <manager/imagemanager.h>
 
 class QString;
 class QDateTime;
@@ -25,6 +26,7 @@ namespace plugin{
             virtual const QDateTime &creation_date() const=0;
             virtual const QUrl &response_url() const=0;
             //Image cache.
-            virtual const QHash<QUrl,QImage> &images() const=0;
+            virtual manager::ImageManager *images() const=0;
+            //virtual const QHash<QUrl,QImage> &images() const=0;
     };
 }

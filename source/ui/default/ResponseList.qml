@@ -56,7 +56,7 @@ Item{
                 "responseBody":body,
                 "responseUUID":uuid.toString(),
                 "URL":URL.toString(),
-                "ImageInfo":imageInfo
+                "ImageInfo":JSON.stringify(imageInfo)
             }
         responseModel.append(responseInfo)
         return responseInfo
