@@ -80,7 +80,29 @@ namespace ui{
         Q_UNUSED(images)
         ResponseTabContents *parentTabContents=qobject_cast<ResponseTabContents *>(this->_parentTab);
         ResponseWindow *parentWindow=parentTabContents->parentWindow();
+        QQmlEngine *windowEngine=parentWindow->engine();
+        /*
+        Image Information object format:
+        [
+            {
+                "LinkURI":"http://example.com",
+                "SourceURI":"image://ResponseUUID/ImageUUID
+                "UUID":"ImageUUID"
+            }
+        ]
+        */
         //TODO: Add image provider
+        windowEngine->addImageProvider(uuid.toString(),images);
+        
+        QVariantList imageInfoList;
+        for(QUuid &imageUUID:images->keys()){
+            auto &&value=images->value(imageUUID);
+            QVariantMap imageInfo;
+            imageInfo["LinkURI"]=value.first.toString();
+            imageInfo["SourceURI"]=QString("image://%1/%2").arg(uuid.toString(),imageUUID.toString());
+            imageInfo["UUID"]=imageUUID.toString();
+            imageInfoList<<imageInfo;
+        }
         
         QVariant invoke_result;
         bool succeeded=QMetaObject::invokeMethod(this->_tabcontents,"addResponse",
@@ -88,7 +110,7 @@ namespace ui{
                                                  Q_ARG(QVariant,QVariant(author)),Q_ARG(QVariant,QVariant(email)),
                                                  Q_ARG(QVariant,QVariant(post_time.toString())),Q_ARG(QVariant,QVariant(body)),
                                                  Q_ARG(QVariant,QVariant(uuid)),Q_ARG(QVariant,responseURL),
-                                                 Q_ARG(QVariant,QVariant("")));
+                                                 Q_ARG(QVariant,imageInfoList));
         if(!succeeded){
             qWarning()<<this<<"Calling _addItem failed. Here is the Info.";
             qWarning()<<this<<"    title:"<<title;
