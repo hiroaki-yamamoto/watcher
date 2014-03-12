@@ -33,6 +33,7 @@ Rectangle{
             imageURI: URI
             source: sourceURI
             uuid: UUID
+            Component.onCompleted:{console.log(img.source)}
         }
     }
    ScrollBar{
