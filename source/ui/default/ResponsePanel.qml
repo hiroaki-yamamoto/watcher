@@ -88,7 +88,7 @@ Column{
         }
         ImageFlicker{
             id:imageFlick
-            height:50
+            height:100
             visible:(imageFlick.model.count>0)
             anchors{
                 margins:5
