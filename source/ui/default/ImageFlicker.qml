@@ -14,7 +14,7 @@ Rectangle{
     clip:true
     ListView{
         id:imageFlick
-        onContentYChanged: scrollBar.position=contentX/contentWidth
+        onContentXChanged: scrollBar.position=imageFlick.contentX/imageFlick.contentWidth
         anchors{
             top:root.top
             left:root.left
@@ -27,8 +27,9 @@ Rectangle{
         model:root.model
 
         delegate:LinkImage{
-            fillMode:Image.PreserveAspectFit
+            id:img
             height:imageFlick.height
+            fillMode:Image.PreserveAspectFit
             imageURI: URI
             source: sourceURI
             uuid: UUID

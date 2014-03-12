@@ -1,4 +1,5 @@
 #include "pixelmanager.h"
+
 namespace manager{
     PixelManager::PixelManager(const QHash<QUuid, QPair<QUrl, QPixmap> > &pixmaps):
         QQuickImageProvider(QQuickImageProvider::Pixmap),QHash<QUuid,QPair<QUrl,QPixmap>>(pixmaps){}

@@ -1,5 +1,6 @@
 #include "imagemanager.h"
 #include <QDebug>
+
 namespace manager{
     ImageManager::ImageManager(const QHash<QUuid,QPair<QUrl,QImage>> &images):
         QQuickImageProvider(QQuickImageProvider::Image),QHash<QUuid,QPair<QUrl,QImage>>(images){}

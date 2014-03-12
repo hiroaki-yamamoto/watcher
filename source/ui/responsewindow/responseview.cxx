@@ -6,6 +6,7 @@
 #include <QtQuick/QQuickItem>
 #include <QtWidgets/QMessageBox>
 #include <QString>
+#include <QLatin1String>
 #include <QDateTime>
 #include <QUrl>
 #include <QPair>
@@ -77,7 +78,6 @@ namespace ui{
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,
                                        const QUrl &responseURL,manager::ImageManager *images){
-        Q_UNUSED(images)
         ResponseTabContents *parentTabContents=qobject_cast<ResponseTabContents *>(this->_parentTab);
         ResponseWindow *parentWindow=parentTabContents->parentWindow();
         QQmlEngine *windowEngine=parentWindow->engine();
@@ -92,14 +92,15 @@ namespace ui{
         ]
         */
         //TODO: Add image provider
-        windowEngine->addImageProvider(uuid.toString(),images);
+        windowEngine->addImageProvider(uuid.toString().replace("{","").replace("}",""),images);
         
         QVariantList imageInfoList;
-        for(QUuid &imageUUID:images->keys()){
+        for(QUuid &imageUUID:images->uniqueKeys()){
             auto &&value=images->value(imageUUID);
             QVariantMap imageInfo;
             imageInfo["LinkURI"]=value.first.toString();
-            imageInfo["SourceURI"]=QString("image://%1/%2").arg(uuid.toString(),imageUUID.toString());
+            imageInfo["SourceURI"]=QString("image://%1/%2").arg(uuid.toString().replace("{","").replace("}",""),
+                                                        imageUUID.toString().replace("{","").replace("}",""));
             imageInfo["UUID"]=imageUUID.toString();
             imageInfoList<<imageInfo;
         }
