@@ -1,4 +1,4 @@
-import QtQuick 2.2
+import QtQuick 2.0
 
 Rectangle{
     id:root
@@ -22,18 +22,17 @@ Rectangle{
             bottom:scrollBar.top
         }
         spacing:2
-        flickableDirection: Flickable.HorizontalFlick
+        flickableDirection: ListView.HorizontalFlick
+        orientation:ListView.Horizontal
 
         model:root.model
-
         delegate:LinkImage{
             id:img
-            height:imageFlick.height
+            height:imageFlick.height-2
             fillMode:Image.PreserveAspectFit
             imageURI: URI
             source: sourceURI
             uuid: UUID
-            Component.onCompleted:{console.log(img.source)}
         }
     }
    ScrollBar{
