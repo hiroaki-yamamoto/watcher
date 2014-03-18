@@ -21,6 +21,9 @@ Item{
             uuid:responseUUID
             responseURL:URL
             imageInfoObj:ImageInfo
+            onLinkActivated:{
+                Qt.openUrlExternally(linkURL)
+            }
             width:panelView.width-anchors.rightMargin
         }
         flickableDirection: Flickable.VerticalFlick

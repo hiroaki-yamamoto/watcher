@@ -2,6 +2,7 @@
 #include <QtQuick/QQuickItem>
 
 #include <loader/response.h>
+#include <QDebug>
 
 #include "responsepanel.h"
 #include "responseview.h"
@@ -14,7 +15,6 @@ namespace ui{
                                      this->email(),this->post_time(),
                                      this->body(),this->UUID(),
                                      this->responseURL(),this->imageInfo());
-        
     }
     QString     ResponsePanel::title()          const{return this->_response->title();}
     QString     ResponsePanel::author()         const{return this->_response->author();}
