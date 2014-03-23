@@ -44,6 +44,7 @@ namespace storage{
             void differencial_copy(const property_storage &setting);
             void copy(const QString &key, const QVariantList &values);
             void setElementSize(const int size);
+            void dump();
         signals:
             void propertyChanged(const QString &key,const QVariant &previous,const QVariant &now);
             void propertyRemoved(const QString &key);
@@ -63,7 +64,6 @@ namespace storage{
     };
     serializer& operator<<(serializer &out,const property_storage &data);
     serializer& operator>>(serializer &in,property_storage &data);
-    
-    serializer& operator<<(serializer &out,const QVariant &data);
-    serializer& operator>>(serializer &in,QVariant &data);
 }
+serializer& operator<<(serializer &out,const QVariant &data);
+serializer& operator>>(serializer &in,QVariant &data);

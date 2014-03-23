@@ -18,10 +18,12 @@ namespace plugin{
             Q_OBJECT
             using content_base::content_base;
         public:
-            virtual void get_responses()=0;
             virtual bool readonly() const=0;
             virtual const QUrl &topic_url() const=0;
-            virtual void post(const response &res)=0;
+        public slots:
+            virtual void get_responses()=0;
+            //This function is for showing posting dialog, and post the response when "Ok" button is clicked.
+            virtual void post()=0;
         signals:
             void post_finished(const response &res);
             void post_failed(const QNetworkReply::NetworkError err,const QString &err_str);

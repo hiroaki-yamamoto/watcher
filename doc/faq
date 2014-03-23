@@ -25,14 +25,17 @@ A.  Nope, I'm not interested in it. I'll create programs that I'm interested in 
     you need to make me be interested in it. You have 2 ways to make me be interested in it:
     *)  Offer it as payment jobs.
         I'm a person who is weak in money. Therefore it seems to be the most effective way to make me be interested in it.
-        Moreover, I'll completely finish my business as long as I applied your jobs. However, DO NOT FORGET I'M NOT A MAMMONIST like a certain company.
-        If I can't do your jobs within the technique that I have, or I'm not interested in it though you are willing to pay a lot, I'll refuse your jobs.
+        Moreover, I'll completely finish my business as long as I applied your jobs.
+        However, DO NOT FORGET I'M NOT A MAMMONIST like a certain company.
+        If I can't do your jobs within the technique that I have, or 
+        I'm not interested in it though you are willing to pay a lot, I'll refuse your jobs.
         If you have jobs for me, post them via the following address:
             https://www.odesk.com/users/~01f335a1c147aa9d33
             
     *)  Induce me to create it
         It seems to be the most inefficient way to make me be interested in it, because I'm very lazy like your lazy dog.
-        Moreover, escaping from the job is possible in progress because I work as a volunteer. However, you don't need to pay a lot for the creation.
+        Moreover, escaping from the job is possible in progress because I work as a volunteer.
+        However, you don't need to pay a lot for the creation.
 
 Q.  Can I send patches?
 A.  Sure, patches are welcome, but don't forget I have a choice whether your patches are applied onto an official repository or not.
@@ -44,6 +47,12 @@ A.  Sure, I know bug reports are very important to improve the software. To repr
     *) Setting file (I have a program to check the integrity.)
     *) Unofficial plugins or themes if you have.
     *) GDB Dump file if you are using debug build.
+
+Q. Can I approach feature improvements?
+A. I think it is diffrent between feature improvements and create stuff described above.
+    The difference is whether the stuff is made from first step or not. For example, plugin creation of watcher is
+    categorized in creating stuff, but request to UI improvement is categorized in feature improvements.
+    Therefore, it is okay to throw feature improvements and they are welcome.
 
 If you found bugs, please let me know.
 =====================================

@@ -5,11 +5,13 @@ Item{
     property string uuid:"00000000-0000-0000-0000-000000000000"
     property alias boardURL:locationBar.url
     readonly property bool debug:false
-    property bool hasAnimation:false
+    property bool hasAnimation:true
     
     signal buttonClicked(var sender_button)
     signal hideAnimationCompleted()
     signal showAnimationCompleted()
+    //Prevent "No such signal"
+    signal closeButtonClicked(var text,var uuid)
     
     anchors.fill: parent
     LocationBar{
@@ -45,6 +47,9 @@ Item{
         }
     }
     function addButton(text,detail,uuid){topicButtons.addButton(text,detail,uuid,false,"","")}
+    function clearButtons(){topicButtons.clearButtons()}
+    function startHideAnimation(){topicButtons.hide()}
+    function startShowAnimation(){topicButtons.show()}
     Component.onCompleted: {
         if(debug){
             for(var i=10;i<51;i++){

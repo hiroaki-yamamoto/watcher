@@ -17,13 +17,14 @@
 #include "qml_window_base.h"
 #include "property_storage.h"
 #include "setting_default.h"
-
 namespace ui{
-    QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QMLWindowBase *parent):QQuickView(nullptr){
+    QMLWindowBase::QMLWindowBase(const QString &title, const QIcon &icon, QList<plugin::root *> *plugins, storage::property_storage *property, QMLWindowBase *parent):QQuickView(nullptr){
         this->setObjectName(title);
         this->setTitle(title);
         this->setIcon(icon);
         this->_parent=parent;
+        this->_plugins=plugins;
+        this->_property=property;
         if(this->_parent!=nullptr) connect(this->_parent,SIGNAL(visibleChanged(bool)),SLOT(_parentVisibleChanged(bool)));
     }
     QMLWindowBase *QMLWindowBase::parent() const{return this->_parent;}
@@ -61,7 +62,7 @@ namespace ui{
         }
         this->setMinimumSize(this->sizeHint());
         this->rootContext()->setContextProperty("window",this);
-        this->rootContext()->setContextProperty("property",qobject_cast<storage::property_storage *>(this->property()));
+        this->rootContext()->setContextProperty("property",this->property());
         emit this->loaded();
     }
     void QMLWindowBase::_loadQMLFile(const QString &file){
@@ -99,4 +100,6 @@ namespace ui{
         this->_parent=parent;
         if(this->_parent!=nullptr) connect(this->_parent,SIGNAL(visibleChanged(bool)),SLOT(_parentVisibleChanged(bool)));
     }
+    QList<plugin::root *> *QMLWindowBase::plugins() const{return this->_plugins;}
+    storage::property_storage *QMLWindowBase::property() const{return this->_property;}
 }

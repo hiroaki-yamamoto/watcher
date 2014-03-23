@@ -32,8 +32,6 @@ namespace ui{
                        storage::property_storage &property,
                        QMLWindowBase *parent=nullptr
                     );
-            QList<plugin::root *> *plugins() const;
-            storage::property_storage *property() const;
         private slots:
             void _show_version_window();
             void _config();
@@ -55,6 +53,5 @@ namespace ui{
             VersionWindow *_version;
             BoardWindow *_boardwindow;
             loader::plugin_loader *_loader;
-            storage::property_storage *_property;
     };
 }

@@ -12,10 +12,13 @@
 #include <loader/board.h>
 #include <loader/topic.h>
 #include <loader/response.h>
+#include <logging/logging.h>
 
 #include "roottabcontents.h"
 #include "rootwindow.h"
 #include "tabcontents_base.h"
+
+using namespace logging;
 namespace ui{
     RootTabContents::RootTabContents(plugin::root *plugin_root, ui::RootWindow *parent):
         TabContentsBase(plugin_root->title(),plugin_root->identifier(),parent){
@@ -26,7 +29,7 @@ namespace ui{
                 SLOT(_get_category_completed(QVector<plugin::category*>)));
         connect(this->_root,SIGNAL(get_categories_failed(QNetworkReply::NetworkError,QString)),
                             SLOT(_get_category_failed(QNetworkReply::NetworkError,QString)));
-        connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(button_clicked(QVariant)));
+        connect(this->_tabcontents,SIGNAL(buttonClicked(QVariant)),SLOT(_button_clicked(QVariant)));
         QVariant &&hasAnimation=this->_tabcontents->property("hasAnimation");
         this->_hasAnimation=hasAnimation.type()==QMetaType::Bool&&hasAnimation.toBool();
         this->_root->get_categories();
@@ -55,26 +58,26 @@ namespace ui{
     RootTabContents::ViewState RootTabContents::state(){return this->_state;}
     QString RootTabContents::TabName() const{
         if(this->_tabcontents->property("title").type()!=QMetaType::QString){
-            qWarning()<<this->objectName()<<": Couldn't get the name of the tab.";
+            qWarning()<<this<<"Couldn't get the name of the tab.";
             return QString();
         }
         return this->_tabcontents->property("title").toString();
     }
     void RootTabContents::setTabName(const QString &name){this->_tabcontents->setProperty("title",name);}
-    void RootTabContents::button_clicked(QVariant button_var){
+    void RootTabContents::_button_clicked(const QVariant &button_var){
         qDebug()<<"("<<this->objectName()<<"):Current State:"<<this->_state;
         this->_contentsName.insert(this->_state,
                                    qMakePair(
                                        QUuid(QByteArray(button_var.value<QQuickItem *>()->property("uuid").toString().toUtf8())),
                                         button_var.value<QQuickItem *>()->property("text").toString()));
         this->_do_switch(ContentsSwitch);
-        qDebug()<<"("<<this->objectName()<<"):"<<this->_contentsName;
+        qDebug()<<this<<this->_contentsName;
     }
     void RootTabContents::_do_switch(const SwitchInstruction sw){
         this->_sw_inst=sw;
         if(this->_hasAnimation&&(sw!=RootTabContents::ContentsSwitch||this->_state==RootTabContents::Category)){
             connect(this->_tabcontents,SIGNAL(hideAnimationCompleted()),SLOT(_process_switch_instruction()));
-            QMetaObject::invokeMethod(this->_tabcontents,"hide");
+            if(!QMetaObject::invokeMethod(this->_tabcontents,"hide")) this->_process_switch_instruction();
         }else this->_process_switch_instruction();
     }
     void RootTabContents::_process_switch_instruction(){
@@ -95,7 +98,7 @@ namespace ui{
                     emit this->stateChanged();
                     this->_category_hash[this->_contentsName[RootTabContents::Category]]->get_boards();
                 }else{
-                    qWarning()<<"("<<this->objectName()<<"): "<<"Value of "<<this->_contentsName<<" couldn't be found.";
+                    qWarning()<<this<<"Value of "<<this->_contentsName<<" couldn't be found.";
                     qWarning()<<"    State:"<<this->_state;
                 }
                 break;
@@ -103,7 +106,7 @@ namespace ui{
                 if(this->_board_hash.contains(this->_contentsName[RootTabContents::Board])){
                     emit this->topicMode(this->_board_hash[this->_contentsName[RootTabContents::Board]]);
                 }else{
-                    qWarning()<<"("<<this->objectName()<<"): "<<"Value of "<<this->_contentsName<<" couldn't be found.";
+                    qWarning()<<this<<"Value of "<<this->_contentsName<<" couldn't be found.";
                     qWarning()<<"    State:"<<this->_state;
                 }
                 break;
@@ -120,7 +123,7 @@ namespace ui{
     void RootTabContents::_back(){
         switch(this->_state){
             case RootTabContents::Category:
-                qWarning()<<"("<<this->objectName()<<"): State is Category. Cannot go back.";
+                qWarning()<<this<<"State is Category. Cannot go back.";
                 break;
             case RootTabContents::Board:
                 this->_state=RootTabContents::Category;
@@ -140,10 +143,10 @@ namespace ui{
                 this->_set_board();
                 break;
             case RootTabContents::Board:
-                qWarning()<<"("<<this->objectName()<<"): End of state.";
+                qWarning()<<this<<"End of state.";
                 break;
             default:
-                qWarning()<<"("<<this->objectName()<<"): Undefined state.";
+                qWarning()<<this<<"Undefined state.";
                 break;
         }
     }
@@ -156,7 +159,7 @@ namespace ui{
                 this->_category_hash[this->_contentsName[RootTabContents::Category]]->get_boards();
                 break;
             default:
-                qWarning()<<"("<<this->objectName()<<"): Undefined state.";
+                qWarning()<<this<<"Undefined state.";
                 break;
         }
     }

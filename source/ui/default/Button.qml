@@ -289,12 +289,12 @@ Rectangle {
             var value=40
             if(button.style===button.style_mode.icon) return icon_picture.sourceSize.width+icon_picture.anchors.margins+button.anchors.margins*2
             if((button.style&(button.style_mode.text|button.style_mode.detail))===(button.style_mode.text|button.style_mode.detail)){
-                value+=(label.paintedWidth>=subLabel.paintedWidth)?label.paintedWidth:subLabel.paintedWidth
+                value+=(label.contentWidth>=subLabel.contentWidth)?label.contentWidth:subLabel.contentWidth
             }
-            else if((button.style&button.style_mode.text)===button.style_mode.text)     value+=label.paintedWidth
-            else if((button.style&button.style_mode.detail)===button.style_mode.detail) value+=subLabel.paintedWidth
+            else if((button.style&button.style_mode.text)===button.style_mode.text)     value+=label.contentWidth
+            else if((button.style&button.style_mode.detail)===button.style_mode.detail) value+=subLabel.contentWidth
             
-            if((button.style&button.style_mode.icon)===button.style_mode.icon)              value+=icon_picture.paintedWidth
+            if((button.style&button.style_mode.icon)===button.style_mode.icon)              value+=icon_picture.contentWidth
             if((button.style&button.style_mode.withClose)===button.style_mode.withClose)    value+=closeButton.width
             return value
         }
@@ -302,8 +302,8 @@ Rectangle {
             var value=button.anchors.margins*2
             var heights={
                 "icon":icon_picture.anchors.margins+icon_picture.sourceSize.height,
-                "label":label.anchors.margins+label.paintedHeight,
-                "subLabel":subLabel.anchors.margins+subLabel.paintedHeight
+                "label":label.anchors.margins+label.contentHeight,
+                "subLabel":subLabel.anchors.margins+subLabel.contentHeight
             }
             if((button.style&button.style_mode.icon)===button.style_mode.icon&&heights.icon>value)          value+=heights.icon
             if((button.style&button.style_mode.text)===button.style_mode.text&&heights.label>value)         value+=heights.label

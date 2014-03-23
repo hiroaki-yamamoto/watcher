@@ -18,6 +18,8 @@ namespace ui{
             TopicView(plugin::board *board,TabContentsBase *parent=nullptr);
         public slots:
             void addButton(const QString &title,const QString &detail,const QUuid &uuid);
+            void clearButtons();
+            void reload();
         signals:
             void buttonClicked(const QString &title,const QUuid &uuid,plugin::topic *topic);
         private slots:
@@ -26,5 +28,6 @@ namespace ui{
             void _getTopicsFailed(const QNetworkReply::NetworkError err,const QString &err_str);
         private:
             QHash<QPair<QString,QUuid>,plugin::topic *> _topics;
+            plugin::board *_board;
     };
 }

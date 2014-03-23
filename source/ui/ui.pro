@@ -1,5 +1,5 @@
 TEMPLATE = lib
-
+INCLUDEPATH += ../implementation/lib
 HEADERS +=      rootwindow.h \
                 versionwindow.h \
                 configwindow.h \
@@ -16,6 +16,10 @@ HEADERS +=      rootwindow.h \
                 topicwindow.h \
                 tabcontents_base.h \
                 tabwindow_base.h \
+                responsewindow.h \
+                responsepanel.h \
+                responsetabcontents.h \
+                responseview.h \
                 topicview.h
 
 SOURCES +=      versionwindow.cxx \
@@ -27,13 +31,16 @@ SOURCES +=      versionwindow.cxx \
                 configwindow/signals_slots.cxx \
                 configwindow/properties.cxx \
                 rootwindow/constructor.cxx \
-                rootwindow/properties.cxx \
                 rootwindow/signals_slots.cxx \
-                rootwindow/functions.cxx \
+                rootwindow/roottabcontents.cxx \
                 boardwindow/constructor.cxx \
-                boardwindow/functions.cxx \
-                boardwindow/properties.cxx \
                 boardwindow/signals_slots.cxx \
+                boardwindow/boardtabcontents.cxx \
+                responsewindow/constructor.cxx \
+                responsewindow/signals_slots.cxx \
+                responsewindow/responsepanel.cxx \
+                responsewindow/responsetabcontents.cxx \
+                responsewindow/responseview.cxx \
                 pluginpanel.cxx \
                 multiple_scroll_area.cxx \
                 themepanel.cxx \
@@ -41,8 +48,6 @@ SOURCES +=      versionwindow.cxx \
                 filechooser.cxx \
                 qml_window_base.cxx \
                 license.cxx \
-                roottabcontents.cxx \
-                boardtabcontents.cxx \
                 tabcontents_base.cxx \
                 tabwindow_base.cxx \
                 topicview.cxx
@@ -63,8 +68,11 @@ OTHER_FILES+=   default/Button.qml \
                 default/ResponseTabContent.qml\
                 default/ResponseView.qml\
                 default/ResponsePanel.qml\
+                default/ResponseList.qml\ 
                 default/Spacer.qml \
                 default/LocationBar.qml \
+                default/LinkImage.qml \
+                default/ImageFlicker.qml \
                 failsafe/RootWindow.qml \
                 failsafe/VersionWindow.qml \
                 failsafe/ToolTip.qml \

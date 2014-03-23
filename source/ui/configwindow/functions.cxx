@@ -3,8 +3,11 @@
 #include <QtDebug>
 
 #include <property_storage/property_storage.h>
+#include <logging/logging.h>
 #include <setting_default.h>
 #include <QVariant>
+
+using namespace logging;
 namespace ui{
     int ConfigDialog::exec(){
         this->_modified_setting[default_value::setting_default::name_disabled_plugins_uuid()]=this->_property->get(default_value::setting_default::name_disabled_plugins_uuid());
@@ -29,9 +32,9 @@ namespace ui{
                 bool copy_failed=false;
                 for(const QFileInfo &old_info:previous.entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot|QDir::Readable)){
                     if(QFile::copy(old_info.absoluteFilePath(),current.absoluteFilePath(old_info.fileName())))
-                        qDebug()<<"Copied:"<<old_info.absoluteFilePath()<<" -> "<<current.absoluteFilePath(old_info.fileName());
+                        qDebug()<<this<<"Copied:"<<old_info.absoluteFilePath()<<" -> "<<current.absoluteFilePath(old_info.fileName());
                     else{
-                        qWarning()<<"Copying:"<<old_info.absoluteFilePath()<<" -> "<<current.filePath(old_info.fileName())<<" failed.";
+                        qWarning()<<this<<"Copying:"<<old_info.absoluteFilePath()<<" -> "<<current.filePath(old_info.fileName())<<" failed.";
                         copy_failed=true;
                         not_copied<<old_info;
                     }

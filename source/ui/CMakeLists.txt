@@ -30,8 +30,6 @@ set(src
     "theme_scroll_area.cxx"
     "filechooser.cxx"
     "license.cxx"
-    "roottabcontents.cxx"
-    "boardtabcontents.cxx"
     "tabcontents_base.cxx"
     "tabwindow_base.cxx"
     "topicview.cxx"
@@ -45,25 +43,35 @@ set(src
     "configwindow/functions.cxx"
     
     "rootwindow/constructor.cxx"
-    "rootwindow/properties.cxx"
     "rootwindow/signals_slots.cxx"
-    "rootwindow/functions.cxx"
+    "rootwindow/roottabcontents.cxx"
 
     "boardwindow/constructor.cxx"
-    "boardwindow/properties.cxx"
     "boardwindow/signals_slots.cxx"
-    "boardwindow/functions.cxx"
+    "boardwindow/boardtabcontents.cxx"
+
+    "responsewindow/constructor.cxx"
+    "responsewindow/signals_slots.cxx"
+    "responsewindow/responsepanel.cxx"
+    "responsewindow/responsetabcontents.cxx"
+    "responsewindow/responseview.cxx"
 )
 qt5_wrap_cpp(moc_src
     "configwindow.h"
     "rootwindow.h"
     "boardwindow.h"
+    "boardtabcontents.h"
+    "roottabcontents.h"
+    "responsepanel.h"
+    "responsetabcontents.h"
+    "responseview.h"
+    "responsewindow.h"
 )
 
 
 add_library(watcher_ui SHARED ${ui_generated} ${src} ${moc_src} ${rc_out})
 set_property(TARGET watcher_ui PROPERTY LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-target_link_libraries(watcher_ui storage loader)
+target_link_libraries(watcher_ui storage loader logging manager)
 qt5_use_modules(watcher_ui Core Widgets Quick Qml Network)
 
 install(

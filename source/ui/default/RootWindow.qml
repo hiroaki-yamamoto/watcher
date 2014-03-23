@@ -9,6 +9,8 @@ Rectangle {
     readonly property alias currentSelectedTabContent:tab.currentPanel
     signal currentTabChanged(var previous,var current)
     signal tabCreated(var createdTab)
+    //Prevent "No such signal"
+    signal closeButtonClicked(var text,var uuid)
     Rectangle{
         id:menu_background
         anchors{
@@ -171,7 +173,11 @@ Rectangle {
             function addTab(tabText,uuid){
                 var createdComponent=Qt.createComponent("RootTabContent.qml")
                 if(createdComponent.status===Component.Ready){
-                    var createdContent=createdComponent.createObject(tab.tabPanel,{"title":tabText,"uuid":uuid})
+                    var createdContent=createdComponent.createObject(tab.tabPanel,{
+                                                                         "title":tabText,
+                                                                         "uuid":uuid,
+                                                                         "anchors.fill":tab.tabPanel
+                                                                     })
                     return createdContent
                 }
             }
@@ -190,7 +196,6 @@ Rectangle {
             createdContent1.buttonClickedEvent=function(sender_button){
                 console.log("Clicked");
             }
-    
             var createdContent2=addTab("CategoryView2","00000000-0000-0000-0000-000000000001")
         }
     }

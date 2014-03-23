@@ -9,7 +9,10 @@
 
 #include "property_storage.h"
 
+#include <logging/logging.h>
+
 using namespace std;
+using namespace logging;
 
 namespace storage{
     property_storage::property_storage(const int element_size,const QString &objName, QObject *parent):QObject(parent){
@@ -20,6 +23,8 @@ namespace storage{
     property_storage::property_storage(const property_storage &other,const int element_size, const QString &objName, QObject *parent){
         property_storage(element_size,objName,parent);
         this->__data=other.__data;
+        qDebug()<<"Property storage has been initialized as "<<this->objectName()<<" and based on "<<other.objectName();
+        this->dump();
     }
     const int &property_storage::elementSize() const{return this->_element_size;}
     void property_storage::setElementSize(const int size){this->_element_size=size;}
@@ -28,17 +33,20 @@ namespace storage{
     
     void property_storage::set(const QString &key, const QVariant &value){
         if(this->readOnly()){
-            qDebug()<<"("<<this->objectName()<<"): Readonly";
+            qDebug()<<this<<"Readonly";
             return;
         }
         QVariant previous_value=this->__data.value(key);
+        
         if(previous_value!=value){
+            qDebug()<<this<<"Dump Before Adding";
+            this->dump();
+            
             this->__data.insertMulti(key,value);
             this->shrink(key);
-            qDebug()<<this->objectName()<<"(Property Storage) stack:"<<this->__data;
-            qDebug()<<this->objectName()<<"(Property Storage) Begin:("<<this->__data.cbegin().key()
-                   <<":"<<this->__data.cbegin().value()<<")";
-            qDebug()<<this->objectName()<<": Set "<<this->__data.value(key)<<" to "<<key;
+            
+            qDebug()<<this<<"Dump After Adding";
+            this->dump();
             emit this->propertyChanged(key,previous_value,value);
         }
     }
@@ -68,13 +76,14 @@ namespace storage{
     }
     void property_storage::differencial_copy(const property_storage &setting){
         if(this->readOnly()){
-            qWarning()<<"("<<this->objectName()<<"): ReadOnly";
+            qWarning()<<this<<"ReadOnly";
             return;
         }
         for(const QString &key:setting.__data.uniqueKeys()){
             if(!this->exists(key)) this->__data.insertMulti(key,setting.get(key));
         }
-        qDebug()<<"("<<this->objectName()<<"): Differencial Copied from: "<<setting.objectName();
+        qDebug()<<this<<"Differencial Copied from: "<<setting.objectName();
+        this->dump();
     }
     void property_storage::copy(const QString &key, const QVariantList &values){
         for(auto &&it=values.cbegin();it<values.cend();it++){this->__data.insertMulti(key,*it);}
@@ -96,10 +105,11 @@ namespace storage{
     void property_storage::shrink(const QString &key){
         for(auto &&it=this->__data.end()-1;it!=this->__data.begin()&&this->__data.count(key)>this->_element_size;it--){
             if(it.key()==key){
-                qDebug()<<"("<<this->objectName()<<"): Removed:{"<<it.key()<<":"<<it.value()<<"}";
+                qDebug()<<this<<"Removed:{"<<it.key()<<":"<<it.value()<<"}";
                 it=this->__data.erase(it);
             }
         }
+        this->dump();
     }
     
     property_storage &property_storage::operator=(const property_storage &operandB){
@@ -129,5 +139,14 @@ namespace storage{
     property_storage property_storage::operator+=(const property_storage &operandB){
         (*this)=(*this)+operandB;
         return (*this);
+    }
+    void property_storage::dump(){
+        qDebug()<<"Property Storage Dump. Object Name:"<<this->objectName();
+        for(const QString &str:this->__data.uniqueKeys()){
+            qDebug()<<"    Name:"<<str;
+            for(const QVariant &var:this->__data.values(str)){
+                qDebug()<<"        Value:"<<var;
+            }
+        }
     }
 }

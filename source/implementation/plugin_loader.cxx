@@ -3,8 +3,10 @@
 #include <QUuid>
 #include <QDir>
 #include <loader/root.h>
+#include <logging/logging.h>
 #include <QtDebug>
 #include "plugin_loader.h"
+using namespace logging;
 namespace loader{
     plugin_loader::plugin_loader(const QString &root_dir, const QString &objName, QObject *parent):QObject(parent){
         this->_root_dir=root_dir;
@@ -23,12 +25,12 @@ namespace loader{
     bool plugin_loader::load(){
         QDir dir(this->_root_dir);
         if(!dir.exists()){
-            qWarning()<<"Plugin root dir:"<<dir.path()<<" doesn't exist.";
+            qWarning()<<this<<"Plugin root dir:"<<dir.path()<<" doesn't exist.";
             return false;
         }
         for(const QFileInfo &info:dir.entryInfoList(QDir::Files|QDir::NoDotAndDotDot|QDir::Readable|QDir::Executable)){
             if(!QLibrary::isLibrary(info.filePath())){
-                qWarning()<<"Impossible to load the file:"<<info.absoluteFilePath();
+                qWarning()<<this<<"Impossible to load the file:"<<info.absoluteFilePath();
                 continue;
             }
             qDebug()<<"Loading: "<<info.filePath();
@@ -37,12 +39,12 @@ namespace loader{
             if(instance!=0){
                 (*this->_instances)<<qobject_cast<plugin::root *>(instance);
                 (*this->_loaders)<<loader;
-                qDebug()<<"Loaded:  "<<loader->fileName();
-                qDebug()<<"    Plugin Name:"<<qobject_cast<plugin::root *>(instance)->title();
-                qDebug()<<"    Plugin UUID:"<<qobject_cast<plugin::root *>(instance)->identifier().toString();
+                qDebug()<<this<<"Loaded:  "<<loader->fileName();
+                qDebug()<<this<<"    Plugin Name:"<<qobject_cast<plugin::root *>(instance)->title();
+                qDebug()<<this<<"    Plugin UUID:"<<qobject_cast<plugin::root *>(instance)->identifier().toString();
             }else{
-                qWarning()<<"Loading failed: "<<loader->fileName();
-                qWarning()<<"    Reason: "<<loader->errorString();
+                qWarning()<<this<<"Loading failed: "<<loader->fileName();
+                qWarning()<<this<<"    Reason: "<<loader->errorString();
                 loader->unload();
                 loader->deleteLater();
             }
@@ -53,10 +55,10 @@ namespace loader{
     bool plugin_loader::unload(){
         for(plugin::root *instance:*this->_instances) instance->closing();
         for(QPluginLoader *loader:*this->_loaders){
-            if(loader->unload()) qDebug()<<"Unloaded: "<<loader->fileName();
+            if(loader->unload()) qDebug()<<this<<"Unloaded: "<<loader->fileName();
             else{
-                qWarning()<<"Unloading failed: "<<loader->fileName();
-                qWarning()<<"    Reason:"<<loader->errorString();
+                qWarning()<<this<<"Unloading failed: "<<loader->fileName();
+                qWarning()<<this<<"    Reason:"<<loader->errorString();
             }
             delete loader;
         }

@@ -31,7 +31,6 @@ namespace ui{
             bool boards_empty() const;
         public slots:
             void setTabName(const QString &name);
-            void button_clicked(QVariant button_var);
             void back();
             void forward();
             void reload();
@@ -39,6 +38,7 @@ namespace ui{
             void topicMode(plugin::board *board);
             void stateChanged();
         private slots:
+            void _button_clicked(const QVariant &button_var);
             void _get_category_completed(const QVector<plugin::category *> &categories);
             void _get_boards_completed(const QVector<plugin::board *> &boards);
             void _get_category_failed(const QNetworkReply::NetworkError err,const QString &err_str);

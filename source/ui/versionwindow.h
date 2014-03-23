@@ -5,9 +5,11 @@ namespace ui{
             Q_OBJECT
             Q_PROPERTY(bool active READ isActive)
         public:
-            VersionWindow(const QString &title, const QIcon &icon,QMLWindowBase *parent=nullptr);
-            QList<plugin::root *> *plugins() const;
-            storage::property_storage *property() const;
+            VersionWindow(const QString &title,
+                          const QIcon &icon,
+                          QList<plugin::root *> *plugins,
+                          storage::property_storage *property,
+                          QMLWindowBase *parent=nullptr);
         private slots:
             void _linkActivated(const QString &link);
             void _propertyChanged(const QString &name,const QVariant &prev,const QVariant &now);

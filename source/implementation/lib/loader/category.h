@@ -18,7 +18,7 @@ namespace plugin{
     class category:public content_base{
             Q_OBJECT
             using content_base::content_base;
-        public:
+        public slots:
             virtual void get_boards()=0;
         signals:
              void get_boards_finished(const QVector<plugin::board *> &boards);

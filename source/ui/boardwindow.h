@@ -11,6 +11,7 @@ namespace plugin{
 }
 namespace ui{
     class BoardTabContents;
+    class ResponseWindow;
     class BoardWindow:public TabWindowBase{
             Q_OBJECT
             Q_PROPERTY(QList<plugin::root *> *plugins READ plugins)
@@ -21,8 +22,6 @@ namespace ui{
                         QList<plugin::root *> *plugins,
                         storage::property_storage *property,
                         QMLWindowBase *parent=nullptr);
-            QList<plugin::root *> *plugins() const;
-            storage::property_storage *property() const;
         public slots:
             void addTabContents(plugin::board *board);
         private slots:
@@ -31,7 +30,6 @@ namespace ui{
             void _reload();
             void _close();
         private:
-            QList<plugin::root *> *_plugins;
-            storage::property_storage *_property;
+            ResponseWindow *_responseWindow;
     };
 }

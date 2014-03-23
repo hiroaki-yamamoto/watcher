@@ -1,4 +1,5 @@
 TEMPLATE= lib
+INCLUDEPATH += ..
 TARGET= property_storage
 HEADERS +=  property_storage.h
 SOURCES +=  property_storage.cxx operators.cxx

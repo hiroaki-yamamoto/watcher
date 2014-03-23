@@ -1,5 +1,5 @@
 set(WatcherLoader_LIBRARIES "loader")
-set(WatcherLoader_HEADERS "board.h" "category.h" "response.h" "topic.h")
+set(WatcherLoader_HEADERS "board.h" "category.h" "content_base.h" "response.h" "root.h" "topic.h")
 set(WatcherLoader_VERSION 1.0)
 
 foreach(header IN LISTS WatcherLoader_HEADERS)
@@ -12,8 +12,7 @@ foreach(header IN LISTS WatcherLoader_HEADERS)
 endforeach(header)
 
 foreach(library IN LISTS WatcherLoader_LIBRARIES)
-    find_library(INTERNAL_LIBRARIES "${library}" 
-                HINTS "/usr/lib/watcher" "/usr/local/lib/watcher")
+    find_library(INTERNAL_LIBRARIES "${library}" HINTS "/usr/lib/watcher" "/usr/local/lib/watcher")
     list(FIND WatcherLoader_LIBRARIES_DIR ${INTERNAL_LIBRARIES} result)
     if(result EQUAL -1)
         list(APPEND WatcherLoader_LIBRARIES_DIR ${INTERNAL_LIBRARIES})

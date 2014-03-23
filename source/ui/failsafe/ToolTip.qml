@@ -45,8 +45,8 @@ Rectangle {
     property alias title:title_label.text
     property alias body:body_label.text
     anchors.margins:5
-    width:(anchors.margins*2)+((title_label.paintedWidth<body_label.paintedWidth)?body_label.paintedWidth:title_label.paintedWidth)
-    height:(anchors.margins*4)+body_label.paintedHeight+title_label.paintedHeight
+    width:(anchors.margins*2)+((title_label.contentWidth<body_label.contentWidth)?body_label.contentWidth:title_label.contentWidth)
+    height:(anchors.margins*4)+body_label.contentHeight+title_label.contentHeight
     gradient:Gradient{
         GradientStop{position:0; color:"black"}
         GradientStop{position:1; color:Qt.darker("lightsteelblue",2.0)}

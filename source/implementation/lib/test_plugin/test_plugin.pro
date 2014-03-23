@@ -1,5 +1,6 @@
 TEMPLATE=lib
 TARGET=test_plugin
+INCLUDEPATH += ..
 
 HEADERS +=  board.h \
             category.h \
@@ -14,3 +15,6 @@ SOURCES +=  board.cxx \
             topic.cxx
 
 OTHER_FILES+=CMakeLists.txt root.json
+
+RESOURCES += \
+    images.qrc

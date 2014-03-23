@@ -19,8 +19,8 @@ namespace yotsuba{
             board(std::mt19937 *mt,QNetworkAccessManager *accessManager,QObject *parent=nullptr);
             const QString &board_dir() const;
             const QUrl &board_url() const;
-            void get_topics();
         public slots:
+            void get_topics();
             void setBoardURL(const QUrl &url);
             void setBoardDirName(const QString &dir);
         private slots:

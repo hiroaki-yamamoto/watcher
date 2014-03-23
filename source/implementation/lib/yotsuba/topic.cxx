@@ -38,16 +38,18 @@ namespace yotsuba{
     bool topic::readonly() const{return true;}
     void topic::setTopicURL(const QUrl &url){this->_url=url;}
     void topic::setTopicID(const qulonglong &topicID){this->_topicID=topicID;}
-    void topic::post(const plugin::response &res){}
+    void topic::post(){}
     void topic::get_responses(){
         connect(this->_accessmanager,SIGNAL(finished(QNetworkReply*)),SLOT(getDataFinished(QNetworkReply*)));
         board *parent=qobject_cast<board *>(this->parent());
         this->_accessmanager->get(create_request(response_list_url(parent->board_dir(),this->_topicID)));
     }
     void topic::getDataFinished(QNetworkReply *reply){
+#ifdef DEBUG
         traceReply(*reply);
+#endif
         if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
-            qWarning()<<"Yotsuba.Topic:Signal disconnection failed.";
+            qWarning()<<"yotsuba: Yotsuba.Topic:Signal disconnection failed.";
         }
         if(reply->error()!=QNetworkReply::NoError){
             emit this->get_responses_failed(reply->error(),reply->errorString());

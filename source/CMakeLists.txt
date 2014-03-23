@@ -1,8 +1,8 @@
 project(watcher-bin)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core 5.1 REQUIRED)
+find_package(Qt5Widgets 5.1 REQUIRED)
 find_package(libserializer REQUIRED)
 
 if(EXPERIMENTAL)
@@ -15,29 +15,35 @@ if(NOT UNIX)
 endif(NOT UNIX)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-    if(GCC_VERSION VERSION_LESS "4.7")
-        set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
-    else(GCC_VERSION VERSION_LESS "4.7")
-        set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-    endif(GCC_VERSION VERSION_LESS "4.7")
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    option(FORCELY_USE_LIBCPP "Use LLVM libc++ forcely" OFF)
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+    if(FORCELY_USE_LIBCPP)
+        set(CMAKE_LINK_LIBRARY_FLAG "-lc++abi ${CMAKE_LINK_LIBRARY_FLAG}")
+        set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
+    endif(FORCELY_USE_LIBCPP)
 else(CMAKE_COMPILER_IS_GNUCXX)
-    message(FATAL_ERROR "This software uses GNU C++ Compiler. Unfortunately, your compiler is not GNUCXX.")
+    message(FATAL_ERROR "This software uses GNU C++ Compiler or Clang. Unfortunately, your compiler is neither GCC or Clang")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
     add_definitions(-DDEBUG)
-    message(STATUS "Debugging mode is enabled. This is not recommended for normal uses.")
+    message(STATUS "Debugging mode is enabled. This is not recommended for normal use.")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 include_directories(
-    ${libserializer_INCLUDE_DIR}
+    "${Qt5Core_INCLUDE_DIRS}"
+    "${Qt5Widgets_INCLUDE_DIRS}"
+    "${libserializer_INCLUDE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/ui"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/property_storage"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/loader"
+    "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/logging"
+    "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib/manager"
 )
 add_subdirectory(implementation)
 add_subdirectory(ui)

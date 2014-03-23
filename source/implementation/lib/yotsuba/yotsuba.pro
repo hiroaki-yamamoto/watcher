@@ -1,4 +1,5 @@
 TEMPLATE=lib
+INCLUDEPATH += ..
 TARGET=4chan
 
 HEADERS+=board.h \

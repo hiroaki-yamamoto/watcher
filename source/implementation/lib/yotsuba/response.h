@@ -9,7 +9,7 @@ class QNetworkAccessManager;
 
 namespace yotsuba{
     /*
-     * Response class is written with very trickky coding.
+     * Response class is written with very tricky coding.
      * First, to avoid using include compiler instruction, all variables and return values are references or pointers.
      */
     class response:public plugin::response{
@@ -22,9 +22,7 @@ namespace yotsuba{
             const QString &body() const;
             const QDateTime &creation_date() const;
             const QUrl &response_url() const;
-            const QHash<QUrl,QImage> &images() const;
-            const bool has_images() const;
-            const quint64 num_images() const;
+            manager::ImageManager *images() const;
             const quint64 resID() const;
         public slots:
             void fetchImage(const QUrl &url);
@@ -32,7 +30,7 @@ namespace yotsuba{
             void setBody(const QString &body);
             void setCreationDate(const QDateTime &creation_date);
             void setResponseUrl(const QUrl &url);
-            void setImages(const QHash<QUrl,QImage> &images);
+            void setImages(manager::ImageManager &images);
             void setHasImages(const bool has_images);
             void setResID(const quint64 &resID);
         signals:
@@ -44,7 +42,7 @@ namespace yotsuba{
             QString *_body,*_email;
             QDateTime *_creation_date;
             QUrl *_topic_url;
-            QHash<QUrl,QImage> *_images;
+            manager::ImageManager *_images;
             quint64 _resID;
             bool _has_images;
     };
