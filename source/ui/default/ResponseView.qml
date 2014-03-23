@@ -29,6 +29,9 @@ Item{
             right:root.right
         }
     }
+    function updatePanel(UUID,factor){
+        return responseList.updatePanel(UUID,factor)
+    }
     function addResponse(title,author,email,post_time,body,uuid,URL,imageInfo){
         var generatedContent=responseList.addPanel(title,author,email,post_time,body,uuid,URL,imageInfo)
         if(generatedContent===undefined) console.log("Couldn't create response panel.")

@@ -22,7 +22,6 @@ Item{
         function addTab(tabText,uuid){
             var createdComponent=Qt.createComponent("ResponseView.qml")
             if(createdComponent.status===Component.Error) console.log(createdComponent.errorString())
-            console.log(createdComponent.status+" "+Component.Ready)
             if(createdComponent.status===Component.Ready){
                 var createdContent=createdComponent.createObject(responses.tabPanel,
                                                                  {

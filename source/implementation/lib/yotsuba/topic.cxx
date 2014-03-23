@@ -45,7 +45,9 @@ namespace yotsuba{
         this->_accessmanager->get(create_request(response_list_url(parent->board_dir(),this->_topicID)));
     }
     void topic::getDataFinished(QNetworkReply *reply){
+#ifdef DEBUG
         traceReply(*reply);
+#endif
         if(!this->_accessmanager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(getDataFinished(QNetworkReply*)))){
             qWarning()<<"yotsuba: Yotsuba.Topic:Signal disconnection failed.";
         }

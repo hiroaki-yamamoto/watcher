@@ -28,5 +28,7 @@ namespace plugin{
             //Image cache.
             virtual manager::ImageManager *images() const=0;
             //virtual const QHash<QUrl,QImage> &images() const=0;
+        signals:
+            void imagesUpdated();
     };
 }

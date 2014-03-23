@@ -32,6 +32,8 @@ namespace ui{
             void responseFetchingFailed(const QNetworkReply::NetworkError err,const QString &err_str);
             void addItem(plugin::response *res);
             void reload();
+        private slots:
+            void updateImageInfo();
         private:
             QQuickItem *_addItem(const QString &title, const QString &author,
                                 const QString &email, const QDateTime &post_time,

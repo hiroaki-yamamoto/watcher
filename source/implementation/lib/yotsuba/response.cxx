@@ -1,13 +1,16 @@
 #include "api_urls.h"
 #include "response.h"
+#include "trace.h"
 #include <QtDebug>
 #include <QString>
 #include <QList>
 #include <QDateTime>
 #include <QHash>
+#include <QImageReader>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QAbstractNetworkCache>
 #include <QtNetwork/QNetworkReply>
+
 namespace yotsuba{
     response::response(QNetworkAccessManager *accessManager, QObject *parent):plugin::response(parent){
         this->_accessManager=accessManager;
@@ -39,13 +42,17 @@ namespace yotsuba{
     void response::setResID(const quint64 &resID){this->_resID=resID;}
     void response::setEmail(const QString &email){(*this->_email)=email;}
     void response::fetchImage(const QUrl &url){
-        connect(this->_accessManager,SIGNAL(finished(QNetworkReply*)),SLOT(_fetching_image_finished(QNetworkReply*)));
-        this->_accessManager->get(create_request(url));
+        QNetworkAccessManager *manager=new QNetworkAccessManager(this);
+        manager->setCache(this->_accessManager->cache());
+        connect(manager,SIGNAL(finished(QNetworkReply*)),SLOT(_fetching_image_finished(QNetworkReply*)));
+        manager->get(create_request(url));
     }
     void response::_fetching_image_finished(QNetworkReply *reply){
-        if(!this->_accessManager->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(_fetching_image_finished(QNetworkReply*)))){
+        traceReply(*reply);
+        if(!this->sender()->disconnect(SIGNAL(finished(QNetworkReply*)),this,SLOT(_fetching_image_finished(QNetworkReply*)))){
             qWarning()<<"Yotsuba.Response.FetchingImage:Signal disconnection failed";
         }
+        
         if(reply->error()!=QNetworkReply::NoError){
             qWarning()<<"Response.FetchImage:Fetching Error";
             qWarning()<<"    ErrorString:"<<reply->errorString();
@@ -53,8 +60,10 @@ namespace yotsuba{
             reply->close();
             return;
         }
+        QImageReader &&imgreader=QImageReader(reply);
         this->_images->insert(QUuid::createUuidV5(this->identifier(),reply->url().toString()),
-                              qMakePair(reply->url(),QImage::fromData(reply->readAll())));
+                              qMakePair(reply->url(),imgreader.read()));
         reply->close();
+        emit this->imagesUpdated();
     }
 }

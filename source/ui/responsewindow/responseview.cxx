@@ -70,11 +70,34 @@ namespace ui{
                                  "<p>Error message:%1</p>"
                                  ).arg(err_str));
     }
-
+                             
     void ResponseView::addItem(plugin::response *res){
+        connect(res,SIGNAL(imagesUpdated()),this,SLOT(updateImageInfo()));
         this->_childrenItems[qMakePair(res->title(),res->identifier())]=new ResponsePanel(res,this);
     }
-    
+    void ResponseView::updateImageInfo(){
+        plugin::response *res=qobject_cast<plugin::response *>(this->sender());
+        if(res!=nullptr&&res->images()!=nullptr){
+            manager::ImageManager *images=res->images();
+            QUuid uuid=res->identifier();
+            QVariantList imageInfoList;
+            for(QUuid &imageUUID:images->uniqueKeys()){
+                auto &&value=images->value(imageUUID);
+                QVariantMap imageInfo;
+                imageInfo["LinkURI"]=value.first.toString();
+                imageInfo["SourceURI"]=QString("image://%1/%2").arg(uuid.toString().replace("{","").replace("}",""),
+                                                            imageUUID.toString().replace("{","").replace("}",""));
+                imageInfo["UUID"]=imageUUID.toString();
+                imageInfoList<<imageInfo;
+            }
+            QVariantMap factor;
+            factor["imageInfo"]=imageInfoList;
+            bool success=QMetaObject::invokeMethod(this->_tabcontents,"updatePanel",
+                                                   Q_ARG(QVariant,uuid),
+                                                   Q_ARG(QVariant,factor)
+                                               );
+        }else qWarning()<<"ResponseView: response pointer or res->images may be nullptr";
+    }
     QQuickItem *ResponseView::_addItem(const QString &title, const QString &author, const QString &email, 
                                        const QDateTime &post_time, const QString &body, const QUuid &uuid,
                                        const QUrl &responseURL,manager::ImageManager *images){
@@ -91,7 +114,6 @@ namespace ui{
             }
         ]
         */
-        //TODO: Add image provider
         windowEngine->addImageProvider(uuid.toString().replace("{","").replace("}",""),images);
         
         QVariantList imageInfoList;
@@ -112,6 +134,7 @@ namespace ui{
                                                  Q_ARG(QVariant,QVariant(post_time.toString())),Q_ARG(QVariant,QVariant(body)),
                                                  Q_ARG(QVariant,QVariant(uuid)),Q_ARG(QVariant,responseURL),
                                                  Q_ARG(QVariant,imageInfoList));
+
         if(!succeeded){
             qWarning()<<this<<"Calling _addItem failed. Here is the Info.";
             qWarning()<<this<<"    title:"<<title;

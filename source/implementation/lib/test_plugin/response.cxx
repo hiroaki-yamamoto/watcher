@@ -14,6 +14,7 @@ namespace test{
     void response::fetchImage(const QUrl &link_url, const QImage &image){
         QUuid &&uuid=QUuid::createUuidV5(this->identifier(),link_url.toString());
         this->_images->insert(uuid,qMakePair(link_url,image));
+        emit this->imagesUpdated();
     }
     const QString &response::email()            const{return this->_email;}
     const QString &response::body()             const{return this->description();}

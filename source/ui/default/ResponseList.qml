@@ -22,6 +22,7 @@ Item{
             responseURL:URL
             imageInfoObj:ImageInfo
             onLinkActivated:{
+                console.log(linkURL)
                 Qt.openUrlExternally(linkURL)
             }
             width:panelView.width-anchors.rightMargin
@@ -48,6 +49,57 @@ Item{
     
         onPositionChanged:{
             if(!panelView.flicking&&!panelView.moving) panelView.contentY=panelView.contentHeight*position
+        }
+    }
+    /*
+    factor: factor to change. the format must be an formatted map like this:
+        title: (str) title
+        author: (str) author
+        email: (str) email
+        post_time: (str) post date
+        body: (str) the body of the response
+        imageInfo: (imageInfoObject) the image info
+    Note: All values are optional.
+    */
+    
+    function updatePanel(UUID,factor){
+        var matchIndex=null;
+        for(var index=0;index<responseModel.count;index++){
+            var candidate=responseModel.get(index)
+            if(candidate.responseUUID===UUID.toString()){
+                matchIndex=index
+                break
+            }
+        }
+        if(matchIndex==null){
+            console.log("Nothing matched. skipped.")
+            return
+        }
+        for(var key in factor){
+            var el=factor[key]
+            switch(key){
+                case "title":
+                    responseModel.setProperty(matchIndex,"responseTitle",el)
+                    break
+                case "author":
+                    responseModel.setProperty(matchIndex,"responseAuthor",el)
+                    break
+                case "email":
+                    responseModel.setProperty(matchIndex,"responseEmail",el)
+                    break
+                case "post_time":
+                    responseModel.setProperty(matchIndex,"responsePostTime",el)
+                    break
+                case "body":
+                    responseModel.setProperty(matchIndex,"responseBody",el)
+                    break
+                case "imageInfo":
+                    responseModel.setProperty(matchIndex,"ImageInfo",JSON.stringify(el))
+                    break
+                case "URL":
+                    responseModel.setProperty(matchIndex,"URL",el)
+                    break
+            }
         }
     }
     function addPanel(title,author,email,post_time,body,uuid,URL,imageInfo){
