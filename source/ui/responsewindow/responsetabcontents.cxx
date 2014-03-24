@@ -13,6 +13,8 @@ namespace ui{
         return qobject_cast<ResponseWindow *>(this->_parentWindow);
     }
     void ResponseTabContents::addTopic(plugin::topic *topic){
+        qDebug()<<topic->title();
+        qDebug()<<topic->identifier();
         this->_childrenTabs[qMakePair(topic->title(),topic->identifier())]=new ResponseView(topic,this);
     }
     void ResponseTabContents::reload(){

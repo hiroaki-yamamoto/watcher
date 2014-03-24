@@ -34,7 +34,7 @@ Item{
         }
     }
     function addTab(tabText,uuid){
-        var createdComponent=responses.addTab(tabText,"http://example.com/",uuid)
+        var createdComponent=responses.addTab(tabText,uuid)
         if(createdComponent===undefined) console.log("Couldn't create response view:{tabTitle:"+tabText+", uuid:"+uuid+"}")
         else return createdComponent
     }

@@ -72,7 +72,13 @@ namespace ui{
     }
                              
     void ResponseView::addItem(plugin::response *res){
+        res->disconnect(SIGNAL(imagesUpdated()));
         connect(res,SIGNAL(imagesUpdated()),this,SLOT(updateImageInfo()));
+        
+        QObject *currentPanel=nullptr;
+        if((currentPanel=this->_childrenItems[qMakePair(res->title(),res->identifier())])!=nullptr){
+            currentPanel->deleteLater();
+        }
         this->_childrenItems[qMakePair(res->title(),res->identifier())]=new ResponsePanel(res,this);
     }
     void ResponseView::updateImageInfo(){
@@ -114,10 +120,14 @@ namespace ui{
             }
         ]
         */
-        windowEngine->addImageProvider(uuid.toString().replace("{","").replace("}",""),images);
+        QString img_providerID=uuid.toString().replace("{","").replace("}","");
+        if(windowEngine->imageProvider(img_providerID)==nullptr){
+            windowEngine->addImageProvider(uuid.toString().replace("{","").replace("}",""),images);
+        }
         
         QVariantList imageInfoList;
-        for(QUuid &imageUUID:images->uniqueKeys()){
+        QList<QUuid> imageUUIDs=images->uniqueKeys();
+        for(QUuid &imageUUID:imageUUIDs){
             auto &&value=images->value(imageUUID);
             QVariantMap imageInfo;
             imageInfo["LinkURI"]=value.first.toString();

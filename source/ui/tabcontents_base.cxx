@@ -88,7 +88,7 @@ namespace ui{
         QString tab_title=currentTab->property("title").toString();
         QPair<QString,QUuid> tab_key=qMakePair(tab_title,tab_uuid);
         if(!this->_childrenTabs.contains(tab_key)){
-            qDebug()<<this<<"TabContent Named:"<<tab_title<<" couldn't be found.";
+            qDebug()<<this<<"TabContent ("<<tab_key<<") couldn't be found.";
             return nullptr;
         }else return this->_childrenTabs[tab_key];
     }
