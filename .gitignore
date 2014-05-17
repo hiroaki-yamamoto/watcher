@@ -1,0 +1,14 @@
+build
+*.pro.*
+CMakeLists.txt.*
+*.pdf
+*.log
+*.out
+*.toc
+*.aux
+*.dvi
+*.xbb
+*.directory
+.kdev4
+*.kdev4
+Makefile
