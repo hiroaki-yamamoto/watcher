@@ -112,12 +112,17 @@ Item{
             PropertyChanges{
                 target: view_rect
                 height:dummy_button.height
+                width:parent.width
+                x: parent.x
+                y: parent.y
+                /*
                 anchors{
                     margins:5
                     top:parent.top
                     left:parent.left
                     right:parent.right
                 }
+                */
             }
             PropertyChanges{
                 target: button_view
