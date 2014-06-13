@@ -1,11 +1,10 @@
 project(watcher-ui)
 add_custom_command(
     OUTPUT default
-    COMMAND mkdir ARGS -p ${CMAKE_BINARY_DIR}/themes
-    COMMAND cp ARGS -r ${CMAKE_CURRENT_SOURCE_DIR}/default ${CMAKE_BINARY_DIR}/themes
+    COMMAND cp ARGS -r ${CMAKE_CURRENT_SOURCE_DIR}/themes ${CMAKE_BINARY_DIR}/
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/default
-    COMMENT "Copying default theme file..."
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/themes
+    COMMENT "Copying official theme file..."
 )
 
 add_custom_target(

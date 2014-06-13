@@ -112,9 +112,9 @@ Item{
             PropertyChanges{
                 target: view_rect
                 height:dummy_button.height
-                width:parent.width
-                x: parent.x
-                y: parent.y
+                width:parent.width-10
+                x: parent.x+5
+                y: parent.y+5
                 /*
                 anchors{
                     margins:5
@@ -131,6 +131,11 @@ Item{
             }
             PropertyChanges{
                 target:panel
+                y: view_rect.y+view_rect.height+5
+                x: parent.x+5
+                width: parent.width-10
+                height: parent.height-view_rect.height-20
+                /*
                 anchors{
                     margins:5
                     top:view_rect.bottom
@@ -138,6 +143,7 @@ Item{
                     left:parent.left
                     right:parent.right
                 }
+                */
             }
             
         },
