@@ -119,7 +119,7 @@ namespace ui {
             }
             QVariantMap factor;
             factor["imageInfo"] = imageInfoList;
-            bool success = QMetaObject::invokeMethod(
+            QMetaObject::invokeMethod(
                 this->_tabcontents, "updatePanel", Q_ARG(QVariant, uuid),
                 Q_ARG(QVariant, factor));
         } else

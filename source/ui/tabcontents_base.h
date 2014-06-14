@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QString>
 #include <QUuid>
+
 class QQuickItem;
+class QJSValue;
 namespace ui {
     class TabWindowBase;
     class TabContentsBase : public QObject {
@@ -28,8 +30,8 @@ namespace ui {
         void setTitle(const QString &title);
         void setUUID(const QUuid &uuid);
         void deleteLater();
-        virtual void _closeButtonClicked(const QVariant &title,
-                                         const QVariant &uuid);
+        virtual void _closeButtonClicked(const QJSValue &title,
+                                         const QJSValue &uuid);
 
        protected:
         virtual TabContentsBase *_getCurrentTabContents();

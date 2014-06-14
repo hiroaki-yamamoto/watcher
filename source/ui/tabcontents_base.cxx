@@ -3,6 +3,7 @@
 #include <QtDebug>
 #include <QtQuick/QQuickItem>
 #include <QUuid>
+#include <QtQml/QJSValue>
 #include <logging/logging.h>
 
 using namespace logging;
@@ -28,8 +29,8 @@ namespace ui {
         }
         this->_tabcontents->setObjectName(uuid.toString());
         connect(this->_tabcontents,
-                SIGNAL(closeButtonClicked(QVariant, QVariant)),
-                SLOT(_closeButtonClicked(QVariant, QVariant)));
+                SIGNAL(closeButtonClicked(QJSValue, QJSValue)),
+                SLOT(_closeButtonClicked(QJSValue, QJSValue)));
     }
     TabContentsBase::TabContentsBase(const QString &title, const QUuid &uuid,
                                      TabContentsBase *parent)
@@ -86,8 +87,8 @@ namespace ui {
                        << "Not found:" << qMakePair(title, uuid.toString());
         }
     }
-    void TabContentsBase::_closeButtonClicked(const QVariant &title,
-                                              const QVariant &uuid) {
+    void TabContentsBase::_closeButtonClicked(const QJSValue &title,
+                                              const QJSValue &uuid) {
         this->removeTab(title.toString(), uuid.toString());
     }
     void TabContentsBase::setTitle(const QString &title) {

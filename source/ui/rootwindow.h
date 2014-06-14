@@ -10,6 +10,9 @@
 
 template <class T>
 class QList;
+
+class QJSValue;
+
 namespace storage {
     class property_storage;
 }
@@ -47,8 +50,8 @@ namespace ui {
         void _plugin_loaded();
 
         void _topicMode(plugin::board *board);
-        void _tabContentStateChanged(const QVariant &previous,
-                                     const QVariant &current);
+        void _tabContentStateChanged(const QJSValue &previous,
+                                     const QJSValue &current);
         void _tabContentStateChanged();
 
        private:

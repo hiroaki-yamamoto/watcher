@@ -1,6 +1,7 @@
 #include <QVariant>
 #include <QtQuick/QQuickItem>
 #include <QtDebug>
+#include <QtQml/QJSValue>
 #include <logging/logging.h>
 #include "tabwindow_base.h"
 #include "tabcontents_base.h"
@@ -16,8 +17,8 @@ namespace ui {
     }
     void TabWindowBase::_loaded() {
         connect(this->rootObject(),
-                SIGNAL(closeButtonClicked(QVariant, QVariant)),
-                SLOT(_closeButtonClicked(QVariant, QVariant)));
+                SIGNAL(closeButtonClicked(QJSValue, QJSValue)),
+                SLOT(_closeButtonClicked(QJSValue, QJSValue)));
     }
     TabContentsBase *TabWindowBase::_getCurrentTabContents() {
         QQuickItem *currentTab = this->rootObject()
@@ -56,8 +57,8 @@ namespace ui {
             qWarning() << this << "Not found:" << key;
         }
     }
-    void TabWindowBase::_closeButtonClicked(const QVariant &title,
-                                            const QVariant &uuid) {
+    void TabWindowBase::_closeButtonClicked(const QJSValue &title,
+                                            const QJSValue &uuid) {
         this->removeTab(title.toString(), uuid.toString());
     }
     void TabWindowBase::deleteLater() {

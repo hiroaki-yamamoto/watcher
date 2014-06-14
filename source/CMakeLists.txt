@@ -1,8 +1,8 @@
 project(watcher-bin)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-find_package(Qt5Core 5.1 REQUIRED)
-find_package(Qt5Widgets 5.1 REQUIRED)
+find_package(Qt5Core 5.3.0 REQUIRED)
+find_package(Qt5Widgets 5.3.0 REQUIRED)
 find_package(libserializer REQUIRED)
 
 if(EXPERIMENTAL)

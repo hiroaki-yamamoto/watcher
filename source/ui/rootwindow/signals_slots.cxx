@@ -6,6 +6,7 @@
 #include <QUuid>
 #include <QtWidgets/QFileDialog>
 #include <QtQuick/QQuickItem>
+#include <QtQml/QJSValue>
 
 #include <loader/root.h>
 #include <loader/topic.h>
@@ -58,8 +59,8 @@ namespace ui {
                 SLOT(_property_changed(QString, QVariant, QVariant)));
         connect(this->_loader, SIGNAL(loaded()), SLOT(_plugin_loaded()));
         connect(this->rootObject(),
-                SIGNAL(currentTabChanged(QVariant, QVariant)),
-                SLOT(_tabContentStateChanged(const QVariant, const QVariant)));
+                SIGNAL(currentTabChanged(QJSValue, QJSValue)),
+                SLOT(_tabContentStateChanged(const QJSValue, const QJSValue)));
     }
 
     // Slots
@@ -188,10 +189,11 @@ namespace ui {
         }
     }
     void RootWindow::_tabContentStateChanged() {
-        this->_tabContentStateChanged(QVariant(), QVariant());
+        this->_tabContentStateChanged(QJSValue(QJSValue::UndefinedValue),
+                                      QJSValue(QJSValue::UndefinedValue));
     }
-    void RootWindow::_tabContentStateChanged(const QVariant &previous,
-                                             const QVariant &current) {
+    void RootWindow::_tabContentStateChanged(const QJSValue &previous,
+                                             const QJSValue &current) {
         Q_UNUSED(previous)
         Q_UNUSED(current)
         RootTabContents *cur =

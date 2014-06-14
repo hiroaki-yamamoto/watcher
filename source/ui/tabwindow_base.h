@@ -5,6 +5,9 @@
 #include <QUuid>
 
 #include "qml_window_base.h"
+
+class QJSValue;
+
 namespace ui {
     class TabContentsBase;
     class TabWindowBase : public QMLWindowBase {
@@ -18,8 +21,8 @@ namespace ui {
     slots:
         virtual QQuickItem *addTab(const QString &title, const QUuid &uuid);
         virtual void removeTab(const QString &title, const QUuid &uuid);
-        virtual void _closeButtonClicked(const QVariant &title,
-                                         const QVariant &uuid);
+        virtual void _closeButtonClicked(const QJSValue &title,
+                                         const QJSValue &uuid);
         virtual void _loaded();
         void deleteLater();
 

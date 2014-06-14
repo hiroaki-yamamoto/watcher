@@ -15,7 +15,10 @@ namespace plugin {
     class topic;
     class response;
 }
+
 class QQuickItem;
+class QJSValue;
+
 namespace ui {
     class RootWindow;
     class RootTabContents : public TabContentsBase {
@@ -44,7 +47,7 @@ namespace ui {
         void stateChanged();
        private
     slots:
-        void _button_clicked(const QVariant &button_var);
+        void _button_clicked(const QJSValue &button_var);
         void _get_category_completed(
             const QVector<plugin::category *> &categories);
         void _get_boards_completed(const QVector<plugin::board *> &boards);

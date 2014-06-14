@@ -9,10 +9,7 @@ Rectangle{
     
     width:  900
     height: 640
-    gradient: Gradient{
-        GradientStop{position:0;color:"lightgray"}
-        GradientStop{position:1;color:"gray"}
-    }
+    
     Rectangle{
         id:menu
         z:1
@@ -60,28 +57,37 @@ Rectangle{
             }
         }
     }
-    Tab{
-        id:boardTab
+    Rectangle{
+        id: tabRectangle
+        gradient: Gradient{
+            GradientStop{position:0;color:"lightgray"}
+            GradientStop{position:1;color:"gray"}
+        }
         anchors{
-            margins:5
             top:menu.bottom
             bottom:root.bottom
             left:root.left
             right:root.right
         }
-        useClosebutton: true
-        contentBorder.width: 0
-        onCurrentTabChanged: root.currentTabChanged(previous,current)
-        onCloseButtonClicked: root.closeButtonClicked(text,uuid)
-        function addTab(tabText,uuid){
-            var createdComponent=Qt.createComponent("BoardTabContent.qml")
-            if(createdComponent.status===Component.Ready){
-                var createdContent=createdComponent.createObject(boardTab.tabPanel,{
-                                                                     "title":tabText,
-                                                                     "uuid":uuid,
-                                                                     "anchors.fill":boardTab.tabPanel
-                                                                 })
-                return createdContent
+        Tab{
+            id:boardTab
+            anchors.fill: parent
+            
+            useClosebutton: true
+            contentBorder.width: 0
+            onCurrentTabChanged: root.currentTabChanged(previous,current)
+            onCloseButtonClicked: root.closeButtonClicked(text,uuid)
+            function addTab(tabText,uuid){
+                var createdComponent=Qt.createComponent("BoardTabContent.qml")
+                if(createdComponent.status===Component.Ready){
+                    var createdContent=createdComponent.createObject(
+                        boardTab.tabPanel,{
+                            "title":tabText,
+                            "uuid":uuid,
+                            "anchors.fill":boardTab.tabPanel
+                        })
+                    return createdContent
+                }
             }
         }
     }
