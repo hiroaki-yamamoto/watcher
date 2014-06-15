@@ -11,6 +11,7 @@ namespace plugin {
 }
 template <class T>
 class QVector;
+class QJSValue;
 
 namespace ui {
     class TopicView : public TabContentsBase {
@@ -28,7 +29,7 @@ namespace ui {
                            plugin::topic *topic);
        private
     slots:
-        void _buttonClicked(const QVariant &variant);
+        void _buttonClicked(const QJSValue &variant);
         void _getTopicsFinished(const QVector<plugin::topic *> &topics);
         void _getTopicsFailed(const QNetworkReply::NetworkError err,
                               const QString &err_str);

@@ -1,5 +1,6 @@
 #include <QVector>
 #include <QtQuick/QQuickItem>
+#include <QtQml/QJSValue>
 #include <QtWidgets/QMessageBox>
 #include <QtDebug>
 #include <QUrl>
@@ -35,8 +36,8 @@ namespace ui {
             this->_board->get_topics();
         this->_tabcontents->setProperty(
             "boardURL", QVariant(board->board_url().toString()));
-        connect(this->_tabcontents, SIGNAL(buttonClicked(QVariant)),
-                SLOT(_buttonClicked(QVariant)));
+        connect(this->_tabcontents, SIGNAL(buttonClicked(QJSValue)),
+                SLOT(_buttonClicked(QJSValue)));
     }
     void TopicView::addButton(const QString &title, const QString &detail,
                               const QUuid &uuid) {
@@ -94,8 +95,9 @@ namespace ui {
                                  "UUID:%3\n").arg(err_str, this->title(),
                                                   this->UUID().toString()));
     }
-    void TopicView::_buttonClicked(const QVariant &variant) {
-        QQuickItem *button = variant.value<decltype(button)>();
+    void TopicView::_buttonClicked(const QJSValue &variant) {
+        QQuickItem *button =
+            qobject_cast<decltype(button)>(variant.toQObject());
         const QUuid id(button->property("uuid").toString());
         const QString &&str = button->property("text").toString();
         const QPair<QString, QUuid> &&key = qMakePair(str, id);

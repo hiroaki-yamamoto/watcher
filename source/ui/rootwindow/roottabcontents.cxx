@@ -35,10 +35,10 @@ namespace ui {
             this->_root,
             SIGNAL(get_categories_failed(QNetworkReply::NetworkError, QString)),
             SLOT(_get_category_failed(QNetworkReply::NetworkError, QString)));
-        
+
         connect(this->_tabcontents, SIGNAL(buttonClicked(QJSValue)),
                 SLOT(_button_clicked(QJSValue)));
-        
+
         QVariant &&hasAnimation = this->_tabcontents->property("hasAnimation");
         this->_hasAnimation =
             hasAnimation.type() == QMetaType::Bool && hasAnimation.toBool();
@@ -87,9 +87,7 @@ namespace ui {
         return this->_tabcontents->property("title").toString();
     }
     void RootTabContents::setTabName(const QString &name) {
-        this->_tabcontents->setProperty(
-            "title", name
-        );
+        this->_tabcontents->setProperty("title", name);
     }
     void RootTabContents::_button_clicked(const QJSValue &button_var) {
         qDebug() << "(" << this->objectName()
@@ -98,9 +96,7 @@ namespace ui {
         this->_contentsName.insert(
             this->_state,
             qMakePair(
-                QUuid(QByteArray(
-                    button->property("uuid").toString().toUtf8()
-                )),
+                QUuid(QByteArray(button->property("uuid").toString().toUtf8())),
                 button->property("text").toString()));
         this->_do_switch(ContentsSwitch);
         qDebug() << this << this->_contentsName;
