@@ -1,4 +1,4 @@
-#/bin/zsh
+#! /bin/zsh
 
 # Clang formatter for all header/source files.
 # Note that this formatter applies the format to C++ files, not QML.
