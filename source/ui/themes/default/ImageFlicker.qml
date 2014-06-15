@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle{
     id:root
-    property variant model:ListModel{}
+    property alias model:imageFlick.model
 
     width:50
     height:50
@@ -24,14 +24,13 @@ Rectangle{
         spacing:2
         flickableDirection: ListView.HorizontalFlick
         orientation:ListView.Horizontal
-
-        model:root.model
+        model:ListModel{}
         delegate:LinkImage{
             id:img
             height:imageFlick.height-2
             fillMode:Image.PreserveAspectFit
-            imageURI: URI
-            source: sourceURI
+            imageURI: LinkURI
+            source: SourceURI
             uuid: UUID
         }
     }

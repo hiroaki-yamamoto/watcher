@@ -6,12 +6,12 @@ Item{
     width:100
     height:100
     clip: true
+    property alias responseModel: panelView.model
 
-    ListModel{id: responseModel}
     ListView{
         id: panelView
         spacing: 5
-        model: responseModel
+        model: ListModel{}
         delegate:ResponsePanel{
             title:responseTitle
             author:responseAuthor
@@ -19,8 +19,8 @@ Item{
             post_time:responsePostTime
             body:responseBody
             uuid:responseUUID
-            responseURL:URL
-            imageInfoObj:ImageInfo
+            responseURL:url
+            imageInfoList:imageInfo
             onLinkActivated:{
                 console.log(linkURL)
                 Qt.openUrlExternally(linkURL)
@@ -94,8 +94,19 @@ Item{
                     responseModel.setProperty(matchIndex,"responseBody",el)
                     break
                 case "imageInfo":
-                    responseModel.setProperty(matchIndex,"ImageInfo",JSON.stringify(el))
+                {
+                    /*
+                     * I disagree this syntax at all on Qt because it doesn't
+                     * seem to have consistency...
+                     */
+                    var matchModel = responseModel.get(matchIndex).imageInfo
+                    matchModel.clear()
+                    for(var index=0;index<el.length;el++){
+                        matchModel.append(el[index])
+                    }
+                    responseModel.set(matchIndex,matchModel)
                     break
+                }
                 case "URL":
                     responseModel.setProperty(matchIndex,"URL",el)
                     break
@@ -110,25 +121,10 @@ Item{
                 "responsePostTime":post_time,
                 "responseBody":body,
                 "responseUUID":uuid.toString(),
-                "URL":URL.toString(),
-                "ImageInfo":JSON.stringify(imageInfo)
+                "url":URL.toString(),
+                "imageInfo":imageInfo
             }
         responseModel.append(responseInfo)
         return responseInfo
-    }
-    Component.onCompleted:{
-        /*
-        if(debug){
-            for(var i=0;i<100;i++){
-                var panel=addPanel("test"+i,
-                         "Anonymouse",
-                         "anon@example.com",
-                         "Fri Sep 27 11:27:44 JST 2013 ("+i+")",
-                         "This is a test.("+i+")",i,
-                         "http://example.com/boards/ex/res/"+i)
-                panel.addImage("http://example.com","icons/640magenta.jpg")
-                panel.addImage("http://example.com","icons/300300cyan.png")
-            }
-        }*/
     }
 }

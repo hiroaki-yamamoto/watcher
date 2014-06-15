@@ -1,0 +1,14 @@
+#! /bin/zsh
+
+# Clang formatter for all header/source files.
+# Note that this formatter applies the format to C++ files, not QML.
+
+files=($(find . -path './build' -prune \
+                -o -name "*\.cxx" -print \
+                -o -name "*\.h" -print))
+
+for f in ${files}; do
+    echo "Formatting ${f}"
+    clang-format ${f}>${f}.new
+    mv ${f}.new ${f}
+done

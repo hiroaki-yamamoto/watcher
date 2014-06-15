@@ -1,7 +1,7 @@
 #pragma once
 class QNetworkRequest;
 class QNetworkReply;
-namespace yotsuba{
+namespace yotsuba {
     void traceRequest(const QNetworkRequest &request);
     void traceReply(const QNetworkReply &reply);
 }

@@ -50,9 +50,9 @@ Rectangle{
             }
         }
     }
-    Tab{
-        id:plugin_tab
-        useClosebutton: true
+    Rectangle{
+        id:tabRegion
+        color:"transparent"
         anchors{
             margins:5
             top:menu.bottom
@@ -60,16 +60,23 @@ Rectangle{
             left:root.left
             right:root.right
         }
-        onCurrentTabChanged: root.currentTabChanged(previous,current)
-        onCloseButtonClicked: root.closeButtonClicked(text,uuid)
-        function addTab(tabText,uuid){
-            var createdComponent=Qt.createComponent("ResponseTabContent.qml")
-            if(createdComponent.status===Component.Ready){
-                var createdContent=createdComponent.createObject(plugin_tab.tabPanel,{
-                                                                     "title":tabText, "uuid":uuid,
-                                                                     "anchors.fill":plugin_tab.tabPanel
-                                                                 })
-                return createdContent
+        
+        Tab{
+            id:plugin_tab
+            useClosebutton: true
+            anchors.fill: parent
+            onCurrentTabChanged: root.currentTabChanged(previous,current)
+            onCloseButtonClicked: root.closeButtonClicked(text,uuid)
+            function addTab(tabText,uuid){
+                var createdComponent=Qt.createComponent("ResponseTabContent.qml")
+                if(createdComponent.status===Component.Ready){
+                    var createdContent=createdComponent.createObject(
+                        plugin_tab.tabPanel,{
+                            "title":tabText, "uuid":uuid,
+                            "anchors.fill":plugin_tab.tabPanel
+                        })
+                    return createdContent
+                }
             }
         }
     }

@@ -112,12 +112,17 @@ Item{
             PropertyChanges{
                 target: view_rect
                 height:dummy_button.height
+                width:root.width-10
+                x: root.x+5
+                y: root.y+5
+                /*
                 anchors{
                     margins:5
                     top:parent.top
                     left:parent.left
                     right:parent.right
                 }
+                */
             }
             PropertyChanges{
                 target: button_view
@@ -126,6 +131,11 @@ Item{
             }
             PropertyChanges{
                 target:panel
+                y: view_rect.y+view_rect.height+5
+                x: root.x+5
+                width: root.width-10
+                height: root.height-view_rect.height-20
+                /*
                 anchors{
                     margins:5
                     top:view_rect.bottom
@@ -133,6 +143,7 @@ Item{
                     left:parent.left
                     right:parent.right
                 }
+                */
             }
             
         },
@@ -141,13 +152,17 @@ Item{
             when:root.orientation==Qt.Vertical
             PropertyChanges{
                 target: view_rect
-                width:dummy_button.height
+                x: root.x+5
+                y: root.y+5
+                width: dummy_button.height
+                height: root.height-10
+                /*
                 anchors{
                     margins:5
                     top:parent.top
                     bottom:parent.bottom
                     left:parent.left
-                }
+                }*/
             }
             PropertyChanges{
                 target: button_view
@@ -162,6 +177,11 @@ Item{
             }
             PropertyChanges{
                 target:panel
+                x: view_rect.x+view_rect.width+5
+                y: root.y+5
+                width: root.width - view_rect.width - 10
+                height: root.height - 10
+                /*
                 anchors{
                     margins:5
                     top:parent.top
@@ -169,6 +189,7 @@ Item{
                     left:view_rect.right
                     right:parent.right
                 }
+                */
             }
         }
     ]
