@@ -13,7 +13,7 @@ Column{
     property string uuid:"00000000-0000-0000-0000-000000000000"
     property string responseURL:"http://example.com/responses/blablabla"
     /*
-      imageInfoObj must be a JSON List and in which object must be like this:
+      imageInfoList must be a JSON List and in which object must be like this:
       In addition to this limitation, the list must be JSON encoded string to avoid implicitly data conversion to QqmlListModel.
       {
         "LinkURI":"http://exmaple.com",
@@ -21,7 +21,7 @@ Column{
         "UUID":"187f08b5-02c7-428f-a58b-ec181017cacb",
       }
     */
-    property string imageInfoObj:"[]"
+    property alias imageInfoList: imageFlick.model
     
     signal linkActivated(var linkURL);
 
@@ -96,34 +96,13 @@ Column{
                 left:bodyArea.left
                 right:bodyArea.right
             }
-
-            function addImage(link_url,source_url,uuid){
-                var imageInfo={
-                    "URI":link_url,
-                    "sourceURI":source_url,
-                    "UUID":uuid
-                }
-                imageFlick.model.append(imageInfo)
-                return imageInfo
-            }
         }
     }
-    Component.onCompleted: {
-        var imageInfoList=JSON.parse(root.imageInfoObj)
-        for(var index in imageInfoList){
-            var imageInfo=imageInfoList[index]
-            imageFlick.addImage(imageInfo["LinkURI"],imageInfo["SourceURI"],imageInfo["UUID"])
-        }
-    }
-
     /*
-        linkURI:URI to show by browser when the image is clicked.
-        sourceURL:URL of the actual image.
-        return value: Generated Item. i.e. LinkImage.
-    */
-    function addImage(linkURI,sourceURL,uuid){
-        var image=imageFlick.addImage(linkURI,sourceURL,uuid)
-        if(image===undefined) console.log("Couldn't create Linked Image:{linkURI:"+linkURI+",sourceURL:"+sourceURL+"}")
-        else return image
+    Component.onCompleted: {
+        for(var index=0;index<imageInfo.count;index++){
+            console.log(JSON.stringify(imageInfo.get(index)))
+        }
     }
+    */
 }

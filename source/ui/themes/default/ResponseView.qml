@@ -37,15 +37,4 @@ Item{
         if(generatedContent===undefined) console.log("Couldn't create response panel.")
         else return generatedContent
     }
-    Component.onCompleted: {
-        if(debug){
-            for(var i=0;i<100;i++){
-                var response=addResponse("Test Response"+i,"Anonymouse"+i,"sage","Sun Sep 29 2013 10:46:46."+i,
-                                                    "This is a test \n The test number is:"+i,i,
-                                                    "http://example.com/boards/example/example_topic/"+i)
-                response.addImage("http://example.com","icons/640magenta.jpg")
-                response.addImage("http://example.com","icons/300300cyan.png")
-            }
-        }
-    }
 }
