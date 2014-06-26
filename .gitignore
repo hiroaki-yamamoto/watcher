@@ -1,4 +1,5 @@
 build
+*.pro
 *.pro.*
 CMakeLists.txt.*
 *.pdf
