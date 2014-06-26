@@ -1,9 +1,8 @@
 #pragma once
 
-#include <QMultiHash>
+#include <QMultiMap>
 #include <QVariant>
-#include <QList>
-class serializer;
+#include <QJsonDocument>
 class QString;
 namespace storage {
     // Recoverable key-value storage
@@ -23,9 +22,6 @@ namespace storage {
                          const int element_size = 10,
                          const QString &objName = QString(),
                          QObject *parent = nullptr);
-        friend serializer &operator<<(serializer &out,
-                                      const property_storage &data);
-        friend serializer &operator>>(serializer &in, property_storage &data);
         virtual bool readOnly();
         QVariant operator[](const QString &key) const;
         // Take differencial set by operandB.
@@ -39,8 +35,7 @@ namespace storage {
         property_storage operator+(const property_storage &operandB) const;
         property_storage operator+=(const property_storage &operandB);
         const int &elementSize() const;
-       public
-    slots:
+       public slots:
         void set(const QString &key, const QVariant &value);
         QVariant get(const QString &key) const;
         bool exists(const QString &key) const;
@@ -54,16 +49,17 @@ namespace storage {
         void copy(const QString &key, const QVariantList &values);
         void setElementSize(const int size);
         void dump();
-    signals:
+        void fromJsonDocument(const QJsonDocument &document);
+        QJsonDocument toJsonDocument() const;
+       signals:
         void propertyChanged(const QString &key, const QVariant &previous,
                              const QVariant &now);
         void propertyRemoved(const QString &key);
         void propertyCleared();
 
        protected:
-        QMultiHash<QString, QVariant> __data;
-       protected
-    slots:
+        QMultiMap<QString, QVariant> __data;
+       protected slots:
         /* Removes values in the specified key until the number of the values
          *equals to _element_size.
          * Note that the values are removed in the chronological order.
@@ -78,8 +74,4 @@ namespace storage {
        private:
         int _element_size;
     };
-    serializer &operator<<(serializer &out, const property_storage &data);
-    serializer &operator>>(serializer &in, property_storage &data);
 }
-serializer &operator<<(serializer &out, const QVariant &data);
-serializer &operator>>(serializer &in, QVariant &data);

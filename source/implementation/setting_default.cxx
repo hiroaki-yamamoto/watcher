@@ -49,7 +49,7 @@ namespace default_value {
     }
     const QFileInfo setting_default::setting_path() {
         return QFileInfo(setting_default::watcher_etc_dir() +
-                         QDir::separator() + "setting");
+                         QDir::separator() + "setting.json");
     }
     const QString setting_default::default_theme_name() { return "default"; }
     const QString setting_default::watcher_etc_dir() {

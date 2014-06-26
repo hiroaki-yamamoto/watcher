@@ -9,8 +9,6 @@
 // commit.
 #include <version>
 
-#include <libserializer/serializer.h>
-
 #include "rootwindow.h"
 #include "setting_loader.h"
 #include "setting_default.h"

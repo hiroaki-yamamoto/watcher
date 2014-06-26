@@ -1,5 +1,6 @@
 #include <QDir>
 #include <QFileInfo>
+#include <QFile>
 #include <QPair>
 #include <QHash>
 #include <QtDebug>
@@ -8,13 +9,12 @@
 #include <QtQuick/QQuickItem>
 #include <QtQml/QJSValue>
 
+#include <QJsonDocument>
+
 #include <loader/root.h>
 #include <loader/topic.h>
 #include <logging/logging.h>
 #include <setting_default.h>
-
-#include <fstream>
-#include <libserializer/serializer.h>
 
 #include "rootwindow.h"
 #include "versionwindow.h"
@@ -102,10 +102,11 @@ namespace ui {
         if (!import_path.isEmpty()) {
             QFileInfo info(import_path);
             if (info.exists() && info.isReadable()) {
-                std::ifstream in(import_path.toStdString());
-                serializer sr(in);
-                sr >> (*this->property());
-                sr.close();
+                QFile in(import_path);
+                in.open(QIODevice::ReadOnly);
+                this->property()->fromJsonDocument(
+                    QJsonDocument::fromBinaryData(in.readAll())
+                );
                 in.close();
                 this->_config_dialog->updateProperties();
             } else {
@@ -119,11 +120,9 @@ namespace ui {
         QString export_path = QFileDialog::getSaveFileName(
             nullptr, tr("Export"), "", tr("All files (*)"));
         if (!export_path.isEmpty()) {
-            QFileInfo info(export_path);
-            std::ofstream out(export_path.toStdString());
-            serializer sr(out);
-            sr << (*this->property());
-            sr.close();
+            QFile out(export_path);
+            out.open(QIODevice::WriteOnly|QIODevice::Truncate);
+            out.write(this->property()->toJsonDocument().toJson());
             out.close();
         }
     }
