@@ -2,9 +2,10 @@
 #include "setting_default.h"
 #include <QtDebug>
 #include <QDir>
+#include <QFile>
+#include <QJsonDocument>
+#include <QByteArray>
 #include <property_storage.h>
-#include <fstream>
-#include <libserializer/serializer.h>
 #include <logging/logging.h>
 using namespace logging;
 namespace loader {
@@ -24,15 +25,16 @@ namespace loader {
     }
     QString setting_loader::filePath() const { return this->_file; }
     bool setting_loader::read() {
-        std::ifstream setting_in(this->_file.toStdString());
+        QFile setting_in(this->_file);
+        setting_in.open(QIODevice::ReadOnly);
         bool success = false;
-        if (!setting_in) {
+        if (setting_in.error()!=QFileDevice::NoError) {
             qWarning() << this
                        << "Setting file couldn't be read:" << this->_file;
         } else {
-            serializer serializer_in(setting_in);
-            serializer_in >> (*this->_storage);
-            serializer_in.close();
+            this->_storage->fromJsonDocument(
+                QJsonDocument::fromJson(setting_in.readAll())
+            );
             qDebug() << this << "Read setting file:" << this->_file;
             success = true;
         }
@@ -47,10 +49,12 @@ namespace loader {
             dir.cdUp();
             dir.mkpath(fileinfo.absolutePath());
         }
-        std::ofstream setting_out(this->_file.toStdString(), ios_base::trunc);
-        serializer serializer_out(setting_out);
-        serializer_out << ((*this->_storage) - (*this->_default));
-        serializer_out.close();
+        QFile setting_out(this->_file);
+        setting_out.open(QIODevice::WriteOnly|QIODevice::Truncate);
+        setting_out.write(
+            ((*this->_storage) - (*this->_default)).toJsonDocument()
+                .toJson()
+        );
         setting_out.close();
         qDebug() << this << "Wrote setting to:" << this->_file;
         return true;

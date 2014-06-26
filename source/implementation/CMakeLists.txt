@@ -20,7 +20,7 @@ set(src "main.cxx"
 
 add_executable(watcher ${src})
 set_property(TARGET watcher PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-target_link_libraries(watcher watcher_ui storage loader logging ${libserializer_LIBRARIES})
+target_link_libraries(watcher watcher_ui storage loader logging)
 
 qt5_use_modules(watcher Core Widgets)
 add_dependencies(watcher write_git_commit)

@@ -3,7 +3,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5Core 5.3.0 REQUIRED)
 find_package(Qt5Widgets 5.3.0 REQUIRED)
-find_package(libserializer REQUIRED)
 
 if(EXPERIMENTAL)
     add_definitions(-DEXPERIMENT)
@@ -36,7 +35,6 @@ endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 include_directories(
     "${Qt5Core_INCLUDE_DIRS}"
     "${Qt5Widgets_INCLUDE_DIRS}"
-    "${libserializer_INCLUDE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/ui"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation"
     "${CMAKE_CURRENT_SOURCE_DIR}/implementation/lib"

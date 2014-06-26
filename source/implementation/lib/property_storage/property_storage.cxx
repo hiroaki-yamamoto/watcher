@@ -1,5 +1,5 @@
-#include <libserializer/serializer.h>
-
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QtDebug>
 
 #include <algorithm>
@@ -33,6 +33,14 @@ namespace storage {
                  << this->objectName() << " and based on "
                  << other.objectName();
         this->dump();
+    }
+    void property_storage::fromJsonDocument(const QJsonDocument &document) {
+        if(!document.isObject()){
+            qWarning()<<"This JSON file seems not to be right syntax";
+            return;
+        }
+        QJsonObject &&obj = document.object();
+        this->__data = obj.toVariantMap();
     }
     const int &property_storage::elementSize() const {
         return this->_element_size;
@@ -187,5 +195,9 @@ namespace storage {
                 qDebug() << "        Value:" << var;
             }
         }
+    }
+    QJsonDocument property_storage::toJsonDocument() const{
+        qDebug()<<"Converting QJsonDocument.. Name:"<<this->objectName();
+        return QJsonDocument(QJsonObject::fromVariantMap(this->__data));
     }
 }
