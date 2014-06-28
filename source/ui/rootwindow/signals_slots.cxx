@@ -105,8 +105,7 @@ namespace ui {
                 QFile in(import_path);
                 in.open(QIODevice::ReadOnly);
                 this->property()->fromJsonDocument(
-                    QJsonDocument::fromBinaryData(in.readAll())
-                );
+                    QJsonDocument::fromBinaryData(in.readAll()));
                 in.close();
                 this->_config_dialog->updateProperties();
             } else {
@@ -121,7 +120,7 @@ namespace ui {
             nullptr, tr("Export"), "", tr("All files (*)"));
         if (!export_path.isEmpty()) {
             QFile out(export_path);
-            out.open(QIODevice::WriteOnly|QIODevice::Truncate);
+            out.open(QIODevice::WriteOnly | QIODevice::Truncate);
             out.write(this->property()->toJsonDocument().toJson());
             out.close();
         }
