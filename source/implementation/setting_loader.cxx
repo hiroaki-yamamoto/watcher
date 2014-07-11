@@ -28,13 +28,12 @@ namespace loader {
         QFile setting_in(this->_file);
         setting_in.open(QIODevice::ReadOnly);
         bool success = false;
-        if (setting_in.error()!=QFileDevice::NoError) {
+        if (setting_in.error() != QFileDevice::NoError) {
             qWarning() << this
                        << "Setting file couldn't be read:" << this->_file;
         } else {
             this->_storage->fromJsonDocument(
-                QJsonDocument::fromJson(setting_in.readAll())
-            );
+                QJsonDocument::fromJson(setting_in.readAll()));
             qDebug() << this << "Read setting file:" << this->_file;
             success = true;
         }
@@ -50,11 +49,9 @@ namespace loader {
             dir.mkpath(fileinfo.absolutePath());
         }
         QFile setting_out(this->_file);
-        setting_out.open(QIODevice::WriteOnly|QIODevice::Truncate);
+        setting_out.open(QIODevice::WriteOnly | QIODevice::Truncate);
         setting_out.write(
-            ((*this->_storage) - (*this->_default)).toJsonDocument()
-                .toJson()
-        );
+            ((*this->_storage) - (*this->_default)).toJsonDocument().toJson());
         setting_out.close();
         qDebug() << this << "Wrote setting to:" << this->_file;
         return true;

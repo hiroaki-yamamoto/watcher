@@ -35,7 +35,8 @@ namespace storage {
         property_storage operator+(const property_storage &operandB) const;
         property_storage operator+=(const property_storage &operandB);
         const int &elementSize() const;
-       public slots:
+       public
+    slots:
         void set(const QString &key, const QVariant &value);
         QVariant get(const QString &key) const;
         bool exists(const QString &key) const;
@@ -51,7 +52,7 @@ namespace storage {
         void dump();
         void fromJsonDocument(const QJsonDocument &document);
         QJsonDocument toJsonDocument() const;
-       signals:
+    signals:
         void propertyChanged(const QString &key, const QVariant &previous,
                              const QVariant &now);
         void propertyRemoved(const QString &key);
@@ -59,7 +60,8 @@ namespace storage {
 
        protected:
         QMultiMap<QString, QVariant> __data;
-       protected slots:
+       protected
+    slots:
         /* Removes values in the specified key until the number of the values
          *equals to _element_size.
          * Note that the values are removed in the chronological order.

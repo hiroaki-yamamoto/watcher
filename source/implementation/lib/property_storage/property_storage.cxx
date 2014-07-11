@@ -35,8 +35,8 @@ namespace storage {
         this->dump();
     }
     void property_storage::fromJsonDocument(const QJsonDocument &document) {
-        if(!document.isObject()){
-            qWarning()<<"This JSON file seems not to be right syntax";
+        if (!document.isObject()) {
+            qWarning() << "This JSON file seems not to be right syntax";
             return;
         }
         QJsonObject &&obj = document.object();
@@ -196,8 +196,8 @@ namespace storage {
             }
         }
     }
-    QJsonDocument property_storage::toJsonDocument() const{
-        qDebug()<<"Converting QJsonDocument.. Name:"<<this->objectName();
+    QJsonDocument property_storage::toJsonDocument() const {
+        qDebug() << "Converting QJsonDocument.. Name:" << this->objectName();
         return QJsonDocument(QJsonObject::fromVariantMap(this->__data));
     }
 }
